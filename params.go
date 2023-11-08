@@ -1,4 +1,4 @@
-package example
+package identity
 
 // DefaultParams returns default module parameters.
 func DefaultParams() Params {

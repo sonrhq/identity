@@ -10,13 +10,13 @@ import (
 	"google.golang.org/grpc/status"
 
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/cosmosregistry/example"
+	"github.com/sonrhq/identity"
 )
 
-var _ example.QueryServer = queryServer{}
+var _ identity.QueryServer = queryServer{}
 
 // NewQueryServerImpl returns an implementation of the module QueryServer.
-func NewQueryServerImpl(k Keeper) example.QueryServer {
+func NewQueryServerImpl(k Keeper) identity.QueryServer {
 	return queryServer{k}
 }
 
@@ -25,7 +25,7 @@ type queryServer struct {
 }
 
 // Counter defines the handler for the Query/Counter RPC method.
-func (qs queryServer) Counter(ctx context.Context, req *example.QueryCounterRequest) (*example.QueryCounterResponse, error) {
+func (qs queryServer) Counter(ctx context.Context, req *identity.QueryCounterRequest) (*identity.QueryCounterResponse, error) {
 	if _, err := qs.k.addressCodec.StringToBytes(req.Address); err != nil {
 		return nil, fmt.Errorf("invalid sender address: %w", err)
 	}
@@ -33,23 +33,23 @@ func (qs queryServer) Counter(ctx context.Context, req *example.QueryCounterRequ
 	counter, err := qs.k.Counter.Get(ctx, req.Address)
 	if err != nil {
 		if errors.Is(err, collections.ErrNotFound) {
-			return &example.QueryCounterResponse{Counter: 0}, nil
+			return &identity.QueryCounterResponse{Counter: 0}, nil
 		}
 
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &example.QueryCounterResponse{Counter: counter}, nil
+	return &identity.QueryCounterResponse{Counter: counter}, nil
 }
 
 // Counters defines the handler for the Query/Counters RPC method.
-func (qs queryServer) Counters(ctx context.Context, req *example.QueryCountersRequest) (*example.QueryCountersResponse, error) {
+func (qs queryServer) Counters(ctx context.Context, req *identity.QueryCountersRequest) (*identity.QueryCountersResponse, error) {
 	counters, pageRes, err := query.CollectionPaginate(
 		ctx,
 		qs.k.Counter,
 		req.Pagination,
-		func(key string, value uint64) (*example.Counter, error) {
-			return &example.Counter{
+		func(key string, value uint64) (*identity.Counter, error) {
+			return &identity.Counter{
 				Address: key,
 				Count:   value,
 			}, nil
@@ -58,19 +58,19 @@ func (qs queryServer) Counters(ctx context.Context, req *example.QueryCountersRe
 		return nil, err
 	}
 
-	return &example.QueryCountersResponse{Counters: counters, Pagination: pageRes}, nil
+	return &identity.QueryCountersResponse{Counters: counters, Pagination: pageRes}, nil
 }
 
 // Params defines the handler for the Query/Params RPC method.
-func (qs queryServer) Params(ctx context.Context, req *example.QueryParamsRequest) (*example.QueryParamsResponse, error) {
+func (qs queryServer) Params(ctx context.Context, req *identity.QueryParamsRequest) (*identity.QueryParamsResponse, error) {
 	params, err := qs.k.Params.Get(ctx)
 	if err != nil {
 		if errors.Is(err, collections.ErrNotFound) {
-			return &example.QueryParamsResponse{Params: example.Params{}}, nil
+			return &identity.QueryParamsResponse{Params: identity.Params{}}, nil
 		}
 
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &example.QueryParamsResponse{Params: params}, nil
+	return &identity.QueryParamsResponse{Params: params}, nil
 }

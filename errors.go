@@ -1,4 +1,4 @@
-package example
+package identity
 
 import "cosmossdk.io/errors"
 
