@@ -16,8 +16,7 @@ service Query {
   // Counter returns the current counter value.
   rpc Counter(QueryCounterRequest) returns (QueryCounterResponse) {
     option (cosmos.query.v1.module_query_safe) = true;
-    option (google.api.http).get =
-        "/sonrhq/identity/v1/counter/{address}";
+    option (google.api.http).get = "/sonrhq/identity/v1/counter/{address}";
   }
 
   // Counters returns all the counter values.
