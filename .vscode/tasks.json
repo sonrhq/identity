@@ -1,0 +1,43 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "make: Protogen",
+			"command": "make proto-all",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"detail": "Build x/identity protobuf files",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"revealProblems": "onProblem",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"group": "chain"
+			}
+		},
+		{
+			"type": "shell",
+			"label": "make: Run Tests",
+			"command": "make test",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"detail": "Run x/identity go tests",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"revealProblems": "onProblem",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"group": "chain"
+			}
+		},
+	]
+}
