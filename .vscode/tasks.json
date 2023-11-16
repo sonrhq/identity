@@ -3,29 +3,38 @@
 	"tasks": [
 		{
 			"type": "shell",
-			"label": "make: Protogen",
+			"label": "Generate: Identity Proto",
 			"command": "make proto-all",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
 			"detail": "Build x/identity protobuf files",
 			"problemMatcher": [],
+			"icon": {
+				"id": "settings-gear",
+				"color": "terminal.ansiCyan"
+			},
 			"presentation": {
 				"echo": true,
 				"reveal": "always",
 				"revealProblems": "onProblem",
-				"focus": true,
+				"focus": false,
 				"panel": "shared",
 				"showReuseMessage": true,
-				"group": "chain"
+				"group": "chain",
+				"close": true
 			}
 		},
 		{
 			"type": "shell",
-			"label": "make: Run Tests",
+			"label": "Test: Identity Module",
 			"command": "make test",
 			"options": {
 				"cwd": "${workspaceFolder}"
+			},
+			"icon": {
+				"id": "beaker",
+				"color": "terminal.ansiCyan"
 			},
 			"detail": "Run x/identity go tests",
 			"problemMatcher": [],
