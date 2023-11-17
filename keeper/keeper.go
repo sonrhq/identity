@@ -16,7 +16,7 @@ import (
 type Keeper struct {
 	cdc          codec.BinaryCodec
 	addressCodec address.Codec
-	db           modulev1.ModuleStore
+	db           modulev1.StateStore
 
 	// authority is the address capable of executing a MsgUpdateParams and other authority-gated message.
 	// typically, this should be the x/gov module account.
@@ -38,7 +38,7 @@ func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService s
 		panic(err)
 	}
 
-	store, err := modulev1.NewModuleStore(db)
+	store, err := modulev1.NewStateStore(db)
 	if err != nil {
 		panic(err)
 	}

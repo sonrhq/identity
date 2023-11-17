@@ -14,7 +14,7 @@ var identitySchema = &ormv1alpha1.ModuleSchemaDescriptor{
 	SchemaFile: []*ormv1alpha1.ModuleSchemaDescriptor_FileEntry{
 		{
 			Id:            1,
-			ProtoFileName: modulev1.File_sonrhq_identity_module_v1_module_proto.Path(),
+			ProtoFileName: modulev1.File_sonrhq_identity_module_v1_state_proto.Path(),
 		},
 	},
 }
@@ -31,7 +31,11 @@ func (k *Keeper) InitGenesis(ctx context.Context, data *identity.GenesisState) e
 			return err
 		}
 	}
+k.db.AccountTable().Insert(ctx, &modulev1.Account{
+	Address: "",
+	PubKey: "",
 
+})
 	return nil
 }
 

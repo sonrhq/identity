@@ -237,31 +237,31 @@ func NewIdentityTable(db ormtable.Schema) (IdentityTable, error) {
 	return identityTable{table}, nil
 }
 
-type ModuleStore interface {
+type StateStore interface {
 	AccountTable() AccountTable
 	IdentityTable() IdentityTable
 
 	doNotImplement()
 }
 
-type moduleStore struct {
+type stateStore struct {
 	account  AccountTable
 	identity IdentityTable
 }
 
-func (x moduleStore) AccountTable() AccountTable {
+func (x stateStore) AccountTable() AccountTable {
 	return x.account
 }
 
-func (x moduleStore) IdentityTable() IdentityTable {
+func (x stateStore) IdentityTable() IdentityTable {
 	return x.identity
 }
 
-func (moduleStore) doNotImplement() {}
+func (stateStore) doNotImplement() {}
 
-var _ ModuleStore = moduleStore{}
+var _ StateStore = stateStore{}
 
-func NewModuleStore(db ormtable.Schema) (ModuleStore, error) {
+func NewStateStore(db ormtable.Schema) (StateStore, error) {
 	accountTable, err := NewAccountTable(db)
 	if err != nil {
 		return nil, err
@@ -272,7 +272,7 @@ func NewModuleStore(db ormtable.Schema) (ModuleStore, error) {
 		return nil, err
 	}
 
-	return moduleStore{
+	return stateStore{
 		accountTable,
 		identityTable,
 	}, nil

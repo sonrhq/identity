@@ -3,10 +3,10 @@ syntax = "proto3";
 package sonrhq.identity.module.v1;
 
 import "cosmos/base/query/v1beta1/pagination.proto";
-import "sonrhq/identity/module/v1/module.proto";
+import "sonrhq/identity/module/v1/state.proto";
 
-// ModuleQueryService queries the state of the tables specified by sonrhq/identity/module/v1/module.proto.
-service ModuleQueryService {
+// StateQueryService queries the state of the tables specified by sonrhq/identity/module/v1/state.proto.
+service StateQueryService {
   // Get queries the Account table by its primary key.
   rpc GetAccount(GetAccountRequest) returns (GetAccountResponse) {}
   // ListAccount queries the Account table using prefix and range queries against defined indexes.
@@ -17,19 +17,19 @@ service ModuleQueryService {
   rpc ListIdentity(ListIdentityRequest) returns (ListIdentityResponse) {}
 }
 
-// GetAccountRequest is the ModuleQuery/GetAccountRequest request type.
+// GetAccountRequest is the StateQuery/GetAccountRequest request type.
 message GetAccountRequest {
   // address specifies the value of the address field in the primary key.
   string address = 1;
 }
 
-// GetAccountResponse is the ModuleQuery/GetAccountResponse response type.
+// GetAccountResponse is the StateQuery/GetAccountResponse response type.
 message GetAccountResponse {
   // value is the response value.
   Account value = 1;
 }
 
-// ListAccountRequest is the ModuleQuery/ListAccountRequest request type.
+// ListAccountRequest is the StateQuery/ListAccountRequest request type.
 message ListAccountRequest {
   // IndexKey specifies the value of an index key to use in prefix and range queries.
   message IndexKey {
@@ -68,7 +68,7 @@ message ListAccountRequest {
   }
 }
 
-// ListAccountResponse is the ModuleQuery/ListAccountResponse response type.
+// ListAccountResponse is the StateQuery/ListAccountResponse response type.
 message ListAccountResponse {
   // values are the results of the query.
   repeated Account values = 1;
@@ -76,19 +76,19 @@ message ListAccountResponse {
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-// GetIdentityRequest is the ModuleQuery/GetIdentityRequest request type.
+// GetIdentityRequest is the StateQuery/GetIdentityRequest request type.
 message GetIdentityRequest {
   // did specifies the value of the did field in the primary key.
   string did = 1;
 }
 
-// GetIdentityResponse is the ModuleQuery/GetIdentityResponse response type.
+// GetIdentityResponse is the StateQuery/GetIdentityResponse response type.
 message GetIdentityResponse {
   // value is the response value.
   Identity value = 1;
 }
 
-// ListIdentityRequest is the ModuleQuery/ListIdentityRequest request type.
+// ListIdentityRequest is the StateQuery/ListIdentityRequest request type.
 message ListIdentityRequest {
   // IndexKey specifies the value of an index key to use in prefix and range queries.
   message IndexKey {
@@ -127,7 +127,7 @@ message ListIdentityRequest {
   }
 }
 
-// ListIdentityResponse is the ModuleQuery/ListIdentityResponse response type.
+// ListIdentityResponse is the StateQuery/ListIdentityResponse response type.
 message ListIdentityResponse {
   // values are the results of the query.
   repeated Identity values = 1;
