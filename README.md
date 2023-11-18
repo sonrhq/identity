@@ -1,10 +1,14 @@
 # `x/identity`
 
-Overview of the module.
+The Identity module is responsible for managing native Sonr Accounts, their derived wallets, and associated user identification information.
 
 ## Concepts
 
-Describe specialized concepts and definitions used throughout the spec.
+### Account
+
+### Decentralized Identifier (DID)
+
+### Verifiable Credential (VC)
 
 ## State
 
