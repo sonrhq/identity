@@ -23,5 +23,4 @@ cd ..
 
 cp -r github.com/sonrhq/identity/* ./
 rm -rf api && mkdir api
-mv sonrhq/identity/* ./api
-rm -rf github.com sonrhq
+qrm -rf github.com sonrhq

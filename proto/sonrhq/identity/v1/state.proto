@@ -1,6 +1,7 @@
 syntax = "proto3";
+package sonrhq.identity.v1;
 
-package sonrhq.identity.module.v1;
+option go_package = "github.com/sonrhq/identity";
 
 
 import "cosmos/orm/v1/orm.proto";

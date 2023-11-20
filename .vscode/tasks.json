@@ -22,7 +22,7 @@
 				"panel": "shared",
 				"showReuseMessage": true,
 				"group": "chain",
-				"close": true
+				"close": false
 			}
 		},
 		{
