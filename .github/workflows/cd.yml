@@ -32,7 +32,7 @@ jobs:
         continue-on-error: true
         with:
           input: "proto"
-          against: "https://github.com/sonrhq/sonr.git#branch=master"
+          against: "https://github.com/sonrhq/identity.git#branch=master"
 
       # Lint with Buf and capture output
       - name: Buf Lint
