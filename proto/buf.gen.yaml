@@ -2,7 +2,7 @@ version: v1
 managed:
   enabled: true
   go_package_prefix:
-    default: github.com/sonrhq/service/api
+    default: github.com/sonrhq/identity/api
     override:
       buf.build/cosmos/cosmos-sdk: cosmossdk.io/api
     except:
