@@ -2,17 +2,51 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "go",
-			"label": "go: Test Identity Package",
-			"command": "build",
-			"args": [
-				"${fileDirname}"
-			],
-			"problemMatcher": [
-				"$go"
-			],
-			"group": "build",
-			"detail": "cd ~/Sonr/identity; go test ./..."
-		}
+			"type": "shell",
+			"label": "Generate: Identity Proto",
+			"command": "make proto-all",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"detail": "Build x/identity protobuf files",
+			"problemMatcher": [],
+			"icon": {
+				"id": "settings-gear",
+				"color": "terminal.ansiCyan"
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"revealProblems": "onProblem",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"group": "chain",
+				"close": false
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Test: Identity Module",
+			"command": "make test",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"icon": {
+				"id": "beaker",
+				"color": "terminal.ansiCyan"
+			},
+			"detail": "Run x/identity go tests",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"revealProblems": "onProblem",
+				"focus": true,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"group": "chain"
+			}
+		},
 	]
 }

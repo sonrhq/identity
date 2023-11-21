@@ -24,7 +24,14 @@ protoVer=0.14.0
 protoImageName=ghcr.io/cosmos/proto-builder:$(protoVer)
 protoImage=$(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace $(protoImageName)
 
-proto-all: proto-format proto-lint proto-gen
+proto-all: proto-gen
+	go install cosmossdk.io/orm/cmd/protoc-gen-go-cosmos-orm@latest
+	go install cosmossdk.io/orm/cmd/protoc-gen-go-cosmos-orm-proto@latest
+	(cd proto; buf generate --template buf.gen.proto.yaml)
+	(cd proto; buf generate)
+	rm -rf ./api
+	mv ./sonrhq/identity ./api
+	rm -rf ./sonrhq
 
 proto-gen:
 	@echo "Generating protobuf files..."
