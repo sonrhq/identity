@@ -1,4 +1,4 @@
-name: CI with Earthly
+name: CI Pipeline
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: CI with Earthly
+name: CD Pipeline
 
 on:
   push:
@@ -8,6 +8,9 @@ on:
     branches:
       - master
   merge_group:
+
+env:
+  GH_TOKEN: ${{ github.token }}
 
 jobs:
   build:
