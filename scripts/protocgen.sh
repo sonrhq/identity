@@ -33,6 +33,12 @@ for dir in $proto_dirs; do
   done
 done
 
-# Find and delete state_query.pulsar.go and state.pulsar.go
+cd ..
+
+# Find and delete uncompatible proto implementations
 find . -name 'state_query.pulsar.go' -delete
 find . -name 'state.pulsar.go' -delete
+find . -name 'module.pb.go' -delete
+find . -name 'query.pb.go' -delete
+find . -name 'tx.pb.go' -delete
+find . -name 'types.pb.go' -delete
