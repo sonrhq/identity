@@ -53,5 +53,6 @@ generate:
 
 # test - runs all tests
 test:
-    LOCALLY
+    FROM +gomod
+    COPY . .
 	RUN go test -v ./...
