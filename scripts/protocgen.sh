@@ -38,6 +38,7 @@ cd ..
 # Find and delete uncompatible proto implementations
 find . -name 'state_query.pulsar.go' -delete
 find . -name 'state.pulsar.go' -delete
+find . -name 'identifier.pb.go' -delete
 find . -name 'module.pb.go' -delete
 find . -name 'query.pb.go' -delete
 find . -name 'tx.pb.go' -delete

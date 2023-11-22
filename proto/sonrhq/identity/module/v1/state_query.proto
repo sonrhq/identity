@@ -38,15 +38,14 @@ message ListAccountRequest {
       // address specifies the value of the Address index key to use in the query.
       Address address = 1;
     }
-
-    // Address specifies the value of the Address index key to use in the query.
+    
     message Address {
       // address is the value of the address field in the index.
       // It can be omitted to query for all valid values of that field in this segment of the index.
       optional string address = 1;
     }
   }
-
+  
   // query specifies the type of query - either a prefix or range query.
   oneof query {
     // prefix_query specifies the index key value to use for the prefix query.
@@ -56,7 +55,7 @@ message ListAccountRequest {
   }
   // pagination specifies optional pagination parameters.
   cosmos.base.query.v1beta1.PageRequest pagination = 3;
-
+  
   // RangeQuery specifies the from/to index keys for a range query.
   message RangeQuery {
     // from is the index key to use for the start of the range query.
@@ -98,15 +97,14 @@ message ListIdentityRequest {
       // did specifies the value of the Did index key to use in the query.
       Did did = 1;
     }
-
-    // Did specifies the value of the Did index key to use in the query.
+    
     message Did {
       // did is the value of the did field in the index.
       // It can be omitted to query for all valid values of that field in this segment of the index.
       optional string did = 1;
     }
   }
-
+  
   // query specifies the type of query - either a prefix or range query.
   oneof query {
     // prefix_query specifies the index key value to use for the prefix query.
@@ -116,7 +114,7 @@ message ListIdentityRequest {
   }
   // pagination specifies optional pagination parameters.
   cosmos.base.query.v1beta1.PageRequest pagination = 3;
-
+  
   // RangeQuery specifies the from/to index keys for a range query.
   message RangeQuery {
     // from is the index key to use for the start of the range query.
