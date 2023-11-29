@@ -19,11 +19,11 @@ type Network struct {
 }
 
 // NewNetwork creates a new network
-func NewNetwork() *Network {
+func NewNetwork() Network {
 	c := curves.K256()
 	vp := party.NewPrivateParty(c)
 	up := party.NewPublicParty(c)
-	return &Network{
+	return Network{
 		curve: c,
 		valParty: vp,
 		userParty: up,
@@ -31,7 +31,7 @@ func NewNetwork() *Network {
 }
 
 // Generate runs the network to generate a keyshare set
-func (n *Network) Generate() (error) {
+func (n Network) Generate() (error) {
 	aErr, bErr := runIteratedProtocol(n.userParty.Iterator(), n.valParty.Iterator())
 	if aErr != pv1.ErrProtocolFinished || bErr != pv1.ErrProtocolFinished {
 		return fmt.Errorf("error running protocol: aErr=%v, bErr=%v", aErr, bErr)
@@ -48,7 +48,7 @@ func (n *Network) Generate() (error) {
 }
 
 // Sign runs the network to sign a message
-func (n *Network) Sign(msg []byte) ([]byte, error) {
+func (n Network) Sign(msg []byte) ([]byte, error) {
 	aliceSign, err := n.valParty.GetSignFunc(msg)
 	if err != nil {
 		return nil, fmt.Errorf("error creating Alice sign: %v", err)
@@ -76,6 +76,19 @@ func (n *Network) Sign(msg []byte) ([]byte, error) {
 		return nil, fmt.Errorf("error serializing signature: %v", err)
 	}
 	return sigBytes, nil
+}
+
+// Verify verifies a message with the signature
+func (n Network) Verify(msg []byte, sigBz []byte) (bool, error) {
+	privVer, err := n.valParty.Verify(msg, sigBz)
+	if err != nil {
+		return false, fmt.Errorf("error creating Alice verify: %v", err)
+	}
+	pubVer, err := n.userParty.Verify(msg, sigBz)
+	if err != nil {
+		return false, fmt.Errorf("error creating Bob verify: %v", err)
+	}
+	return privVer && pubVer, nil
 }
 
 // For DKG bob starts first. For refresh and sign, Alice starts first.
