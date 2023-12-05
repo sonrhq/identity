@@ -4,9 +4,10 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	identityv1 "github.com/sonrhq/identity/api/v1"
 	"google.golang.org/protobuf/proto"
 	"lukechampine.com/blake3"
+
+	identityv1 "github.com/sonrhq/identity/api/v1"
 )
 
 // WIDXIdentifier is a type alias for a string
@@ -36,3 +37,4 @@ func NewWIDXIdentifier(coinType uint32, address string) (WIDXIdentifier, error) 
     didStr := fmt.Sprintf("did:%s:%s", WIDXMethod, hex)
     return WIDXIdentifier(didStr), nil
 }
+
