@@ -29,28 +29,6 @@ type Party interface {
 	Verify(msg []byte, sigBz []byte) (bool, error)
 }
 
-// SortParties sorts the parties by their role. The first party in the returned slice is bob, the second is alice.
-func SortParties(parties []Party) ([]Party, error) {
-	var (
-		alice Party
-		bob   Party
-	)
-	for _, p := range parties {
-		if p.Role().IsAlice() {
-			if alice != nil {
-				return nil, fmt.Errorf("too many alice parties")
-			}
-			alice = p
-		} else if p.Role().IsBob() {
-			if bob != nil {
-				return nil, fmt.Errorf("too many bob parties")
-			}
-			bob = p
-		}
-	}
-	return []Party{bob, alice}, nil
-}
-
 
 func buildEcPoint(crv *curves.Curve, bz []byte) (*curves.EcPoint, error) {
 	x := new(big.Int).SetBytes(bz[1:33])

@@ -33,6 +33,10 @@ proto-all: proto-gen
 	mv ./sonrhq/identity ./api
 	rm -rf ./sonrhq
 
+proto-swagger-gen:
+	@echo "Generating Protobuf Swagger"
+	@$(protoImage) sh ./scripts/protocgen-docs.sh
+
 proto-gen:
 	@echo "Generating protobuf files..."
 	@$(protoImage) sh ./scripts/protocgen.sh
