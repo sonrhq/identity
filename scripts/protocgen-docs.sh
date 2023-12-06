@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-mkdir -p ./docs/static/swagger
+mkdir -p ./docs/static
 cd proto
 proto_dirs=$(find ./ -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
 for dir in $proto_dirs; do

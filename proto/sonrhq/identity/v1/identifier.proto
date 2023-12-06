@@ -6,7 +6,7 @@ option go_package = "github.com/sonrhq/identity";
 // UserIdentifier represents the structure of a user identifier.
 message UserIdentifier {
   // The type of identifier.
-  UserIdentifierType type = 1;
+  UserIdentifierType identifier_type = 1;
   // The value of the identifier.
   string value = 2;
 }
