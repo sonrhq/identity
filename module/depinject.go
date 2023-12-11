@@ -5,10 +5,10 @@ import (
 	"cosmossdk.io/core/appmodule"
 	"cosmossdk.io/core/store"
 	"cosmossdk.io/depinject"
-
 	"github.com/cosmos/cosmos-sdk/codec"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
+	"github.com/sonrhq/identity"
 	modulev1 "github.com/sonrhq/identity/api/module/v1"
 	"github.com/sonrhq/identity/keeper"
 )
@@ -35,6 +35,8 @@ type ModuleInputs struct {
 	StoreService store.KVStoreService
 	AddressCodec address.Codec
 
+	BankKeeper       identity.BankKeeper
+
 	Config *modulev1.Module
 }
 
@@ -52,8 +54,8 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		authority = authtypes.NewModuleAddressOrBech32Address(in.Config.Authority)
 	}
 
-	k := keeper.NewKeeper(in.Cdc, in.AddressCodec, in.StoreService, authority.String())
-	m := NewAppModule(in.Cdc, k)
+	k := keeper.NewKeeper(in.Cdc, in.AddressCodec, in.StoreService, in.BankKeeper, authority.String())
+	m := NewAppModule(in.Cdc, k, in.BankKeeper)
 
 	return ModuleOutputs{Module: m, Keeper: k}
 }

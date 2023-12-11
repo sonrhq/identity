@@ -23,6 +23,9 @@ type Keeper struct {
 	authority string
 	db        modulev1.StateStore
 
+	// referenced keepers
+	bankKeeper identity.BankKeeper
+
 	// state management
 	Schema  collections.Schema
 	Params  collections.Item[identity.Params]
@@ -30,7 +33,9 @@ type Keeper struct {
 }
 
 // NewKeeper creates a new Keeper instance
-func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService storetypes.KVStoreService, authority string) Keeper {
+func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService storetypes.KVStoreService,
+	bk identity.BankKeeper,
+	authority string) Keeper {
 	if _, err := addressCodec.StringToBytes(authority); err != nil {
 		panic(fmt.Errorf("invalid authority address: %w", err))
 	}
@@ -51,6 +56,7 @@ func NewKeeper(cdc codec.BinaryCodec, addressCodec address.Codec, storeService s
 		Params:       collections.NewItem(sb, identity.ParamsKey, "params", codec.CollValue[identity.Params](cdc)),
 		Counter:      collections.NewMap(sb, identity.CounterKey, "counter", collections.StringKey, collections.Uint64Value),
 		db:           store,
+		bankKeeper:   bk,
 	}
 
 	schema, err := sb.Build()
@@ -74,13 +80,12 @@ func (k Keeper) DeriveAccount(ctx context.Context, id string) error {
 }
 
 // GenerateIdentity generates a new Identity.
-func (k Keeper) GenerateIdentity(ctx context.Context, identity *modulev1.Identity) error {
+func (k Keeper) GenerateIdentity(ctx context.Context) error {
 	mpcNet := network.NewNetwork()
 	err := mpcNet.Generate()
 	if err != nil {
 		return err
 	}
-	k.db.IdentityTable().Insert(ctx, identity)
 	return nil
 }
 
