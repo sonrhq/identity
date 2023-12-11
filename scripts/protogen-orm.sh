@@ -4,6 +4,7 @@ set -e
 
 
 cd proto
+find . -name 'state_query.proto' -delete
 echo "Generating orm code"
 proto_dirs=$(find . -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
 for dir in $proto_dirs; do
@@ -14,12 +15,3 @@ for dir in $proto_dirs; do
 done
 
 cd ..
-
-# Find and delete uncompatible proto implementations
-# find . -name 'state_query.pulsar.go' -delete
-# find . -name 'state.pulsar.go' -delete
-# find . -name 'credential.pb.go' -delete
-# find . -name 'module.pb.go' -delete
-# find . -name 'query.pb.go' -delete
-# find . -name 'tx.pb.go' -delete
-# find . -name 'types.pb.go' -delete

@@ -237,118 +237,118 @@ func NewCredentialTable(db ormtable.Schema) (CredentialTable, error) {
 	return credentialTable{table}, nil
 }
 
-type IdentityTable interface {
-	Insert(ctx context.Context, identity *Identity) error
-	Update(ctx context.Context, identity *Identity) error
-	Save(ctx context.Context, identity *Identity) error
-	Delete(ctx context.Context, identity *Identity) error
+type PersonaTable interface {
+	Insert(ctx context.Context, persona *Persona) error
+	Update(ctx context.Context, persona *Persona) error
+	Save(ctx context.Context, persona *Persona) error
+	Delete(ctx context.Context, persona *Persona) error
 	Has(ctx context.Context, did string) (found bool, err error)
 	// Get returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
-	Get(ctx context.Context, did string) (*Identity, error)
-	List(ctx context.Context, prefixKey IdentityIndexKey, opts ...ormlist.Option) (IdentityIterator, error)
-	ListRange(ctx context.Context, from, to IdentityIndexKey, opts ...ormlist.Option) (IdentityIterator, error)
-	DeleteBy(ctx context.Context, prefixKey IdentityIndexKey) error
-	DeleteRange(ctx context.Context, from, to IdentityIndexKey) error
+	Get(ctx context.Context, did string) (*Persona, error)
+	List(ctx context.Context, prefixKey PersonaIndexKey, opts ...ormlist.Option) (PersonaIterator, error)
+	ListRange(ctx context.Context, from, to PersonaIndexKey, opts ...ormlist.Option) (PersonaIterator, error)
+	DeleteBy(ctx context.Context, prefixKey PersonaIndexKey) error
+	DeleteRange(ctx context.Context, from, to PersonaIndexKey) error
 
 	doNotImplement()
 }
 
-type IdentityIterator struct {
+type PersonaIterator struct {
 	ormtable.Iterator
 }
 
-func (i IdentityIterator) Value() (*Identity, error) {
-	var identity Identity
-	err := i.UnmarshalMessage(&identity)
-	return &identity, err
+func (i PersonaIterator) Value() (*Persona, error) {
+	var persona Persona
+	err := i.UnmarshalMessage(&persona)
+	return &persona, err
 }
 
-type IdentityIndexKey interface {
+type PersonaIndexKey interface {
 	id() uint32
 	values() []interface{}
-	identityIndexKey()
+	personaIndexKey()
 }
 
 // primary key starting index..
-type IdentityPrimaryKey = IdentityDidIndexKey
+type PersonaPrimaryKey = PersonaDidIndexKey
 
-type IdentityDidIndexKey struct {
+type PersonaDidIndexKey struct {
 	vs []interface{}
 }
 
-func (x IdentityDidIndexKey) id() uint32            { return 0 }
-func (x IdentityDidIndexKey) values() []interface{} { return x.vs }
-func (x IdentityDidIndexKey) identityIndexKey()     {}
+func (x PersonaDidIndexKey) id() uint32            { return 0 }
+func (x PersonaDidIndexKey) values() []interface{} { return x.vs }
+func (x PersonaDidIndexKey) personaIndexKey()      {}
 
-func (this IdentityDidIndexKey) WithDid(did string) IdentityDidIndexKey {
+func (this PersonaDidIndexKey) WithDid(did string) PersonaDidIndexKey {
 	this.vs = []interface{}{did}
 	return this
 }
 
-type identityTable struct {
+type personaTable struct {
 	table ormtable.Table
 }
 
-func (this identityTable) Insert(ctx context.Context, identity *Identity) error {
-	return this.table.Insert(ctx, identity)
+func (this personaTable) Insert(ctx context.Context, persona *Persona) error {
+	return this.table.Insert(ctx, persona)
 }
 
-func (this identityTable) Update(ctx context.Context, identity *Identity) error {
-	return this.table.Update(ctx, identity)
+func (this personaTable) Update(ctx context.Context, persona *Persona) error {
+	return this.table.Update(ctx, persona)
 }
 
-func (this identityTable) Save(ctx context.Context, identity *Identity) error {
-	return this.table.Save(ctx, identity)
+func (this personaTable) Save(ctx context.Context, persona *Persona) error {
+	return this.table.Save(ctx, persona)
 }
 
-func (this identityTable) Delete(ctx context.Context, identity *Identity) error {
-	return this.table.Delete(ctx, identity)
+func (this personaTable) Delete(ctx context.Context, persona *Persona) error {
+	return this.table.Delete(ctx, persona)
 }
 
-func (this identityTable) Has(ctx context.Context, did string) (found bool, err error) {
+func (this personaTable) Has(ctx context.Context, did string) (found bool, err error) {
 	return this.table.PrimaryKey().Has(ctx, did)
 }
 
-func (this identityTable) Get(ctx context.Context, did string) (*Identity, error) {
-	var identity Identity
-	found, err := this.table.PrimaryKey().Get(ctx, &identity, did)
+func (this personaTable) Get(ctx context.Context, did string) (*Persona, error) {
+	var persona Persona
+	found, err := this.table.PrimaryKey().Get(ctx, &persona, did)
 	if err != nil {
 		return nil, err
 	}
 	if !found {
 		return nil, ormerrors.NotFound
 	}
-	return &identity, nil
+	return &persona, nil
 }
 
-func (this identityTable) List(ctx context.Context, prefixKey IdentityIndexKey, opts ...ormlist.Option) (IdentityIterator, error) {
+func (this personaTable) List(ctx context.Context, prefixKey PersonaIndexKey, opts ...ormlist.Option) (PersonaIterator, error) {
 	it, err := this.table.GetIndexByID(prefixKey.id()).List(ctx, prefixKey.values(), opts...)
-	return IdentityIterator{it}, err
+	return PersonaIterator{it}, err
 }
 
-func (this identityTable) ListRange(ctx context.Context, from, to IdentityIndexKey, opts ...ormlist.Option) (IdentityIterator, error) {
+func (this personaTable) ListRange(ctx context.Context, from, to PersonaIndexKey, opts ...ormlist.Option) (PersonaIterator, error) {
 	it, err := this.table.GetIndexByID(from.id()).ListRange(ctx, from.values(), to.values(), opts...)
-	return IdentityIterator{it}, err
+	return PersonaIterator{it}, err
 }
 
-func (this identityTable) DeleteBy(ctx context.Context, prefixKey IdentityIndexKey) error {
+func (this personaTable) DeleteBy(ctx context.Context, prefixKey PersonaIndexKey) error {
 	return this.table.GetIndexByID(prefixKey.id()).DeleteBy(ctx, prefixKey.values()...)
 }
 
-func (this identityTable) DeleteRange(ctx context.Context, from, to IdentityIndexKey) error {
+func (this personaTable) DeleteRange(ctx context.Context, from, to PersonaIndexKey) error {
 	return this.table.GetIndexByID(from.id()).DeleteRange(ctx, from.values(), to.values())
 }
 
-func (this identityTable) doNotImplement() {}
+func (this personaTable) doNotImplement() {}
 
-var _ IdentityTable = identityTable{}
+var _ PersonaTable = personaTable{}
 
-func NewIdentityTable(db ormtable.Schema) (IdentityTable, error) {
-	table := db.GetTable(&Identity{})
+func NewPersonaTable(db ormtable.Schema) (PersonaTable, error) {
+	table := db.GetTable(&Persona{})
 	if table == nil {
-		return nil, ormerrors.TableNotFound.Wrap(string((&Identity{}).ProtoReflect().Descriptor().FullName()))
+		return nil, ormerrors.TableNotFound.Wrap(string((&Persona{}).ProtoReflect().Descriptor().FullName()))
 	}
-	return identityTable{table}, nil
+	return personaTable{table}, nil
 }
 
 type KeyshareTable interface {
@@ -465,126 +465,126 @@ func NewKeyshareTable(db ormtable.Schema) (KeyshareTable, error) {
 	return keyshareTable{table}, nil
 }
 
-type OwnerTable interface {
-	Insert(ctx context.Context, owner *Owner) error
-	Update(ctx context.Context, owner *Owner) error
-	Save(ctx context.Context, owner *Owner) error
-	Delete(ctx context.Context, owner *Owner) error
+type IdentityTable interface {
+	Insert(ctx context.Context, identity *Identity) error
+	Update(ctx context.Context, identity *Identity) error
+	Save(ctx context.Context, identity *Identity) error
+	Delete(ctx context.Context, identity *Identity) error
 	Has(ctx context.Context, did string) (found bool, err error)
 	// Get returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
-	Get(ctx context.Context, did string) (*Owner, error)
-	List(ctx context.Context, prefixKey OwnerIndexKey, opts ...ormlist.Option) (OwnerIterator, error)
-	ListRange(ctx context.Context, from, to OwnerIndexKey, opts ...ormlist.Option) (OwnerIterator, error)
-	DeleteBy(ctx context.Context, prefixKey OwnerIndexKey) error
-	DeleteRange(ctx context.Context, from, to OwnerIndexKey) error
+	Get(ctx context.Context, did string) (*Identity, error)
+	List(ctx context.Context, prefixKey IdentityIndexKey, opts ...ormlist.Option) (IdentityIterator, error)
+	ListRange(ctx context.Context, from, to IdentityIndexKey, opts ...ormlist.Option) (IdentityIterator, error)
+	DeleteBy(ctx context.Context, prefixKey IdentityIndexKey) error
+	DeleteRange(ctx context.Context, from, to IdentityIndexKey) error
 
 	doNotImplement()
 }
 
-type OwnerIterator struct {
+type IdentityIterator struct {
 	ormtable.Iterator
 }
 
-func (i OwnerIterator) Value() (*Owner, error) {
-	var owner Owner
-	err := i.UnmarshalMessage(&owner)
-	return &owner, err
+func (i IdentityIterator) Value() (*Identity, error) {
+	var identity Identity
+	err := i.UnmarshalMessage(&identity)
+	return &identity, err
 }
 
-type OwnerIndexKey interface {
+type IdentityIndexKey interface {
 	id() uint32
 	values() []interface{}
-	ownerIndexKey()
+	identityIndexKey()
 }
 
 // primary key starting index..
-type OwnerPrimaryKey = OwnerDidIndexKey
+type IdentityPrimaryKey = IdentityDidIndexKey
 
-type OwnerDidIndexKey struct {
+type IdentityDidIndexKey struct {
 	vs []interface{}
 }
 
-func (x OwnerDidIndexKey) id() uint32            { return 0 }
-func (x OwnerDidIndexKey) values() []interface{} { return x.vs }
-func (x OwnerDidIndexKey) ownerIndexKey()        {}
+func (x IdentityDidIndexKey) id() uint32            { return 0 }
+func (x IdentityDidIndexKey) values() []interface{} { return x.vs }
+func (x IdentityDidIndexKey) identityIndexKey()     {}
 
-func (this OwnerDidIndexKey) WithDid(did string) OwnerDidIndexKey {
+func (this IdentityDidIndexKey) WithDid(did string) IdentityDidIndexKey {
 	this.vs = []interface{}{did}
 	return this
 }
 
-type ownerTable struct {
+type identityTable struct {
 	table ormtable.Table
 }
 
-func (this ownerTable) Insert(ctx context.Context, owner *Owner) error {
-	return this.table.Insert(ctx, owner)
+func (this identityTable) Insert(ctx context.Context, identity *Identity) error {
+	return this.table.Insert(ctx, identity)
 }
 
-func (this ownerTable) Update(ctx context.Context, owner *Owner) error {
-	return this.table.Update(ctx, owner)
+func (this identityTable) Update(ctx context.Context, identity *Identity) error {
+	return this.table.Update(ctx, identity)
 }
 
-func (this ownerTable) Save(ctx context.Context, owner *Owner) error {
-	return this.table.Save(ctx, owner)
+func (this identityTable) Save(ctx context.Context, identity *Identity) error {
+	return this.table.Save(ctx, identity)
 }
 
-func (this ownerTable) Delete(ctx context.Context, owner *Owner) error {
-	return this.table.Delete(ctx, owner)
+func (this identityTable) Delete(ctx context.Context, identity *Identity) error {
+	return this.table.Delete(ctx, identity)
 }
 
-func (this ownerTable) Has(ctx context.Context, did string) (found bool, err error) {
+func (this identityTable) Has(ctx context.Context, did string) (found bool, err error) {
 	return this.table.PrimaryKey().Has(ctx, did)
 }
 
-func (this ownerTable) Get(ctx context.Context, did string) (*Owner, error) {
-	var owner Owner
-	found, err := this.table.PrimaryKey().Get(ctx, &owner, did)
+func (this identityTable) Get(ctx context.Context, did string) (*Identity, error) {
+	var identity Identity
+	found, err := this.table.PrimaryKey().Get(ctx, &identity, did)
 	if err != nil {
 		return nil, err
 	}
 	if !found {
 		return nil, ormerrors.NotFound
 	}
-	return &owner, nil
+	return &identity, nil
 }
 
-func (this ownerTable) List(ctx context.Context, prefixKey OwnerIndexKey, opts ...ormlist.Option) (OwnerIterator, error) {
+func (this identityTable) List(ctx context.Context, prefixKey IdentityIndexKey, opts ...ormlist.Option) (IdentityIterator, error) {
 	it, err := this.table.GetIndexByID(prefixKey.id()).List(ctx, prefixKey.values(), opts...)
-	return OwnerIterator{it}, err
+	return IdentityIterator{it}, err
 }
 
-func (this ownerTable) ListRange(ctx context.Context, from, to OwnerIndexKey, opts ...ormlist.Option) (OwnerIterator, error) {
+func (this identityTable) ListRange(ctx context.Context, from, to IdentityIndexKey, opts ...ormlist.Option) (IdentityIterator, error) {
 	it, err := this.table.GetIndexByID(from.id()).ListRange(ctx, from.values(), to.values(), opts...)
-	return OwnerIterator{it}, err
+	return IdentityIterator{it}, err
 }
 
-func (this ownerTable) DeleteBy(ctx context.Context, prefixKey OwnerIndexKey) error {
+func (this identityTable) DeleteBy(ctx context.Context, prefixKey IdentityIndexKey) error {
 	return this.table.GetIndexByID(prefixKey.id()).DeleteBy(ctx, prefixKey.values()...)
 }
 
-func (this ownerTable) DeleteRange(ctx context.Context, from, to OwnerIndexKey) error {
+func (this identityTable) DeleteRange(ctx context.Context, from, to IdentityIndexKey) error {
 	return this.table.GetIndexByID(from.id()).DeleteRange(ctx, from.values(), to.values())
 }
 
-func (this ownerTable) doNotImplement() {}
+func (this identityTable) doNotImplement() {}
 
-var _ OwnerTable = ownerTable{}
+var _ IdentityTable = identityTable{}
 
-func NewOwnerTable(db ormtable.Schema) (OwnerTable, error) {
-	table := db.GetTable(&Owner{})
+func NewIdentityTable(db ormtable.Schema) (IdentityTable, error) {
+	table := db.GetTable(&Identity{})
 	if table == nil {
-		return nil, ormerrors.TableNotFound.Wrap(string((&Owner{}).ProtoReflect().Descriptor().FullName()))
+		return nil, ormerrors.TableNotFound.Wrap(string((&Identity{}).ProtoReflect().Descriptor().FullName()))
 	}
-	return ownerTable{table}, nil
+	return identityTable{table}, nil
 }
 
 type StateStore interface {
 	AccountTable() AccountTable
 	CredentialTable() CredentialTable
-	IdentityTable() IdentityTable
+	PersonaTable() PersonaTable
 	KeyshareTable() KeyshareTable
-	OwnerTable() OwnerTable
+	IdentityTable() IdentityTable
 
 	doNotImplement()
 }
@@ -592,9 +592,9 @@ type StateStore interface {
 type stateStore struct {
 	account    AccountTable
 	credential CredentialTable
-	identity   IdentityTable
+	persona    PersonaTable
 	keyshare   KeyshareTable
-	owner      OwnerTable
+	identity   IdentityTable
 }
 
 func (x stateStore) AccountTable() AccountTable {
@@ -605,16 +605,16 @@ func (x stateStore) CredentialTable() CredentialTable {
 	return x.credential
 }
 
-func (x stateStore) IdentityTable() IdentityTable {
-	return x.identity
+func (x stateStore) PersonaTable() PersonaTable {
+	return x.persona
 }
 
 func (x stateStore) KeyshareTable() KeyshareTable {
 	return x.keyshare
 }
 
-func (x stateStore) OwnerTable() OwnerTable {
-	return x.owner
+func (x stateStore) IdentityTable() IdentityTable {
+	return x.identity
 }
 
 func (stateStore) doNotImplement() {}
@@ -632,7 +632,7 @@ func NewStateStore(db ormtable.Schema) (StateStore, error) {
 		return nil, err
 	}
 
-	identityTable, err := NewIdentityTable(db)
+	personaTable, err := NewPersonaTable(db)
 	if err != nil {
 		return nil, err
 	}
@@ -642,7 +642,7 @@ func NewStateStore(db ormtable.Schema) (StateStore, error) {
 		return nil, err
 	}
 
-	ownerTable, err := NewOwnerTable(db)
+	identityTable, err := NewIdentityTable(db)
 	if err != nil {
 		return nil, err
 	}
@@ -650,8 +650,8 @@ func NewStateStore(db ormtable.Schema) (StateStore, error) {
 	return stateStore{
 		accountTable,
 		credentialTable,
-		identityTable,
+		personaTable,
 		keyshareTable,
-		ownerTable,
+		identityTable,
 	}, nil
 }

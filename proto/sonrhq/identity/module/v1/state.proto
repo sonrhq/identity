@@ -8,18 +8,15 @@ import "cosmos/orm/v1alpha1/schema.proto";
 // Learn more: https://docs.cosmos.network/main/building-modules/depinject
 message State {
   option (cosmos.orm.v1alpha1.module_schema) = {
-    schema_file: {
-      id: 1
-      proto_file_name: "identity/module/v1/state.proto"
-    }
+    schema_file : {id : 1 proto_file_name : "identity/module/v1/state.proto"}
   };
 }
 
 // Account is the root sonr account table which contains all sub-identities.
 message Account {
   option (cosmos.orm.v1.table) = {
-    id: 1
-    primary_key: {fields: "address"}
+    id : 1
+    primary_key : {fields : "address"}
   };
 
   string address = 1;
@@ -30,8 +27,8 @@ message Account {
 // Credential is the total supply of the module.
 message Credential {
   option (cosmos.orm.v1.table) = {
-    id: 2
-    primary_key: {fields: "did"}
+    id : 2
+    primary_key : {fields : "did"}
   };
 
   string did = 1;
@@ -39,21 +36,24 @@ message Credential {
 }
 
 // Supply is the total supply of the module.
-message Identity {
+message Persona {
   option (cosmos.orm.v1.table) = {
-    id: 3
-    primary_key: {fields: "did"}
+    id : 3
+    primary_key : {fields : "did"}
   };
 
   string did = 1;
-  string owner = 2;
+  string method = 2;
+  string identifier = 3;
+  string handler = 4;
+  string account = 5;
 }
 
 // Keyshare is the keyshare of the identity.
 message Keyshare {
   option (cosmos.orm.v1.table) = {
-    id: 4
-    primary_key: {fields: "did"}
+    id : 4
+    primary_key : {fields : "did"}
   };
 
   string did = 1;
@@ -66,11 +66,11 @@ message Keyshare {
   string public_key = 8;
 }
 
-// Owner is the owner of the identity.
-message Owner {
+// Identity is the root owner of the Sonr identity.
+message Identity {
   option (cosmos.orm.v1.table) = {
-    id: 5
-    primary_key: {fields: "did"}
+    id : 5
+    primary_key : {fields : "did"}
   };
 
   string did = 1;

@@ -2,6 +2,7 @@ package module
 
 import (
 	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
+
 	identityv1 "github.com/sonrhq/identity/api/v1"
 )
 
@@ -11,14 +12,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 		Query: &autocliv1.ServiceCommandDescriptor{
 			Service: identityv1.Query_ServiceDesc.ServiceName,
 			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
-				{
-					RpcMethod: "Counter",
-					Use:       "counter [address]",
-					Short:     "Get the current value of the counter for an address",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
-						{ProtoField: "address"},
-					},
-				},
 				{
 					RpcMethod: "Params",
 					Use:       "params",

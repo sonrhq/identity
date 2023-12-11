@@ -15,18 +15,18 @@ service StateQueryService {
   rpc GetCredential(GetCredentialRequest) returns (GetCredentialResponse) {}
   // ListCredential queries the Credential table using prefix and range queries against defined indexes.
   rpc ListCredential(ListCredentialRequest) returns (ListCredentialResponse) {}
-  // Get queries the Identity table by its primary key.
-  rpc GetIdentity(GetIdentityRequest) returns (GetIdentityResponse) {}
-  // ListIdentity queries the Identity table using prefix and range queries against defined indexes.
-  rpc ListIdentity(ListIdentityRequest) returns (ListIdentityResponse) {}
+  // Get queries the Persona table by its primary key.
+  rpc GetPersona(GetPersonaRequest) returns (GetPersonaResponse) {}
+  // ListPersona queries the Persona table using prefix and range queries against defined indexes.
+  rpc ListPersona(ListPersonaRequest) returns (ListPersonaResponse) {}
   // Get queries the Keyshare table by its primary key.
   rpc GetKeyshare(GetKeyshareRequest) returns (GetKeyshareResponse) {}
   // ListKeyshare queries the Keyshare table using prefix and range queries against defined indexes.
   rpc ListKeyshare(ListKeyshareRequest) returns (ListKeyshareResponse) {}
-  // Get queries the Owner table by its primary key.
-  rpc GetOwner(GetOwnerRequest) returns (GetOwnerResponse) {}
-  // ListOwner queries the Owner table using prefix and range queries against defined indexes.
-  rpc ListOwner(ListOwnerRequest) returns (ListOwnerResponse) {}
+  // Get queries the Identity table by its primary key.
+  rpc GetIdentity(GetIdentityRequest) returns (GetIdentityResponse) {}
+  // ListIdentity queries the Identity table using prefix and range queries against defined indexes.
+  rpc ListIdentity(ListIdentityRequest) returns (ListIdentityResponse) {}
 }
 
 // GetAccountRequest is the StateQuery/GetAccountRequest request type.
@@ -147,20 +147,20 @@ message ListCredentialResponse {
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-// GetIdentityRequest is the StateQuery/GetIdentityRequest request type.
-message GetIdentityRequest {
+// GetPersonaRequest is the StateQuery/GetPersonaRequest request type.
+message GetPersonaRequest {
   // did specifies the value of the did field in the primary key.
   string did = 1;
 }
 
-// GetIdentityResponse is the StateQuery/GetIdentityResponse response type.
-message GetIdentityResponse {
+// GetPersonaResponse is the StateQuery/GetPersonaResponse response type.
+message GetPersonaResponse {
   // value is the response value.
-  Identity value = 1;
+  Persona value = 1;
 }
 
-// ListIdentityRequest is the StateQuery/ListIdentityRequest request type.
-message ListIdentityRequest {
+// ListPersonaRequest is the StateQuery/ListPersonaRequest request type.
+message ListPersonaRequest {
   // IndexKey specifies the value of an index key to use in prefix and range queries.
   message IndexKey {
     // key specifies the index key value.
@@ -198,10 +198,10 @@ message ListIdentityRequest {
   }
 }
 
-// ListIdentityResponse is the StateQuery/ListIdentityResponse response type.
-message ListIdentityResponse {
+// ListPersonaResponse is the StateQuery/ListPersonaResponse response type.
+message ListPersonaResponse {
   // values are the results of the query.
-  repeated Identity values = 1;
+  repeated Persona values = 1;
   // pagination is the pagination response.
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
@@ -265,20 +265,20 @@ message ListKeyshareResponse {
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-// GetOwnerRequest is the StateQuery/GetOwnerRequest request type.
-message GetOwnerRequest {
+// GetIdentityRequest is the StateQuery/GetIdentityRequest request type.
+message GetIdentityRequest {
   // did specifies the value of the did field in the primary key.
   string did = 1;
 }
 
-// GetOwnerResponse is the StateQuery/GetOwnerResponse response type.
-message GetOwnerResponse {
+// GetIdentityResponse is the StateQuery/GetIdentityResponse response type.
+message GetIdentityResponse {
   // value is the response value.
-  Owner value = 1;
+  Identity value = 1;
 }
 
-// ListOwnerRequest is the StateQuery/ListOwnerRequest request type.
-message ListOwnerRequest {
+// ListIdentityRequest is the StateQuery/ListIdentityRequest request type.
+message ListIdentityRequest {
   // IndexKey specifies the value of an index key to use in prefix and range queries.
   message IndexKey {
     // key specifies the index key value.
@@ -316,10 +316,10 @@ message ListOwnerRequest {
   }
 }
 
-// ListOwnerResponse is the StateQuery/ListOwnerResponse response type.
-message ListOwnerResponse {
+// ListIdentityResponse is the StateQuery/ListIdentityResponse response type.
+message ListIdentityResponse {
   // values are the results of the query.
-  repeated Owner values = 1;
+  repeated Identity values = 1;
   // pagination is the pagination response.
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
