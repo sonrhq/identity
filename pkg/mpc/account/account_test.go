@@ -8,7 +8,7 @@ import (
 	"github.com/sonrhq/sonr/common/crypto"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/sonrhq/identity/pkg/mpc/bip44"
+	bip44 "github.com/sonrhq/identity/pkg/mpc/account"
 )
 
 func TestNewAccountV1(t *testing.T) {

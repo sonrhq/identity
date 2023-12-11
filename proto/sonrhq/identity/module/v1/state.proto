@@ -32,7 +32,10 @@ message Credential {
   };
 
   string did = 1;
-  string owner = 2;
+  string persona = 2;
+  repeated string transport = 3;
+  bytes public_key = 4;
+  int32 algorithm = 5;
 }
 
 // Supply is the total supply of the module.
@@ -47,6 +50,7 @@ message Persona {
   string identifier = 3;
   string handler = 4;
   string account = 5;
+  uint32 permissions = 6;
 }
 
 // Keyshare is the keyshare of the identity.
