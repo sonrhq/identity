@@ -45,11 +45,17 @@ deps:
 
 # generate - generates all code from proto files
 generate:
+    LOCALLY
+    RUN make proto-gen
     FROM +deps
     COPY . .
-    RUN sh ./scripts/protocgen.sh
+    RUN sh ./scripts/protogen-orm.sh
     SAVE ARTIFACT sonrhq/identity AS LOCAL api
     SAVE ARTIFACT proto AS LOCAL proto
+    RUN sh ./scripts/protocgen-docs.sh
+    SAVE ARTIFACT docs AS LOCAL docs
+
+
 
 # test - runs all tests
 test:

@@ -4,9 +4,10 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	identityv1 "github.com/sonrhq/identity/api/v1"
 	"google.golang.org/protobuf/proto"
 	"lukechampine.com/blake3"
+
+	identityv1 "github.com/sonrhq/identity/api/v1"
 )
 
 // UIDXIdentifier is a type alias for a string
@@ -19,7 +20,7 @@ const UIDXMethod = "uidx"
 func NewUIDXIdentifier(idType identityv1.UserIdentifierType, value string) (UIDXIdentifier, error) {
     // Create new WIDXIdentifier struct
     wid:= &identityv1.UserIdentifier{
-        Type_: idType,
+        IdentifierType: idType,
         Value:   value,
     }
     // Marshal the ProtoBuf into bytes

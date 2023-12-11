@@ -123,6 +123,120 @@ func NewAccountTable(db ormtable.Schema) (AccountTable, error) {
 	return accountTable{table}, nil
 }
 
+type CredentialTable interface {
+	Insert(ctx context.Context, credential *Credential) error
+	Update(ctx context.Context, credential *Credential) error
+	Save(ctx context.Context, credential *Credential) error
+	Delete(ctx context.Context, credential *Credential) error
+	Has(ctx context.Context, did string) (found bool, err error)
+	// Get returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
+	Get(ctx context.Context, did string) (*Credential, error)
+	List(ctx context.Context, prefixKey CredentialIndexKey, opts ...ormlist.Option) (CredentialIterator, error)
+	ListRange(ctx context.Context, from, to CredentialIndexKey, opts ...ormlist.Option) (CredentialIterator, error)
+	DeleteBy(ctx context.Context, prefixKey CredentialIndexKey) error
+	DeleteRange(ctx context.Context, from, to CredentialIndexKey) error
+
+	doNotImplement()
+}
+
+type CredentialIterator struct {
+	ormtable.Iterator
+}
+
+func (i CredentialIterator) Value() (*Credential, error) {
+	var credential Credential
+	err := i.UnmarshalMessage(&credential)
+	return &credential, err
+}
+
+type CredentialIndexKey interface {
+	id() uint32
+	values() []interface{}
+	credentialIndexKey()
+}
+
+// primary key starting index..
+type CredentialPrimaryKey = CredentialDidIndexKey
+
+type CredentialDidIndexKey struct {
+	vs []interface{}
+}
+
+func (x CredentialDidIndexKey) id() uint32            { return 0 }
+func (x CredentialDidIndexKey) values() []interface{} { return x.vs }
+func (x CredentialDidIndexKey) credentialIndexKey()   {}
+
+func (this CredentialDidIndexKey) WithDid(did string) CredentialDidIndexKey {
+	this.vs = []interface{}{did}
+	return this
+}
+
+type credentialTable struct {
+	table ormtable.Table
+}
+
+func (this credentialTable) Insert(ctx context.Context, credential *Credential) error {
+	return this.table.Insert(ctx, credential)
+}
+
+func (this credentialTable) Update(ctx context.Context, credential *Credential) error {
+	return this.table.Update(ctx, credential)
+}
+
+func (this credentialTable) Save(ctx context.Context, credential *Credential) error {
+	return this.table.Save(ctx, credential)
+}
+
+func (this credentialTable) Delete(ctx context.Context, credential *Credential) error {
+	return this.table.Delete(ctx, credential)
+}
+
+func (this credentialTable) Has(ctx context.Context, did string) (found bool, err error) {
+	return this.table.PrimaryKey().Has(ctx, did)
+}
+
+func (this credentialTable) Get(ctx context.Context, did string) (*Credential, error) {
+	var credential Credential
+	found, err := this.table.PrimaryKey().Get(ctx, &credential, did)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, ormerrors.NotFound
+	}
+	return &credential, nil
+}
+
+func (this credentialTable) List(ctx context.Context, prefixKey CredentialIndexKey, opts ...ormlist.Option) (CredentialIterator, error) {
+	it, err := this.table.GetIndexByID(prefixKey.id()).List(ctx, prefixKey.values(), opts...)
+	return CredentialIterator{it}, err
+}
+
+func (this credentialTable) ListRange(ctx context.Context, from, to CredentialIndexKey, opts ...ormlist.Option) (CredentialIterator, error) {
+	it, err := this.table.GetIndexByID(from.id()).ListRange(ctx, from.values(), to.values(), opts...)
+	return CredentialIterator{it}, err
+}
+
+func (this credentialTable) DeleteBy(ctx context.Context, prefixKey CredentialIndexKey) error {
+	return this.table.GetIndexByID(prefixKey.id()).DeleteBy(ctx, prefixKey.values()...)
+}
+
+func (this credentialTable) DeleteRange(ctx context.Context, from, to CredentialIndexKey) error {
+	return this.table.GetIndexByID(from.id()).DeleteRange(ctx, from.values(), to.values())
+}
+
+func (this credentialTable) doNotImplement() {}
+
+var _ CredentialTable = credentialTable{}
+
+func NewCredentialTable(db ormtable.Schema) (CredentialTable, error) {
+	table := db.GetTable(&Credential{})
+	if table == nil {
+		return nil, ormerrors.TableNotFound.Wrap(string((&Credential{}).ProtoReflect().Descriptor().FullName()))
+	}
+	return credentialTable{table}, nil
+}
+
 type IdentityTable interface {
 	Insert(ctx context.Context, identity *Identity) error
 	Update(ctx context.Context, identity *Identity) error
@@ -237,24 +351,270 @@ func NewIdentityTable(db ormtable.Schema) (IdentityTable, error) {
 	return identityTable{table}, nil
 }
 
+type KeyshareTable interface {
+	Insert(ctx context.Context, keyshare *Keyshare) error
+	Update(ctx context.Context, keyshare *Keyshare) error
+	Save(ctx context.Context, keyshare *Keyshare) error
+	Delete(ctx context.Context, keyshare *Keyshare) error
+	Has(ctx context.Context, did string) (found bool, err error)
+	// Get returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
+	Get(ctx context.Context, did string) (*Keyshare, error)
+	List(ctx context.Context, prefixKey KeyshareIndexKey, opts ...ormlist.Option) (KeyshareIterator, error)
+	ListRange(ctx context.Context, from, to KeyshareIndexKey, opts ...ormlist.Option) (KeyshareIterator, error)
+	DeleteBy(ctx context.Context, prefixKey KeyshareIndexKey) error
+	DeleteRange(ctx context.Context, from, to KeyshareIndexKey) error
+
+	doNotImplement()
+}
+
+type KeyshareIterator struct {
+	ormtable.Iterator
+}
+
+func (i KeyshareIterator) Value() (*Keyshare, error) {
+	var keyshare Keyshare
+	err := i.UnmarshalMessage(&keyshare)
+	return &keyshare, err
+}
+
+type KeyshareIndexKey interface {
+	id() uint32
+	values() []interface{}
+	keyshareIndexKey()
+}
+
+// primary key starting index..
+type KeysharePrimaryKey = KeyshareDidIndexKey
+
+type KeyshareDidIndexKey struct {
+	vs []interface{}
+}
+
+func (x KeyshareDidIndexKey) id() uint32            { return 0 }
+func (x KeyshareDidIndexKey) values() []interface{} { return x.vs }
+func (x KeyshareDidIndexKey) keyshareIndexKey()     {}
+
+func (this KeyshareDidIndexKey) WithDid(did string) KeyshareDidIndexKey {
+	this.vs = []interface{}{did}
+	return this
+}
+
+type keyshareTable struct {
+	table ormtable.Table
+}
+
+func (this keyshareTable) Insert(ctx context.Context, keyshare *Keyshare) error {
+	return this.table.Insert(ctx, keyshare)
+}
+
+func (this keyshareTable) Update(ctx context.Context, keyshare *Keyshare) error {
+	return this.table.Update(ctx, keyshare)
+}
+
+func (this keyshareTable) Save(ctx context.Context, keyshare *Keyshare) error {
+	return this.table.Save(ctx, keyshare)
+}
+
+func (this keyshareTable) Delete(ctx context.Context, keyshare *Keyshare) error {
+	return this.table.Delete(ctx, keyshare)
+}
+
+func (this keyshareTable) Has(ctx context.Context, did string) (found bool, err error) {
+	return this.table.PrimaryKey().Has(ctx, did)
+}
+
+func (this keyshareTable) Get(ctx context.Context, did string) (*Keyshare, error) {
+	var keyshare Keyshare
+	found, err := this.table.PrimaryKey().Get(ctx, &keyshare, did)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, ormerrors.NotFound
+	}
+	return &keyshare, nil
+}
+
+func (this keyshareTable) List(ctx context.Context, prefixKey KeyshareIndexKey, opts ...ormlist.Option) (KeyshareIterator, error) {
+	it, err := this.table.GetIndexByID(prefixKey.id()).List(ctx, prefixKey.values(), opts...)
+	return KeyshareIterator{it}, err
+}
+
+func (this keyshareTable) ListRange(ctx context.Context, from, to KeyshareIndexKey, opts ...ormlist.Option) (KeyshareIterator, error) {
+	it, err := this.table.GetIndexByID(from.id()).ListRange(ctx, from.values(), to.values(), opts...)
+	return KeyshareIterator{it}, err
+}
+
+func (this keyshareTable) DeleteBy(ctx context.Context, prefixKey KeyshareIndexKey) error {
+	return this.table.GetIndexByID(prefixKey.id()).DeleteBy(ctx, prefixKey.values()...)
+}
+
+func (this keyshareTable) DeleteRange(ctx context.Context, from, to KeyshareIndexKey) error {
+	return this.table.GetIndexByID(from.id()).DeleteRange(ctx, from.values(), to.values())
+}
+
+func (this keyshareTable) doNotImplement() {}
+
+var _ KeyshareTable = keyshareTable{}
+
+func NewKeyshareTable(db ormtable.Schema) (KeyshareTable, error) {
+	table := db.GetTable(&Keyshare{})
+	if table == nil {
+		return nil, ormerrors.TableNotFound.Wrap(string((&Keyshare{}).ProtoReflect().Descriptor().FullName()))
+	}
+	return keyshareTable{table}, nil
+}
+
+type OwnerTable interface {
+	Insert(ctx context.Context, owner *Owner) error
+	Update(ctx context.Context, owner *Owner) error
+	Save(ctx context.Context, owner *Owner) error
+	Delete(ctx context.Context, owner *Owner) error
+	Has(ctx context.Context, did string) (found bool, err error)
+	// Get returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
+	Get(ctx context.Context, did string) (*Owner, error)
+	List(ctx context.Context, prefixKey OwnerIndexKey, opts ...ormlist.Option) (OwnerIterator, error)
+	ListRange(ctx context.Context, from, to OwnerIndexKey, opts ...ormlist.Option) (OwnerIterator, error)
+	DeleteBy(ctx context.Context, prefixKey OwnerIndexKey) error
+	DeleteRange(ctx context.Context, from, to OwnerIndexKey) error
+
+	doNotImplement()
+}
+
+type OwnerIterator struct {
+	ormtable.Iterator
+}
+
+func (i OwnerIterator) Value() (*Owner, error) {
+	var owner Owner
+	err := i.UnmarshalMessage(&owner)
+	return &owner, err
+}
+
+type OwnerIndexKey interface {
+	id() uint32
+	values() []interface{}
+	ownerIndexKey()
+}
+
+// primary key starting index..
+type OwnerPrimaryKey = OwnerDidIndexKey
+
+type OwnerDidIndexKey struct {
+	vs []interface{}
+}
+
+func (x OwnerDidIndexKey) id() uint32            { return 0 }
+func (x OwnerDidIndexKey) values() []interface{} { return x.vs }
+func (x OwnerDidIndexKey) ownerIndexKey()        {}
+
+func (this OwnerDidIndexKey) WithDid(did string) OwnerDidIndexKey {
+	this.vs = []interface{}{did}
+	return this
+}
+
+type ownerTable struct {
+	table ormtable.Table
+}
+
+func (this ownerTable) Insert(ctx context.Context, owner *Owner) error {
+	return this.table.Insert(ctx, owner)
+}
+
+func (this ownerTable) Update(ctx context.Context, owner *Owner) error {
+	return this.table.Update(ctx, owner)
+}
+
+func (this ownerTable) Save(ctx context.Context, owner *Owner) error {
+	return this.table.Save(ctx, owner)
+}
+
+func (this ownerTable) Delete(ctx context.Context, owner *Owner) error {
+	return this.table.Delete(ctx, owner)
+}
+
+func (this ownerTable) Has(ctx context.Context, did string) (found bool, err error) {
+	return this.table.PrimaryKey().Has(ctx, did)
+}
+
+func (this ownerTable) Get(ctx context.Context, did string) (*Owner, error) {
+	var owner Owner
+	found, err := this.table.PrimaryKey().Get(ctx, &owner, did)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, ormerrors.NotFound
+	}
+	return &owner, nil
+}
+
+func (this ownerTable) List(ctx context.Context, prefixKey OwnerIndexKey, opts ...ormlist.Option) (OwnerIterator, error) {
+	it, err := this.table.GetIndexByID(prefixKey.id()).List(ctx, prefixKey.values(), opts...)
+	return OwnerIterator{it}, err
+}
+
+func (this ownerTable) ListRange(ctx context.Context, from, to OwnerIndexKey, opts ...ormlist.Option) (OwnerIterator, error) {
+	it, err := this.table.GetIndexByID(from.id()).ListRange(ctx, from.values(), to.values(), opts...)
+	return OwnerIterator{it}, err
+}
+
+func (this ownerTable) DeleteBy(ctx context.Context, prefixKey OwnerIndexKey) error {
+	return this.table.GetIndexByID(prefixKey.id()).DeleteBy(ctx, prefixKey.values()...)
+}
+
+func (this ownerTable) DeleteRange(ctx context.Context, from, to OwnerIndexKey) error {
+	return this.table.GetIndexByID(from.id()).DeleteRange(ctx, from.values(), to.values())
+}
+
+func (this ownerTable) doNotImplement() {}
+
+var _ OwnerTable = ownerTable{}
+
+func NewOwnerTable(db ormtable.Schema) (OwnerTable, error) {
+	table := db.GetTable(&Owner{})
+	if table == nil {
+		return nil, ormerrors.TableNotFound.Wrap(string((&Owner{}).ProtoReflect().Descriptor().FullName()))
+	}
+	return ownerTable{table}, nil
+}
+
 type StateStore interface {
 	AccountTable() AccountTable
+	CredentialTable() CredentialTable
 	IdentityTable() IdentityTable
+	KeyshareTable() KeyshareTable
+	OwnerTable() OwnerTable
 
 	doNotImplement()
 }
 
 type stateStore struct {
-	account  AccountTable
-	identity IdentityTable
+	account    AccountTable
+	credential CredentialTable
+	identity   IdentityTable
+	keyshare   KeyshareTable
+	owner      OwnerTable
 }
 
 func (x stateStore) AccountTable() AccountTable {
 	return x.account
 }
 
+func (x stateStore) CredentialTable() CredentialTable {
+	return x.credential
+}
+
 func (x stateStore) IdentityTable() IdentityTable {
 	return x.identity
+}
+
+func (x stateStore) KeyshareTable() KeyshareTable {
+	return x.keyshare
+}
+
+func (x stateStore) OwnerTable() OwnerTable {
+	return x.owner
 }
 
 func (stateStore) doNotImplement() {}
@@ -267,13 +627,31 @@ func NewStateStore(db ormtable.Schema) (StateStore, error) {
 		return nil, err
 	}
 
+	credentialTable, err := NewCredentialTable(db)
+	if err != nil {
+		return nil, err
+	}
+
 	identityTable, err := NewIdentityTable(db)
+	if err != nil {
+		return nil, err
+	}
+
+	keyshareTable, err := NewKeyshareTable(db)
+	if err != nil {
+		return nil, err
+	}
+
+	ownerTable, err := NewOwnerTable(db)
 	if err != nil {
 		return nil, err
 	}
 
 	return stateStore{
 		accountTable,
+		credentialTable,
 		identityTable,
+		keyshareTable,
+		ownerTable,
 	}, nil
 }

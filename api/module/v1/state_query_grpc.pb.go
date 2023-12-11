@@ -21,10 +21,16 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	StateQueryService_GetAccount_FullMethodName   = "/sonrhq.identity.module.v1.StateQueryService/GetAccount"
-	StateQueryService_ListAccount_FullMethodName  = "/sonrhq.identity.module.v1.StateQueryService/ListAccount"
-	StateQueryService_GetIdentity_FullMethodName  = "/sonrhq.identity.module.v1.StateQueryService/GetIdentity"
-	StateQueryService_ListIdentity_FullMethodName = "/sonrhq.identity.module.v1.StateQueryService/ListIdentity"
+	StateQueryService_GetAccount_FullMethodName     = "/sonrhq.identity.module.v1.StateQueryService/GetAccount"
+	StateQueryService_ListAccount_FullMethodName    = "/sonrhq.identity.module.v1.StateQueryService/ListAccount"
+	StateQueryService_GetCredential_FullMethodName  = "/sonrhq.identity.module.v1.StateQueryService/GetCredential"
+	StateQueryService_ListCredential_FullMethodName = "/sonrhq.identity.module.v1.StateQueryService/ListCredential"
+	StateQueryService_GetIdentity_FullMethodName    = "/sonrhq.identity.module.v1.StateQueryService/GetIdentity"
+	StateQueryService_ListIdentity_FullMethodName   = "/sonrhq.identity.module.v1.StateQueryService/ListIdentity"
+	StateQueryService_GetKeyshare_FullMethodName    = "/sonrhq.identity.module.v1.StateQueryService/GetKeyshare"
+	StateQueryService_ListKeyshare_FullMethodName   = "/sonrhq.identity.module.v1.StateQueryService/ListKeyshare"
+	StateQueryService_GetOwner_FullMethodName       = "/sonrhq.identity.module.v1.StateQueryService/GetOwner"
+	StateQueryService_ListOwner_FullMethodName      = "/sonrhq.identity.module.v1.StateQueryService/ListOwner"
 )
 
 // StateQueryServiceClient is the client API for StateQueryService service.
@@ -35,10 +41,22 @@ type StateQueryServiceClient interface {
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*GetAccountResponse, error)
 	// ListAccount queries the Account table using prefix and range queries against defined indexes.
 	ListAccount(ctx context.Context, in *ListAccountRequest, opts ...grpc.CallOption) (*ListAccountResponse, error)
+	// Get queries the Credential table by its primary key.
+	GetCredential(ctx context.Context, in *GetCredentialRequest, opts ...grpc.CallOption) (*GetCredentialResponse, error)
+	// ListCredential queries the Credential table using prefix and range queries against defined indexes.
+	ListCredential(ctx context.Context, in *ListCredentialRequest, opts ...grpc.CallOption) (*ListCredentialResponse, error)
 	// Get queries the Identity table by its primary key.
 	GetIdentity(ctx context.Context, in *GetIdentityRequest, opts ...grpc.CallOption) (*GetIdentityResponse, error)
 	// ListIdentity queries the Identity table using prefix and range queries against defined indexes.
 	ListIdentity(ctx context.Context, in *ListIdentityRequest, opts ...grpc.CallOption) (*ListIdentityResponse, error)
+	// Get queries the Keyshare table by its primary key.
+	GetKeyshare(ctx context.Context, in *GetKeyshareRequest, opts ...grpc.CallOption) (*GetKeyshareResponse, error)
+	// ListKeyshare queries the Keyshare table using prefix and range queries against defined indexes.
+	ListKeyshare(ctx context.Context, in *ListKeyshareRequest, opts ...grpc.CallOption) (*ListKeyshareResponse, error)
+	// Get queries the Owner table by its primary key.
+	GetOwner(ctx context.Context, in *GetOwnerRequest, opts ...grpc.CallOption) (*GetOwnerResponse, error)
+	// ListOwner queries the Owner table using prefix and range queries against defined indexes.
+	ListOwner(ctx context.Context, in *ListOwnerRequest, opts ...grpc.CallOption) (*ListOwnerResponse, error)
 }
 
 type stateQueryServiceClient struct {
@@ -67,6 +85,24 @@ func (c *stateQueryServiceClient) ListAccount(ctx context.Context, in *ListAccou
 	return out, nil
 }
 
+func (c *stateQueryServiceClient) GetCredential(ctx context.Context, in *GetCredentialRequest, opts ...grpc.CallOption) (*GetCredentialResponse, error) {
+	out := new(GetCredentialResponse)
+	err := c.cc.Invoke(ctx, StateQueryService_GetCredential_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stateQueryServiceClient) ListCredential(ctx context.Context, in *ListCredentialRequest, opts ...grpc.CallOption) (*ListCredentialResponse, error) {
+	out := new(ListCredentialResponse)
+	err := c.cc.Invoke(ctx, StateQueryService_ListCredential_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *stateQueryServiceClient) GetIdentity(ctx context.Context, in *GetIdentityRequest, opts ...grpc.CallOption) (*GetIdentityResponse, error) {
 	out := new(GetIdentityResponse)
 	err := c.cc.Invoke(ctx, StateQueryService_GetIdentity_FullMethodName, in, out, opts...)
@@ -85,6 +121,42 @@ func (c *stateQueryServiceClient) ListIdentity(ctx context.Context, in *ListIden
 	return out, nil
 }
 
+func (c *stateQueryServiceClient) GetKeyshare(ctx context.Context, in *GetKeyshareRequest, opts ...grpc.CallOption) (*GetKeyshareResponse, error) {
+	out := new(GetKeyshareResponse)
+	err := c.cc.Invoke(ctx, StateQueryService_GetKeyshare_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stateQueryServiceClient) ListKeyshare(ctx context.Context, in *ListKeyshareRequest, opts ...grpc.CallOption) (*ListKeyshareResponse, error) {
+	out := new(ListKeyshareResponse)
+	err := c.cc.Invoke(ctx, StateQueryService_ListKeyshare_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stateQueryServiceClient) GetOwner(ctx context.Context, in *GetOwnerRequest, opts ...grpc.CallOption) (*GetOwnerResponse, error) {
+	out := new(GetOwnerResponse)
+	err := c.cc.Invoke(ctx, StateQueryService_GetOwner_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stateQueryServiceClient) ListOwner(ctx context.Context, in *ListOwnerRequest, opts ...grpc.CallOption) (*ListOwnerResponse, error) {
+	out := new(ListOwnerResponse)
+	err := c.cc.Invoke(ctx, StateQueryService_ListOwner_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StateQueryServiceServer is the server API for StateQueryService service.
 // All implementations must embed UnimplementedStateQueryServiceServer
 // for forward compatibility
@@ -93,10 +165,22 @@ type StateQueryServiceServer interface {
 	GetAccount(context.Context, *GetAccountRequest) (*GetAccountResponse, error)
 	// ListAccount queries the Account table using prefix and range queries against defined indexes.
 	ListAccount(context.Context, *ListAccountRequest) (*ListAccountResponse, error)
+	// Get queries the Credential table by its primary key.
+	GetCredential(context.Context, *GetCredentialRequest) (*GetCredentialResponse, error)
+	// ListCredential queries the Credential table using prefix and range queries against defined indexes.
+	ListCredential(context.Context, *ListCredentialRequest) (*ListCredentialResponse, error)
 	// Get queries the Identity table by its primary key.
 	GetIdentity(context.Context, *GetIdentityRequest) (*GetIdentityResponse, error)
 	// ListIdentity queries the Identity table using prefix and range queries against defined indexes.
 	ListIdentity(context.Context, *ListIdentityRequest) (*ListIdentityResponse, error)
+	// Get queries the Keyshare table by its primary key.
+	GetKeyshare(context.Context, *GetKeyshareRequest) (*GetKeyshareResponse, error)
+	// ListKeyshare queries the Keyshare table using prefix and range queries against defined indexes.
+	ListKeyshare(context.Context, *ListKeyshareRequest) (*ListKeyshareResponse, error)
+	// Get queries the Owner table by its primary key.
+	GetOwner(context.Context, *GetOwnerRequest) (*GetOwnerResponse, error)
+	// ListOwner queries the Owner table using prefix and range queries against defined indexes.
+	ListOwner(context.Context, *ListOwnerRequest) (*ListOwnerResponse, error)
 	mustEmbedUnimplementedStateQueryServiceServer()
 }
 
@@ -110,11 +194,29 @@ func (UnimplementedStateQueryServiceServer) GetAccount(context.Context, *GetAcco
 func (UnimplementedStateQueryServiceServer) ListAccount(context.Context, *ListAccountRequest) (*ListAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAccount not implemented")
 }
+func (UnimplementedStateQueryServiceServer) GetCredential(context.Context, *GetCredentialRequest) (*GetCredentialResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCredential not implemented")
+}
+func (UnimplementedStateQueryServiceServer) ListCredential(context.Context, *ListCredentialRequest) (*ListCredentialResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListCredential not implemented")
+}
 func (UnimplementedStateQueryServiceServer) GetIdentity(context.Context, *GetIdentityRequest) (*GetIdentityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetIdentity not implemented")
 }
 func (UnimplementedStateQueryServiceServer) ListIdentity(context.Context, *ListIdentityRequest) (*ListIdentityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListIdentity not implemented")
+}
+func (UnimplementedStateQueryServiceServer) GetKeyshare(context.Context, *GetKeyshareRequest) (*GetKeyshareResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKeyshare not implemented")
+}
+func (UnimplementedStateQueryServiceServer) ListKeyshare(context.Context, *ListKeyshareRequest) (*ListKeyshareResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKeyshare not implemented")
+}
+func (UnimplementedStateQueryServiceServer) GetOwner(context.Context, *GetOwnerRequest) (*GetOwnerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOwner not implemented")
+}
+func (UnimplementedStateQueryServiceServer) ListOwner(context.Context, *ListOwnerRequest) (*ListOwnerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOwner not implemented")
 }
 func (UnimplementedStateQueryServiceServer) mustEmbedUnimplementedStateQueryServiceServer() {}
 
@@ -165,6 +267,42 @@ func _StateQueryService_ListAccount_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StateQueryService_GetCredential_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCredentialRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateQueryServiceServer).GetCredential(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StateQueryService_GetCredential_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateQueryServiceServer).GetCredential(ctx, req.(*GetCredentialRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StateQueryService_ListCredential_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCredentialRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateQueryServiceServer).ListCredential(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StateQueryService_ListCredential_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateQueryServiceServer).ListCredential(ctx, req.(*ListCredentialRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _StateQueryService_GetIdentity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetIdentityRequest)
 	if err := dec(in); err != nil {
@@ -201,6 +339,78 @@ func _StateQueryService_ListIdentity_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StateQueryService_GetKeyshare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKeyshareRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateQueryServiceServer).GetKeyshare(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StateQueryService_GetKeyshare_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateQueryServiceServer).GetKeyshare(ctx, req.(*GetKeyshareRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StateQueryService_ListKeyshare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKeyshareRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateQueryServiceServer).ListKeyshare(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StateQueryService_ListKeyshare_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateQueryServiceServer).ListKeyshare(ctx, req.(*ListKeyshareRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StateQueryService_GetOwner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOwnerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateQueryServiceServer).GetOwner(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StateQueryService_GetOwner_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateQueryServiceServer).GetOwner(ctx, req.(*GetOwnerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StateQueryService_ListOwner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListOwnerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateQueryServiceServer).ListOwner(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StateQueryService_ListOwner_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateQueryServiceServer).ListOwner(ctx, req.(*ListOwnerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StateQueryService_ServiceDesc is the grpc.ServiceDesc for StateQueryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -217,12 +427,36 @@ var StateQueryService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _StateQueryService_ListAccount_Handler,
 		},
 		{
+			MethodName: "GetCredential",
+			Handler:    _StateQueryService_GetCredential_Handler,
+		},
+		{
+			MethodName: "ListCredential",
+			Handler:    _StateQueryService_ListCredential_Handler,
+		},
+		{
 			MethodName: "GetIdentity",
 			Handler:    _StateQueryService_GetIdentity_Handler,
 		},
 		{
 			MethodName: "ListIdentity",
 			Handler:    _StateQueryService_ListIdentity_Handler,
+		},
+		{
+			MethodName: "GetKeyshare",
+			Handler:    _StateQueryService_GetKeyshare_Handler,
+		},
+		{
+			MethodName: "ListKeyshare",
+			Handler:    _StateQueryService_ListKeyshare_Handler,
+		},
+		{
+			MethodName: "GetOwner",
+			Handler:    _StateQueryService_GetOwner_Handler,
+		},
+		{
+			MethodName: "ListOwner",
+			Handler:    _StateQueryService_ListOwner_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

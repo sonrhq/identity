@@ -1,7 +1,7 @@
 version: v1
 plugins:
   - name: swagger
-    out: ../docs/static/swagger
+    out: ../docs/static
     opt:
       - fqn_for_swagger_name=true
       - simple_operation_ids=true
