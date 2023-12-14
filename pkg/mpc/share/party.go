@@ -1,4 +1,4 @@
-package party
+package share
 
 import (
 	"fmt"
@@ -19,11 +19,17 @@ type Share interface {
 	// Iterator returns the iterator for the party
 	Iterator() protocol.Iterator
 
-	// PublicPoint returns the public point of the party
+	// Marshal returns the encoded keyshare data for the party
+	Marshal() ([]byte, error)
+
+	// PublicPoint returns the Ec public point of the party
 	PublicPoint() (*curves.EcPoint, error)
 
-	// Role returns the role of the party
-	Role() PartyRole
+	// Role returns the role of the Share
+	Role() ShareRole
+
+	// Unmarshal unmarshals the encoded keyshare data for the party
+	Unmarshal(bz []byte) error
 
 	// Verify verifies a message with the signature
 	Verify(msg []byte, sigBz []byte) (bool, error)

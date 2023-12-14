@@ -1,4 +1,4 @@
-package party
+package share
 
 import (
 	"encoding/json"
@@ -11,26 +11,26 @@ import (
 	"golang.org/x/crypto/sha3"
 )
 
-// Party is a party in the DKG protocol
-type PrivateParty struct {
-	role      PartyRole
+// Share is a Share in the DKG protocol
+type PrivateShare struct {
+	role      ShareRole
 	curve     *curves.Curve
 	dkgOutput *dklsv1.AliceDkg
 	result    *protocol.Message
 }
 
-// NewParty creates a new party
-func NewPrivateParty(curve *curves.Curve) Share {
-	p := &PrivateParty{
-		role:      PartyRolePrivate,
+// NewShare creates a new Share
+func NewPrivateShare(curve *curves.Curve) Share {
+	p := &PrivateShare{
+		role:      ShareRolePrivate,
 		curve:     curve,
 		dkgOutput: dklsv1.NewAliceDkg(curve, protocol.Version1),
 	}
 	return p
 }
 
-// GetResult returns the result of the protocol for the party after execution
-func (p *PrivateParty) Finish() (*protocol.Message, error) {
+// GetResult returns the result of the protocol for the Share after execution
+func (p *PrivateShare) Finish() (*protocol.Message, error) {
 	res, err := p.dkgOutput.Result(protocol.Version1)
 	if err != nil {
 		return nil, err
@@ -39,8 +39,8 @@ func (p *PrivateParty) Finish() (*protocol.Message, error) {
 	return res, nil
 }
 
-// GetSignFunc returns the sign function for the party
-func (p *PrivateParty) GetSignFunc(msg []byte) (protocol.Iterator, error) {
+// GetSignFunc returns the sign function for the Share
+func (p *PrivateShare) GetSignFunc(msg []byte) (protocol.Iterator, error) {
 	aliceSign, err := dklsv1.NewAliceSign(p.curve, sha3.New256(), msg, p.result, protocol.Version1)
 	if err != nil {
 		return nil, fmt.Errorf("error creating Alice sign: %v", err)
@@ -48,13 +48,13 @@ func (p *PrivateParty) GetSignFunc(msg []byte) (protocol.Iterator, error) {
 	return aliceSign, nil
 }
 
-// Iterator returns the iterator for the party
-func (p *PrivateParty) Iterator() protocol.Iterator {
+// Iterator returns the iterator for the Share
+func (p *PrivateShare) Iterator() protocol.Iterator {
 	return p.dkgOutput
 }
 
-// PublicPoint returns the public point of the party
-func (p *PrivateParty) PublicPoint() (*curves.EcPoint, error) {
+// PublicPoint returns the public point of the Share
+func (p *PrivateShare) PublicPoint() (*curves.EcPoint, error) {
 	// Decode the result message
 	aliceRes, err := dklsv1.DecodeAliceDkgResult(p.result)
 	if err != nil {
@@ -63,13 +63,13 @@ func (p *PrivateParty) PublicPoint() (*curves.EcPoint, error) {
 	return buildEcPoint(p.curve, aliceRes.PublicKey.ToAffineCompressed())
 }
 
-// Role returns the role of the party
-func (p *PrivateParty) Role() PartyRole {
+// Role returns the role of the Share
+func (p *PrivateShare) Role() ShareRole {
 	return p.role
 }
 
 // Verify verifies the signature of the message
-func (p *PrivateParty) Verify(msg []byte, sigBz []byte) (bool, error) {
+func (p *PrivateShare) Verify(msg []byte, sigBz []byte) (bool, error) {
 	sig, err := ecdsa.DeserializeSecp256k1Signature(sigBz)
 	if err != nil {
 		return false, fmt.Errorf("error deserializing signature: %v", err)
@@ -88,7 +88,7 @@ func (p *PrivateParty) Verify(msg []byte, sigBz []byte) (bool, error) {
 }
 
 
-func (p *PrivateParty) Marshal() ([]byte, error) {
+func (p *PrivateShare) Marshal() ([]byte, error) {
 	if p.result == nil {
 		return nil, fmt.Errorf("no result to marshal")
 	}
@@ -104,7 +104,7 @@ func (p *PrivateParty) Marshal() ([]byte, error) {
 	return json.Marshal(enc)
 }
 
-func (ks *PrivateParty) Unmarshal(bz []byte) error {
+func (ks *PrivateShare) Unmarshal(bz []byte) error {
 	msg := &protocol.Message{}
 	err := json.Unmarshal(bz, msg)
 	if err != nil {

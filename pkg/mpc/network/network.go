@@ -14,15 +14,15 @@ import (
 // Network is a network interface for MPC protocols
 type Network struct {
 	curve *curves.Curve
-	valParty party.Share
-	userParty party.Share
+	valParty share.Share
+	userParty share.Share
 }
 
 // NewNetwork creates a new network
 func NewNetwork() Network {
 	c := curves.K256()
-	vp := party.NewPrivateParty(c)
-	up := party.NewPublicParty(c)
+	vp := share.NewPrivateShare(c)
+	up := share.NewPublicShare(c)
 	return Network{
 		curve: c,
 		valParty: vp,

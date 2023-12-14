@@ -1,22 +1,22 @@
-package party
+package share
 
-// PartyRole is a role in the DKG protocol
-type PartyRole string
+// ShareRole is a role in the DKG protocol
+type ShareRole string
 
 const (
 	// PartyRolePrivate is the default role for the alice dkg
-	PartyRolePrivate PartyRole = "alice"
+	ShareRolePrivate ShareRole = "alice"
 
 	// KeyshareRolePublic is the role for an encrypted keyshare for a user
-	PartyRolePublic PartyRole = "bob"
+	ShareRolePublic ShareRole = "bob"
 )
 
 // IsAlice returns true if the keyshare role is alice
-func (ksr PartyRole) IsAlice() bool {
-	return ksr == PartyRolePrivate
+func (ksr ShareRole) IsAlice() bool {
+	return ksr == ShareRolePrivate
 }
 
 // IsBob returns true if the keyshare role is bob
-func (ksr PartyRole) IsBob() bool {
-	return ksr == PartyRolePublic
+func (ksr ShareRole) IsBob() bool {
+	return ksr == ShareRolePublic
 }

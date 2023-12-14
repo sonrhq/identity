@@ -1,4 +1,4 @@
-package party
+package share
 
 import (
 	"encoding/json"
@@ -13,18 +13,18 @@ import (
 
 const version = protocol.Version1
 
-// Party is a party in the DKG protocol
-type PublicParty struct {
-	role      PartyRole
+// Share is a party in the DKG protocol
+type PublicShare struct {
+	role      ShareRole
 	curve     *curves.Curve
 	dkgOutput *dklsv1.BobDkg
 	result    *protocol.Message
 }
 
-// NewParty creates a new party
-func NewPublicParty(curve *curves.Curve) Share {
-	p := &PublicParty{
-		role:      PartyRolePublic,
+// NewShare creates a new party
+func NewPublicShare(curve *curves.Curve) Share {
+	p := &PublicShare{
+		role:      ShareRolePublic,
 		curve:     curve,
 		dkgOutput: dklsv1.NewBobDkg(curve, protocol.Version1),
 	}
@@ -32,7 +32,7 @@ func NewPublicParty(curve *curves.Curve) Share {
 }
 
 // GetResult returns the result of the protocol for the party after execution
-func (p *PublicParty) Finish() (*protocol.Message, error) {
+func (p *PublicShare) Finish() (*protocol.Message, error) {
 	res, err := p.dkgOutput.Result(protocol.Version1)
 	if err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func (p *PublicParty) Finish() (*protocol.Message, error) {
 }
 
 // GetSignFunc returns the sign function for the party
-func (p *PublicParty) GetSignFunc(msg []byte) (protocol.Iterator, error) {
+func (p *PublicShare) GetSignFunc(msg []byte) (protocol.Iterator, error) {
 	bobSign, err := dklsv1.NewBobSign(p.curve, sha3.New256(), msg, p.result, protocol.Version1)
 	if err != nil {
 		return nil, fmt.Errorf("error creating Alice sign: %v", err)
@@ -51,12 +51,12 @@ func (p *PublicParty) GetSignFunc(msg []byte) (protocol.Iterator, error) {
 }
 
 // Iterator returns the iterator for the party
-func (p *PublicParty) Iterator() protocol.Iterator {
+func (p *PublicShare) Iterator() protocol.Iterator {
 	return p.dkgOutput
 }
 
 // PublicPoint returns the public point of the party
-func (p *PublicParty) PublicPoint() (*curves.EcPoint, error) {
+func (p *PublicShare) PublicPoint() (*curves.EcPoint, error) {
 	// Decode the result message
 	bobRes, err := dklsv1.DecodeBobDkgResult(p.result)
 	if err != nil {
@@ -66,12 +66,12 @@ func (p *PublicParty) PublicPoint() (*curves.EcPoint, error) {
 }
 
 // Role returns the role of the party
-func (p *PublicParty) Role() PartyRole {
+func (p *PublicShare) Role() ShareRole {
 	return p.role
 }
 
 // Verify verifies the signature of the message
-func (p *PublicParty) Verify(msg []byte, sigBz []byte) (bool, error) {
+func (p *PublicShare) Verify(msg []byte, sigBz []byte) (bool, error) {
 	sig, err := ecdsa.DeserializeSecp256k1Signature(sigBz)
 	if err != nil {
 		return false, fmt.Errorf("error deserializing signature: %v", err)
@@ -89,7 +89,7 @@ func (p *PublicParty) Verify(msg []byte, sigBz []byte) (bool, error) {
 	return curves.VerifyEcdsa(publicKey, digest[:], sig), nil
 }
 
-func (p *PublicParty) Marshal() ([]byte, error) {
+func (p *PublicShare) Marshal() ([]byte, error) {
 	if p.result == nil {
 		return nil, fmt.Errorf("no result to marshal")
 	}
@@ -105,7 +105,7 @@ func (p *PublicParty) Marshal() ([]byte, error) {
 	return json.Marshal(enc)
 }
 
-func (ks *PublicParty) Unmarshal(bz []byte) error {
+func (ks *PublicShare) Unmarshal(bz []byte) error {
 	msg := &protocol.Message{}
 	err := json.Unmarshal(bz, msg)
 	if err != nil {
