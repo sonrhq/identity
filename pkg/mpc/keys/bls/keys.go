@@ -27,6 +27,16 @@ func NewSecretKey() (*SecretKey, error) {
 	return &SecretKey{SecretKey: key}, nil
 }
 
+// OpenSecretKey opens a secret key
+func OpenSecretKey(key []byte) (*SecretKey, error) {
+	e := new(accumulator.SecretKey)
+	err := e.UnmarshalBinary(key)
+	if err != nil {
+		return nil, err
+	}
+	return &SecretKey{SecretKey: e}, nil
+}
+
 // CreateAccumulator creates a new accumulator
 func (s *SecretKey) CreateAccumulator() (*Accumulator, error) {
 	curve := curves.BLS12381(&curves.PointBls12381G1{})
@@ -55,6 +65,11 @@ func (s *SecretKey) PublicKey() (*PublicKey, error) {
 		return nil, err
 	}
 	return pk, nil
+}
+
+// Serialize marshals the secret key
+func (s *SecretKey) Serialize() ([]byte, error) {
+	return s.SecretKey.MarshalBinary()
 }
 
 // Accumulator is the secret key for the BLS scheme
