@@ -1,8 +1,10 @@
 package bls_test
 
 import (
+	"fmt"
 	"testing"
 
+	"github.com/btcsuite/btcutil/base58"
 	"github.com/stretchr/testify/require"
 
 	"github.com/sonrhq/identity/pkg/mpc/keys/bls"
@@ -44,6 +46,8 @@ func TestWitnessElements(t *testing.T) {
 	require.True(t, ok)
 	bz, err := acc.Serialize()
 	require.NoError(t, err)
+    accs := base58.Encode(bz)
+    fmt.Printf("Accumulator: %x. (string hex): %s", bz, accs)
 	acc2, err := sk.OpenAccumulator(bz)
 	require.NoError(t, err)
 	mw2, err := acc2.CreateWitness(sk, "3")
