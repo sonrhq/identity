@@ -50,7 +50,7 @@ func TestWitnessElements(t *testing.T) {
 	acc2, err := sk.OpenAccumulator(bz)
 	require.NoError(t, err)
 	mw2, err := acc2.CreateWitness(sk, "3")
-    fmt.Printf("(mw2-hex): %v\n", hex.EncodeToString(mw2))
+    fmt.Printf("(mw2-hex): %v\n | length=%v", hex.EncodeToString(mw2), len(mw2))
 	require.NoError(t, err)
 	ok, err = acc2.VerifyElement(pk, mw2)
 	require.NoError(t, err)
