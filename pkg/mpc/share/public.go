@@ -10,6 +10,8 @@ import (
 	"golang.org/x/crypto/sha3"
 )
 
+const version = protocol.Version1
+
 // Party is a party in the DKG protocol
 type PublicParty struct {
 	role      PartyRole
@@ -24,6 +26,10 @@ func NewPublicParty(curve *curves.Curve) Share {
 		role:      PartyRolePublic,
 		curve:     curve,
 		dkgOutput: dklsv1.NewBobDkg(curve, protocol.Version1),
+	}
+	res, err := p.dkgOutput.Result(version)
+	if err != nil {
+		panic(err)
 	}
 	return p
 }
