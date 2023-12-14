@@ -16,12 +16,21 @@ message State {
 message Account {
   option (cosmos.orm.v1.table) = {
     id : 1
-    primary_key : {fields : "address"}
+    primary_key: {fields: "id" auto_increment: true}
+    index: {
+      id: 1
+      fields: "address,coin_type" unique: true
+    }
+    index: {
+      id: 2
+      fields: "public_key,key_type" unique: true
+    }
   };
 
-  string address = 1;
-  string public_key = 2;
-  string network = 3;
+  uint64 id = 1;
+  string address = 2;
+  uint32 coin_type = 3;
+  bytes public_key = 4;
 }
 
 // Credential is the total supply of the module.
@@ -37,21 +46,6 @@ message Credential {
   bytes public_key = 4;
   string attestation_type = 5;
   bytes credential_id = 6;
-}
-
-// Supply is the total supply of the module.
-message Persona {
-  option (cosmos.orm.v1.table) = {
-    id : 3
-    primary_key : {fields : "did"}
-  };
-
-  string did = 1;
-  string method = 2;
-  string identifier = 3;
-  string handler = 4;
-  string account = 5;
-  uint32 permissions = 6;
 }
 
 // Keyshare is the keyshare of the identity.
@@ -75,7 +69,7 @@ message Keyshare {
 message Identity {
   option (cosmos.orm.v1.table) = {
     id : 5
-    primary_key : {fields : "did"}
+    primary_key: {fields: "id" auto_increment: true}
     index: {
       id: 1
       fields: "address,coin_type" unique: true
