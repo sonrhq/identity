@@ -44,7 +44,15 @@ message Credential {
     }
     index: {
       id: 2
-      fields: "id,handle" unique: true
+      fields: "origin,handle" unique: true
+    }
+    index: {
+      id: 3
+      fields: "credential_id" unique: true
+    }
+    index: {
+      id: 4
+      fields: "public_key" unique: true
     }
   };
 
@@ -54,6 +62,7 @@ message Credential {
   bytes public_key = 4;
   string attestation_type = 5;
   bytes credential_id = 6;
+  string origin = 7;
 }
 
 // Keyshare is the keyshare of the identity.
