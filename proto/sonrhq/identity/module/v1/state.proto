@@ -82,5 +82,6 @@ message Identity {
   string address = 2;
   uint32 coin_type = 3;
   bytes public_key = 4;
-  string access = 5;
+  string key_type = 5;
+  string access = 6;
 }
