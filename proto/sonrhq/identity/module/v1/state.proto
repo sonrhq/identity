@@ -41,7 +41,7 @@ message Credential {
   };
 
   string did = 1;
-  string persona = 2;
+  string handle = 2;
   repeated string transport = 3;
   bytes public_key = 4;
   string attestation_type = 5;
