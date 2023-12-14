@@ -36,7 +36,7 @@ message Credential {
   repeated string transport = 3;
   bytes public_key = 4;
   string attestation_type = 5;
-  string transports = 6;
+  bytes credential_id = 6;
 }
 
 // Supply is the total supply of the module.
