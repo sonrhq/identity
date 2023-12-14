@@ -109,13 +109,9 @@ func (a *Accumulator) CreateWitness(k *SecretKey, value string) ([]byte, error) 
 }
 
 // VerifyElement verifies an element against the accumulator
-func (a *Accumulator) VerifyElement(sk *SecretKey, witness []byte) (bool, error) {
-	pk, err := sk.PublicKey()
-	if err != nil {
-		return false, err
-	}
+func (a *Accumulator) VerifyElement(pk *PublicKey, witness []byte) (bool, error) {
 	mw := new(accumulator.MembershipWitness)
-	err = mw.UnmarshalBinary(witness)
+	err := mw.UnmarshalBinary(witness)
 	if err != nil {
 		return false, err
 	}
