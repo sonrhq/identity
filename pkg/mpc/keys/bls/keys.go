@@ -118,7 +118,7 @@ func (a *Accumulator) RemoveValues(k *SecretKey, values ...string) error {
 	return nil
 }
 
-// CreateWitness creates a witness for the accumulator
+// CreateWitness creates a witness for the accumulator for a given value
 func (a *Accumulator) CreateWitness(k *SecretKey, value string) (string, error) {
 	curve := curves.BLS12381(&curves.PointBls12381G1{})
 	element := curve.Scalar.Hash([]byte(value))
@@ -133,7 +133,7 @@ func (a *Accumulator) CreateWitness(k *SecretKey, value string) (string, error) 
 	return base58.Encode(mwbz), nil
 }
 
-// VerifyElement verifies an element against the accumulator
+// VerifyElement verifies an element against the accumulator and public key
 func (a *Accumulator) VerifyElement(pk *PublicKey, witness string) (bool, error) {
 	mbbz, err := base58.Decode(witness)
 	if err != nil {
@@ -151,7 +151,7 @@ func (a *Accumulator) VerifyElement(pk *PublicKey, witness string) (bool, error)
 	return true, nil
 }
 
-// Serialize marshals the accumulator
+// Serialize marshals the accumulator to a hex string
 func (a *Accumulator) Serialize() (string, error) {
 	bz, err := a.Accumulator.MarshalBinary()
 	if err != nil {
