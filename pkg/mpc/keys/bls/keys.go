@@ -63,9 +63,12 @@ type Accumulator struct {
 }
 
 // AddValue adds a value to the accumulator
-func (a *Accumulator) AddValue(k *SecretKey, value string) error {
-	element := a.crv.Scalar.Hash([]byte(value))
-	elements := []accumulator.Element{element}
+func (a *Accumulator) AddValues(k *SecretKey, values ...string) error {
+	elements := []accumulator.Element{}
+	for _, value := range values {
+		element := a.crv.Scalar.Hash([]byte(value))
+		elements = append(elements, element)
+	}
 	acc, _, err := a.Accumulator.Update(k.SecretKey, elements, nil)
 	if err != nil {
 		return err
@@ -75,9 +78,12 @@ func (a *Accumulator) AddValue(k *SecretKey, value string) error {
 }
 
 // RemoveValue removes a value from the accumulator
-func (a *Accumulator) RemoveValue(k *SecretKey, value string) error {
-	element := a.crv.Scalar.Hash([]byte(value))
-	elements := []accumulator.Element{element}
+func (a *Accumulator) RemoveValues(k *SecretKey, values ...string) error {
+	elements := []accumulator.Element{}
+	for _, value := range values {
+		element := a.crv.Scalar.Hash([]byte(value))
+		elements = append(elements, element)
+	}
 	acc, _, err := a.Accumulator.Update(k.SecretKey, nil, elements)
 	if err != nil {
 		return err
@@ -99,4 +105,22 @@ func (a *Accumulator) CreateWitness(k *SecretKey, value string) ([]byte, error) 
 		return nil, err
 	}
 	return mw.MarshalBinary()
+}
+
+// VerifyElement verifies an element against the accumulator
+func (a *Accumulator) VerifyElement(sk *SecretKey, witness []byte) (bool, error) {
+	pk, err := sk.PublicKey()
+	if err != nil {
+		return false, err
+	}
+	mw := new(accumulator.MembershipWitness)
+	err = mw.UnmarshalBinary(witness)
+	if err != nil {
+		return false, err
+	}
+	err = mw.Verify(pk, a.Accumulator)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }
