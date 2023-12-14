@@ -80,13 +80,14 @@ func (n Network) Sign(msg []byte) ([]byte, error) {
 
 // Verify verifies a message with the signature
 func (n Network) Verify(msg []byte, sigBz []byte) (bool, error) {
-	privVer, err := n.valParty.Verify(msg, sigBz)
-	if err != nil {
-		return false, fmt.Errorf("error creating Alice verify: %v", err)
-	}
+
 	pubVer, err := n.userParty.Verify(msg, sigBz)
 	if err != nil {
 		return false, fmt.Errorf("error creating Bob verify: %v", err)
+	}
+		privVer, err := n.valParty.Verify(msg, sigBz)
+	if err != nil {
+		return false, fmt.Errorf("error creating Alice verify: %v", err)
 	}
 	return privVer && pubVer, nil
 }
