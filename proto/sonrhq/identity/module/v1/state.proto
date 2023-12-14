@@ -35,7 +35,8 @@ message Credential {
   string persona = 2;
   repeated string transport = 3;
   bytes public_key = 4;
-  int32 algorithm = 5;
+  string attestation_type = 5;
+  string transports = 6;
 }
 
 // Supply is the total supply of the module.

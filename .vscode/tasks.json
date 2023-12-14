@@ -4,7 +4,7 @@
 		{
 			"type": "shell",
 			"label": "Generate: Identity Proto",
-			"command": "make proto-all",
+			"command": "earthly --no-sat +generate",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
