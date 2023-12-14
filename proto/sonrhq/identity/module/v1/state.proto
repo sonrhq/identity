@@ -37,10 +37,10 @@ message Account {
 message Credential {
   option (cosmos.orm.v1.table) = {
     id : 2
-    primary_key : {fields : "did"}
+    primary_key: {fields: "id" auto_increment: true}
   };
 
-  string did = 1;
+  uint64 id = 1;
   string handle = 2;
   repeated string transport = 3;
   bytes public_key = 4;
