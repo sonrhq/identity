@@ -1,6 +1,8 @@
 package bls
 
 import (
+	"encoding/hex"
+
 	"github.com/mr-tron/base58"
 	"github.com/sonrhq/sonr/crypto/accumulator"
 	"github.com/sonrhq/sonr/crypto/core/curves"
@@ -49,9 +51,13 @@ func (s *SecretKey) CreateAccumulator() (*Accumulator, error) {
 }
 
 // OpenAccumulator opens an accumulator
-func (s *SecretKey) OpenAccumulator(acc []byte) (*Accumulator, error) {
+func (s *SecretKey) OpenAccumulator(hexAcc string) (*Accumulator, error) {
+	acc, err := hex.DecodeString(hexAcc)
+	if err != nil {
+		return nil, err
+	}
 	e := new(accumulator.Accumulator)
-	err := e.UnmarshalBinary(acc)
+	err = e.UnmarshalBinary(acc)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +118,6 @@ func (a *Accumulator) RemoveValues(k *SecretKey, values ...string) error {
 	return nil
 }
 
-
 // CreateWitness creates a witness for the accumulator
 func (a *Accumulator) CreateWitness(k *SecretKey, value string) (string, error) {
 	curve := curves.BLS12381(&curves.PointBls12381G1{})
@@ -145,7 +150,12 @@ func (a *Accumulator) VerifyElement(pk *PublicKey, witness string) (bool, error)
 	}
 	return true, nil
 }
+
 // Serialize marshals the accumulator
-func (a *Accumulator) Serialize() ([]byte, error) {
-	return a.Accumulator.MarshalBinary()
+func (a *Accumulator) Serialize() (string, error) {
+	bz, err := a.Accumulator.MarshalBinary()
+	if err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(bz), nil
 }

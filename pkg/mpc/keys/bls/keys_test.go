@@ -1,7 +1,6 @@
 package bls_test
 
 import (
-	"encoding/hex"
 	"fmt"
 	"testing"
 
@@ -46,7 +45,7 @@ func TestWitnessElements(t *testing.T) {
 	require.True(t, ok)
 	bz, err := acc.Serialize()
 	require.NoError(t, err)
-    fmt.Printf("(acc): %s\n", hex.EncodeToString(bz))
+    fmt.Printf("(acc): %s\n", bz)
 	acc2, err := sk.OpenAccumulator(bz)
 	require.NoError(t, err)
 	mw2, err := acc2.CreateWitness(sk, "3")
