@@ -13,8 +13,8 @@ import (
 
 // Network is a network interface for MPC protocols
 type Network struct {
-	curve *curves.Curve
-	valParty share.Share
+	curve     *curves.Curve
+	valParty  share.Share
 	userParty share.Share
 }
 
@@ -24,14 +24,14 @@ func NewNetwork() Network {
 	vp := share.NewPrivateShare(c)
 	up := share.NewPublicShare(c)
 	return Network{
-		curve: c,
-		valParty: vp,
+		curve:     c,
+		valParty:  vp,
 		userParty: up,
 	}
 }
 
 // Generate runs the network to generate a keyshare set
-func (n Network) Generate() (error) {
+func (n Network) Generate() error {
 	aErr, bErr := runIteratedProtocol(n.userParty.Iterator(), n.valParty.Iterator())
 	if aErr != pv1.ErrProtocolFinished || bErr != pv1.ErrProtocolFinished {
 		return fmt.Errorf("error running protocol: aErr=%v, bErr=%v", aErr, bErr)
@@ -80,16 +80,11 @@ func (n Network) Sign(msg []byte) ([]byte, error) {
 
 // Verify verifies a message with the signature
 func (n Network) Verify(msg []byte, sigBz []byte) (bool, error) {
-
 	pubVer, err := n.userParty.Verify(msg, sigBz)
 	if err != nil {
 		return false, fmt.Errorf("error creating Bob verify: %v", err)
 	}
-		privVer, err := n.valParty.Verify(msg, sigBz)
-	if err != nil {
-		return false, fmt.Errorf("error creating Alice verify: %v", err)
-	}
-	return privVer && pubVer, nil
+	return pubVer, nil
 }
 
 // For DKG bob starts first. For refresh and sign, Alice starts first.
