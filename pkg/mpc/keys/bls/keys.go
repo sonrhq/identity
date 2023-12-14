@@ -8,7 +8,6 @@ import (
 // SecretKey is the secret key for the BLS scheme
 type SecretKey struct {
 	*accumulator.SecretKey
-	crv *curves.PairingCurve
 }
 
 // PublicKey is the public key for the BLS scheme
@@ -21,20 +20,21 @@ type Element = accumulator.Element
 func NewSecretKey() (*SecretKey, error) {
 	curve := curves.BLS12381(&curves.PointBls12381G1{})
 	var seed [32]byte
-	key, err := new(SecretKey).New(curve, seed[:])
+	key, err := new(accumulator.SecretKey).New(curve, seed[:])
 	if err != nil {
 		return nil, err
 	}
-	return &SecretKey{SecretKey: key, crv: curve}, nil
+	return &SecretKey{SecretKey: key}, nil
 }
 
 // CreateAccumulator creates a new accumulator
 func (s *SecretKey) CreateAccumulator() (*Accumulator, error) {
-	acc, err := new(accumulator.Accumulator).New(s.crv)
+	curve := curves.BLS12381(&curves.PointBls12381G1{})
+	acc, err := new(accumulator.Accumulator).New(curve)
 	if err != nil {
 		return nil, err
 	}
-	return &Accumulator{Accumulator: acc, crv: s.crv}, nil
+	return &Accumulator{Accumulator: acc}, nil
 }
 
 // OpenAccumulator opens an accumulator
@@ -44,12 +44,13 @@ func (s *SecretKey) OpenAccumulator(acc []byte) (*Accumulator, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Accumulator{Accumulator: e, crv: s.crv}, nil
+	return &Accumulator{Accumulator: e}, nil
 }
 
 // PublicKey returns the public key for the secret key
 func (s *SecretKey) PublicKey() (*PublicKey, error) {
-	pk, err := s.SecretKey.GetPublicKey(s.crv)
+	curve := curves.BLS12381(&curves.PointBls12381G1{})
+	pk, err := s.SecretKey.GetPublicKey(curve)
 	if err != nil {
 		return nil, err
 	}
@@ -59,16 +60,17 @@ func (s *SecretKey) PublicKey() (*PublicKey, error) {
 // Accumulator is the secret key for the BLS scheme
 type Accumulator struct {
 	*accumulator.Accumulator
-	crv *curves.PairingCurve
 }
 
 // AddValue adds a value to the accumulator
 func (a *Accumulator) AddValues(k *SecretKey, values ...string) error {
+	curve := curves.BLS12381(&curves.PointBls12381G1{})
 	elements := []accumulator.Element{}
 	for _, value := range values {
-		element := a.crv.Scalar.Hash([]byte(value))
+		element := curve.Scalar.Hash([]byte(value))
 		elements = append(elements, element)
 	}
+
 	acc, _, err := a.Accumulator.Update(k.SecretKey, elements, nil)
 	if err != nil {
 		return err
@@ -79,11 +81,13 @@ func (a *Accumulator) AddValues(k *SecretKey, values ...string) error {
 
 // RemoveValue removes a value from the accumulator
 func (a *Accumulator) RemoveValues(k *SecretKey, values ...string) error {
+	curve := curves.BLS12381(&curves.PointBls12381G1{})
 	elements := []accumulator.Element{}
 	for _, value := range values {
-		element := a.crv.Scalar.Hash([]byte(value))
+		element := curve.Scalar.Hash([]byte(value))
 		elements = append(elements, element)
 	}
+
 	acc, _, err := a.Accumulator.Update(k.SecretKey, nil, elements)
 	if err != nil {
 		return err
@@ -92,9 +96,15 @@ func (a *Accumulator) RemoveValues(k *SecretKey, values ...string) error {
 	return nil
 }
 
+// Marshal marshals the accumulator
+func (a *Accumulator) Marshal() ([]byte, error) {
+	return a.Accumulator.MarshalBinary()
+}
+
 // CreateWitness creates a witness for the accumulator
 func (a *Accumulator) CreateWitness(k *SecretKey, value string) ([]byte, error) {
-	element := a.crv.Scalar.Hash([]byte(value))
+	curve := curves.BLS12381(&curves.PointBls12381G1{})
+	element := curve.Scalar.Hash([]byte(value))
 	mw, err := new(accumulator.MembershipWitness).New(element, a.Accumulator, k.SecretKey)
 	if err != nil {
 		return nil, err
@@ -118,9 +128,4 @@ func (a *Accumulator) VerifyElement(sk *SecretKey, witness []byte) (bool, error)
 		return false, err
 	}
 	return true, nil
-}
-
-// Serialize marshals the accumulator
-func (a *Accumulator) Serialize() ([]byte, error) {
-	return a.Accumulator.MarshalBinary()
 }
