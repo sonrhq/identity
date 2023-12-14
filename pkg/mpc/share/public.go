@@ -1,6 +1,7 @@
 package party
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/sonrhq/sonr/crypto/core/curves"
@@ -26,10 +27,6 @@ func NewPublicParty(curve *curves.Curve) Share {
 		role:      PartyRolePublic,
 		curve:     curve,
 		dkgOutput: dklsv1.NewBobDkg(curve, protocol.Version1),
-	}
-	res, err := p.dkgOutput.Result(version)
-	if err != nil {
-		panic(err)
 	}
 	return p
 }
@@ -90,4 +87,20 @@ func (p *PublicParty) Verify(msg []byte, sigBz []byte) (bool, error) {
 		return false, fmt.Errorf("error getting public key: %v", err)
 	}
 	return curves.VerifyEcdsa(publicKey, digest[:], sig), nil
+}
+
+func (p *PublicParty) Marshal() ([]byte, error) {
+	if p.result == nil {
+		return nil, fmt.Errorf("no result to marshal")
+	}
+
+	bobRes, err := dklsv1.DecodeBobDkgResult(p.result)
+	if err != nil {
+		return nil, err
+	}
+	enc, err := dklsv1.EncodeBobDkgOutput(bobRes, version)
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(enc)
 }
