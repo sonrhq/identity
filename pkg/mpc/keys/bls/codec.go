@@ -8,10 +8,8 @@ import (
 // SecretKey is the secret key for the BLS scheme
 type SecretKey struct {
 	*accumulator.SecretKey
+	crv *curves.PairingCurve
 }
-
-// Accumulator is the accumulator for the BLS scheme
-type Accumulator = accumulator.Accumulator
 
 // PublicKey is the public key for the BLS scheme
 type PublicKey = accumulator.PublicKey
@@ -27,7 +25,21 @@ func NewSecretKey() (*SecretKey, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &SecretKey{key}, nil
+	return &SecretKey{SecretKey: key, crv: curve}, nil
+}
+
+// CreateAccumulator creates a new accumulator
+func (s *SecretKey) CreateAccumulator() (*Accumulator, error) {
+	acc, err := new(accumulator.Accumulator).New(s.crv)
+	if err != nil {
+		return nil, err
+	}
+	return &Accumulator{Accumulator: acc, crv: s.crv}, nil
 }
 
 
+// Accumulator is the secret key for the BLS scheme
+type Accumulator struct {
+	*accumulator.Accumulator
+	crv *curves.PairingCurve
+}
