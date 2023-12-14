@@ -473,6 +473,12 @@ type IdentityTable interface {
 	Has(ctx context.Context, did string) (found bool, err error)
 	// Get returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
 	Get(ctx context.Context, did string) (*Identity, error)
+	HasByAddressCoinType(ctx context.Context, address string, coin_type uint32) (found bool, err error)
+	// GetByAddressCoinType returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
+	GetByAddressCoinType(ctx context.Context, address string, coin_type uint32) (*Identity, error)
+	HasByPublicKeyKeyType(ctx context.Context, public_key []byte, key_type string) (found bool, err error)
+	// GetByPublicKeyKeyType returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
+	GetByPublicKeyKeyType(ctx context.Context, public_key []byte, key_type string) (*Identity, error)
 	List(ctx context.Context, prefixKey IdentityIndexKey, opts ...ormlist.Option) (IdentityIterator, error)
 	ListRange(ctx context.Context, from, to IdentityIndexKey, opts ...ormlist.Option) (IdentityIterator, error)
 	DeleteBy(ctx context.Context, prefixKey IdentityIndexKey) error
@@ -513,6 +519,42 @@ func (this IdentityDidIndexKey) WithDid(did string) IdentityDidIndexKey {
 	return this
 }
 
+type IdentityAddressCoinTypeIndexKey struct {
+	vs []interface{}
+}
+
+func (x IdentityAddressCoinTypeIndexKey) id() uint32            { return 1 }
+func (x IdentityAddressCoinTypeIndexKey) values() []interface{} { return x.vs }
+func (x IdentityAddressCoinTypeIndexKey) identityIndexKey()     {}
+
+func (this IdentityAddressCoinTypeIndexKey) WithAddress(address string) IdentityAddressCoinTypeIndexKey {
+	this.vs = []interface{}{address}
+	return this
+}
+
+func (this IdentityAddressCoinTypeIndexKey) WithAddressCoinType(address string, coin_type uint32) IdentityAddressCoinTypeIndexKey {
+	this.vs = []interface{}{address, coin_type}
+	return this
+}
+
+type IdentityPublicKeyKeyTypeIndexKey struct {
+	vs []interface{}
+}
+
+func (x IdentityPublicKeyKeyTypeIndexKey) id() uint32            { return 2 }
+func (x IdentityPublicKeyKeyTypeIndexKey) values() []interface{} { return x.vs }
+func (x IdentityPublicKeyKeyTypeIndexKey) identityIndexKey()     {}
+
+func (this IdentityPublicKeyKeyTypeIndexKey) WithPublicKey(public_key []byte) IdentityPublicKeyKeyTypeIndexKey {
+	this.vs = []interface{}{public_key}
+	return this
+}
+
+func (this IdentityPublicKeyKeyTypeIndexKey) WithPublicKeyKeyType(public_key []byte, key_type string) IdentityPublicKeyKeyTypeIndexKey {
+	this.vs = []interface{}{public_key, key_type}
+	return this
+}
+
 type identityTable struct {
 	table ormtable.Table
 }
@@ -540,6 +582,50 @@ func (this identityTable) Has(ctx context.Context, did string) (found bool, err 
 func (this identityTable) Get(ctx context.Context, did string) (*Identity, error) {
 	var identity Identity
 	found, err := this.table.PrimaryKey().Get(ctx, &identity, did)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, ormerrors.NotFound
+	}
+	return &identity, nil
+}
+
+func (this identityTable) HasByAddressCoinType(ctx context.Context, address string, coin_type uint32) (found bool, err error) {
+	return this.table.GetIndexByID(1).(ormtable.UniqueIndex).Has(ctx,
+		address,
+		coin_type,
+	)
+}
+
+func (this identityTable) GetByAddressCoinType(ctx context.Context, address string, coin_type uint32) (*Identity, error) {
+	var identity Identity
+	found, err := this.table.GetIndexByID(1).(ormtable.UniqueIndex).Get(ctx, &identity,
+		address,
+		coin_type,
+	)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, ormerrors.NotFound
+	}
+	return &identity, nil
+}
+
+func (this identityTable) HasByPublicKeyKeyType(ctx context.Context, public_key []byte, key_type string) (found bool, err error) {
+	return this.table.GetIndexByID(2).(ormtable.UniqueIndex).Has(ctx,
+		public_key,
+		key_type,
+	)
+}
+
+func (this identityTable) GetByPublicKeyKeyType(ctx context.Context, public_key []byte, key_type string) (*Identity, error) {
+	var identity Identity
+	found, err := this.table.GetIndexByID(2).(ormtable.UniqueIndex).Get(ctx, &identity,
+		public_key,
+		key_type,
+	)
 	if err != nil {
 		return nil, err
 	}

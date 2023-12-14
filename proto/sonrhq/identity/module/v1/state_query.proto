@@ -25,6 +25,10 @@ service StateQueryService {
   rpc ListKeyshare(ListKeyshareRequest) returns (ListKeyshareResponse) {}
   // Get queries the Identity table by its primary key.
   rpc GetIdentity(GetIdentityRequest) returns (GetIdentityResponse) {}
+  // GetIdentityByAddressCoinType queries the Identity table by its AddressCoinType index
+  rpc GetIdentityByAddressCoinType(GetIdentityByAddressCoinTypeRequest) returns (GetIdentityByAddressCoinTypeResponse) {}
+  // GetIdentityByPublicKeyKeyType queries the Identity table by its PublicKeyKeyType index
+  rpc GetIdentityByPublicKeyKeyType(GetIdentityByPublicKeyKeyTypeRequest) returns (GetIdentityByPublicKeyKeyTypeResponse) {}
   // ListIdentity queries the Identity table using prefix and range queries against defined indexes.
   rpc ListIdentity(ListIdentityRequest) returns (ListIdentityResponse) {}
 }
@@ -277,6 +281,28 @@ message GetIdentityResponse {
   Identity value = 1;
 }
 
+// GetIdentityByAddressCoinTypeRequest is the StateQuery/GetIdentityByAddressCoinTypeRequest request type.
+message GetIdentityByAddressCoinTypeRequest {
+  string address = 1;
+  uint32 coin_type = 2;
+}
+
+// GetIdentityByAddressCoinTypeResponse is the StateQuery/GetIdentityByAddressCoinTypeResponse response type.
+message GetIdentityByAddressCoinTypeResponse {
+  Identity value = 1;
+}
+
+// GetIdentityByPublicKeyKeyTypeRequest is the StateQuery/GetIdentityByPublicKeyKeyTypeRequest request type.
+message GetIdentityByPublicKeyKeyTypeRequest {
+  bytes public_key = 1;
+  string key_type = 2;
+}
+
+// GetIdentityByPublicKeyKeyTypeResponse is the StateQuery/GetIdentityByPublicKeyKeyTypeResponse response type.
+message GetIdentityByPublicKeyKeyTypeResponse {
+  Identity value = 1;
+}
+
 // ListIdentityRequest is the StateQuery/ListIdentityRequest request type.
 message ListIdentityRequest {
   // IndexKey specifies the value of an index key to use in prefix and range queries.
@@ -285,12 +311,34 @@ message ListIdentityRequest {
     oneof key {
       // did specifies the value of the Did index key to use in the query.
       Did did = 1;
+      // address_coin_type specifies the value of the AddressCoinType index key to use in the query.
+      AddressCoinType address_coin_type = 2;
+      // public_key_key_type specifies the value of the PublicKeyKeyType index key to use in the query.
+      PublicKeyKeyType public_key_key_type = 3;
     }
     
     message Did {
       // did is the value of the did field in the index.
       // It can be omitted to query for all valid values of that field in this segment of the index.
       optional string did = 1;
+    }
+    
+    message AddressCoinType {
+      // address is the value of the address field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string address = 1;
+      // coin_type is the value of the coin_type field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional uint32 coin_type = 2;
+    }
+    
+    message PublicKeyKeyType {
+      // public_key is the value of the public_key field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional bytes public_key = 1;
+      // key_type is the value of the key_type field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string key_type = 2;
     }
   }
   

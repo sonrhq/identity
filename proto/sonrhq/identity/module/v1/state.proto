@@ -91,5 +91,5 @@ message Identity {
   uint32 coin_type = 3;
   bytes public_key = 4;
   string key_type = 5;
-  string access = 6;
+  string network = 6;
 }
