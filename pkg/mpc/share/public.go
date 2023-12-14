@@ -104,3 +104,17 @@ func (p *PublicParty) Marshal() ([]byte, error) {
 	}
 	return json.Marshal(enc)
 }
+
+func (ks *PublicParty) Unmarshal(bz []byte) error {
+	msg := &protocol.Message{}
+	err := json.Unmarshal(bz, msg)
+	if err != nil {
+		return fmt.Errorf("error unmarshalling keyshare: %v", err)
+	}
+	_, err = dklsv1.DecodeBobDkgResult(msg)
+	if err != nil {
+		return err
+	}
+	ks.result = msg
+	return nil
+}

@@ -1,6 +1,7 @@
 package party
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/sonrhq/sonr/crypto/core/curves"
@@ -84,4 +85,35 @@ func (p *PrivateParty) Verify(msg []byte, sigBz []byte) (bool, error) {
 		return false, fmt.Errorf("error getting public key: %v", err)
 	}
 	return curves.VerifyEcdsa(publicKey, digest[:], sig), nil
+}
+
+
+func (p *PrivateParty) Marshal() ([]byte, error) {
+	if p.result == nil {
+		return nil, fmt.Errorf("no result to marshal")
+	}
+
+	bobRes, err := dklsv1.DecodeAliceDkgResult(p.result)
+	if err != nil {
+		return nil, err
+	}
+	enc, err := dklsv1.EncodeAliceDkgOutput(bobRes, version)
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(enc)
+}
+
+func (ks *PrivateParty) Unmarshal(bz []byte) error {
+	msg := &protocol.Message{}
+	err := json.Unmarshal(bz, msg)
+	if err != nil {
+		return fmt.Errorf("error unmarshalling keyshare: %v", err)
+	}
+	_, err = dklsv1.DecodeAliceDkgResult(msg)
+	if err != nil {
+		return err
+	}
+	ks.result = msg
+	return nil
 }
