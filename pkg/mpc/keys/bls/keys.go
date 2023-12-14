@@ -1,6 +1,7 @@
 package bls
 
 import (
+	"github.com/mr-tron/base58"
 	"github.com/sonrhq/sonr/crypto/accumulator"
 	"github.com/sonrhq/sonr/crypto/core/curves"
 )
@@ -113,20 +114,28 @@ func (a *Accumulator) RemoveValues(k *SecretKey, values ...string) error {
 
 
 // CreateWitness creates a witness for the accumulator
-func (a *Accumulator) CreateWitness(k *SecretKey, value string) ([]byte, error) {
+func (a *Accumulator) CreateWitness(k *SecretKey, value string) (string, error) {
 	curve := curves.BLS12381(&curves.PointBls12381G1{})
 	element := curve.Scalar.Hash([]byte(value))
 	mw, err := new(accumulator.MembershipWitness).New(element, a.Accumulator, k.SecretKey)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	return mw.MarshalBinary()
+	mwbz, err := mw.MarshalBinary()
+	if err != nil {
+		return "", err
+	}
+	return base58.Encode(mwbz), nil
 }
 
 // VerifyElement verifies an element against the accumulator
-func (a *Accumulator) VerifyElement(pk *PublicKey, witness []byte) (bool, error) {
+func (a *Accumulator) VerifyElement(pk *PublicKey, witness string) (bool, error) {
+	mbbz, err := base58.Decode(witness)
+	if err != nil {
+		return false, err
+	}
 	mw := new(accumulator.MembershipWitness)
-	err := mw.UnmarshalBinary(witness)
+	err = mw.UnmarshalBinary(mbbz)
 	if err != nil {
 		return false, err
 	}
