@@ -92,11 +92,6 @@ func (a *Accumulator) RemoveValues(k *SecretKey, values ...string) error {
 	return nil
 }
 
-// Marshal marshals the accumulator
-func (a *Accumulator) Marshal() ([]byte, error) {
-	return a.Accumulator.MarshalBinary()
-}
-
 // CreateWitness creates a witness for the accumulator
 func (a *Accumulator) CreateWitness(k *SecretKey, value string) ([]byte, error) {
 	element := a.crv.Scalar.Hash([]byte(value))
@@ -123,4 +118,9 @@ func (a *Accumulator) VerifyElement(sk *SecretKey, witness []byte) (bool, error)
 		return false, err
 	}
 	return true, nil
+}
+
+// Serialize marshals the accumulator
+func (a *Accumulator) Serialize() ([]byte, error) {
+	return a.Accumulator.MarshalBinary()
 }
