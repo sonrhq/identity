@@ -8,14 +8,14 @@ import (
 	"github.com/sonrhq/sonr/crypto/signatures/ecdsa"
 	"github.com/sonrhq/sonr/crypto/tecdsa/dklsv1"
 
-	"github.com/sonrhq/identity/pkg/mpc/party"
+	"github.com/sonrhq/identity/pkg/mpc/share"
 )
 
 // Network is a network interface for MPC protocols
 type Network struct {
 	curve *curves.Curve
-	valParty party.Party
-	userParty party.Party
+	valParty party.Share
+	userParty party.Share
 }
 
 // NewNetwork creates a new network

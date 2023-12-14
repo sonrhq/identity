@@ -19,7 +19,7 @@ type PrivateParty struct {
 }
 
 // NewParty creates a new party
-func NewPrivateParty(curve *curves.Curve) Party {
+func NewPrivateParty(curve *curves.Curve) Share {
 	p := &PrivateParty{
 		role:      PartyRolePrivate,
 		curve:     curve,

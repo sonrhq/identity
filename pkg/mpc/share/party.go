@@ -8,8 +8,8 @@ import (
 	"github.com/sonrhq/sonr/crypto/core/protocol"
 )
 
-// Party is an interface for a party in the DKG protocol
-type Party interface {
+// Share is an interface for a party in the DKG protocol
+type Share interface {
 	// GetKeyshare returns the keyshare for the party
 	Finish() (*protocol.Message, error)
 
