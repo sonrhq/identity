@@ -8,7 +8,22 @@ import (
 	"github.com/sonrhq/identity/pkg/mpc/keys/bls"
 )
 
-func TestBLS(t *testing.T) {
+func TestNewKeys(t *testing.T) {
+	sk, err := bls.NewSecretKey()
+    require.NoError(t, err)
+    pk, err := sk.PublicKey()
+    require.NoError(t, err)
+    skbz, err := sk.Serialize()
+    require.NoError(t, err)
+    sk2, err := bls.OpenSecretKey(skbz)
+    require.NoError(t, err)
+    pk2, err := sk2.PublicKey()
+    require.NoError(t, err)
+    require.Equal(t, pk, pk2)
+}
+
+
+func TestWitnessElements(t *testing.T) {
 	sk, err := bls.NewSecretKey()
     require.NoError(t, err)
     pk, err := sk.PublicKey()
