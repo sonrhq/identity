@@ -19,5 +19,3 @@ func TestNewNetwork(t *testing.T) {
     assert.Nil(t, err)
     fmt.Println(sig)
 }
-// idx1n5rrywm7zyg8v4tcq5hpxxtu25pdfp658wgdx4
-// idx1hp725m360fesh9gaepghmmm2q8vygzce7qkkrz
