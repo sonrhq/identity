@@ -76,6 +76,14 @@ message Identity {
   option (cosmos.orm.v1.table) = {
     id : 5
     primary_key : {fields : "did"}
+    index: {
+      id: 1
+      fields: "address,coin_type" unique: true
+    }
+    index: {
+      id: 2
+      fields: "public_key,key_type" unique: true
+    }
   };
 
   string did = 1;
