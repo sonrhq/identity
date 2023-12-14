@@ -47,6 +47,14 @@ func (s *SecretKey) OpenAccumulator(acc []byte) (*Accumulator, error) {
 	return &Accumulator{Accumulator: e, crv: s.crv}, nil
 }
 
+// PublicKey returns the public key for the secret key
+func (s *SecretKey) PublicKey() (*PublicKey, error) {
+	pk, err := s.SecretKey.GetPublicKey(s.crv)
+	if err != nil {
+		return nil, err
+	}
+	return pk, nil
+}
 
 // Accumulator is the secret key for the BLS scheme
 type Accumulator struct {
@@ -81,4 +89,14 @@ func (a *Accumulator) RemoveValue(k *SecretKey, value string) error {
 // Marshal marshals the accumulator
 func (a *Accumulator) Marshal() ([]byte, error) {
 	return a.Accumulator.MarshalBinary()
+}
+
+// CreateWitness creates a witness for the accumulator
+func (a *Accumulator) CreateWitness(k *SecretKey, value string) ([]byte, error) {
+	element := a.crv.Scalar.Hash([]byte(value))
+	mw, err := new(accumulator.MembershipWitness).New(element, a.Accumulator, k.SecretKey)
+	if err != nil {
+		return nil, err
+	}
+	return mw.MarshalBinary()
 }
