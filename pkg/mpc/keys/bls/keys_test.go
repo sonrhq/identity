@@ -20,4 +20,13 @@ func TestBLS(t *testing.T) {
     ok, err := acc.VerifyElement(sk, mw)
     require.NoError(t, err)
     require.True(t, ok)
+    bz, err := acc.Serialize()
+    require.NoError(t, err)
+    acc2, err := sk.OpenAccumulator(bz)
+    require.NoError(t, err)
+    mw2, err := acc2.CreateWitness(sk, "3")
+    require.NoError(t, err)
+    ok, err = acc2.VerifyElement(sk, mw2)
+    require.NoError(t, err)
+    require.True(t, ok)
 }
