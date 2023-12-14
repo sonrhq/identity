@@ -11,7 +11,7 @@ import (
 // Share is an interface for a party in the DKG protocol
 type Share interface {
 	// GetKeyshare returns the keyshare for the party
-	Finish() (*protocol.Message, error)
+	Finish() (error)
 
 	// GetSignFunc returns the sign function for the party
 	GetSignFunc(msg []byte) (protocol.Iterator, error)
