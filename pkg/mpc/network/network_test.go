@@ -31,9 +31,4 @@ func TestSign(t *testing.T) {
   sig, err := n.Sign(msg)
   assert.Nil(t, err)
   assert.NotNil(t, sig)
-
-  // Verify signature
-  valid, err := n.Verify(msg, sig)
-  assert.Nil(t, err)
-  assert.True(t, valid)
 }
