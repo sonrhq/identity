@@ -56,7 +56,6 @@ generate:
     SAVE ARTIFACT docs AS LOCAL docs
 
 
-
 # test - runs all tests
 test:
     FROM +gomod
