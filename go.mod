@@ -15,7 +15,7 @@ require (
 	github.com/cosmos/gogoproto v1.4.11
 	github.com/golang/protobuf v1.5.3
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
-	github.com/sonrhq/sonr v0.0.0-00010101000000-000000000000
+	github.com/sonrhq/sonr v0.8.5
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/crypto v0.15.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20231012201019-e917dd12ba7a
