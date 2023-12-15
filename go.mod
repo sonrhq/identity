@@ -2,8 +2,6 @@ module github.com/sonrhq/identity
 
 go 1.21.3
 
-replace github.com/sonrhq/sonr => ../
-
 require (
 	cosmossdk.io/api v0.7.2
 	cosmossdk.io/collections v0.4.0
