@@ -27,7 +27,7 @@ WORKDIR /identity
 # gomod - downloads and caches all dependencies for earthly. go.mod and go.sum will be updated locally.
 gomod:
     FROM +base
-    COPY go.mod go.sum ./
+    COPY ./go.mod ./go.sum ./
     RUN go mod download
     SAVE ARTIFACT go.mod AS LOCAL go.mod
     SAVE ARTIFACT go.sum AS LOCAL go.sum
