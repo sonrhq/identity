@@ -1,5 +1,5 @@
 VERSION 0.7
-PROJECT sonrhq/sonr-testnet-0
+PROJECT sonrhq/testnet-1
 
 FROM golang:1.21-alpine3.17
 RUN apk add --update --no-cache \
