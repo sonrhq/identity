@@ -274,6 +274,759 @@ func (x *ListAccountResponse) GetPagination() *v1beta1.PageResponse {
 	return nil
 }
 
+// GetCredentialRequest is the StateQuery/GetCredentialRequest request type.
+type GetCredentialRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// did specifies the value of the did field in the primary key.
+	Did string `protobuf:"bytes,1,opt,name=did,proto3" json:"did,omitempty"`
+}
+
+func (x *GetCredentialRequest) Reset() {
+	*x = GetCredentialRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCredentialRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCredentialRequest) ProtoMessage() {}
+
+func (x *GetCredentialRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCredentialRequest.ProtoReflect.Descriptor instead.
+func (*GetCredentialRequest) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetCredentialRequest) GetDid() string {
+	if x != nil {
+		return x.Did
+	}
+	return ""
+}
+
+// GetCredentialResponse is the StateQuery/GetCredentialResponse response type.
+type GetCredentialResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// value is the response value.
+	Value *Credential `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (x *GetCredentialResponse) Reset() {
+	*x = GetCredentialResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCredentialResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCredentialResponse) ProtoMessage() {}
+
+func (x *GetCredentialResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCredentialResponse.ProtoReflect.Descriptor instead.
+func (*GetCredentialResponse) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetCredentialResponse) GetValue() *Credential {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
+// ListCredentialRequest is the StateQuery/ListCredentialRequest request type.
+type ListCredentialRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// query specifies the type of query - either a prefix or range query.
+	//
+	// Types that are assignable to Query:
+	//
+	//	*ListCredentialRequest_PrefixQuery
+	//	*ListCredentialRequest_RangeQuery_
+	Query isListCredentialRequest_Query `protobuf_oneof:"query"`
+	// pagination specifies optional pagination parameters.
+	Pagination *v1beta1.PageRequest `protobuf:"bytes,3,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *ListCredentialRequest) Reset() {
+	*x = ListCredentialRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListCredentialRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCredentialRequest) ProtoMessage() {}
+
+func (x *ListCredentialRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCredentialRequest.ProtoReflect.Descriptor instead.
+func (*ListCredentialRequest) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{6}
+}
+
+func (m *ListCredentialRequest) GetQuery() isListCredentialRequest_Query {
+	if m != nil {
+		return m.Query
+	}
+	return nil
+}
+
+func (x *ListCredentialRequest) GetPrefixQuery() *ListCredentialRequest_IndexKey {
+	if x, ok := x.GetQuery().(*ListCredentialRequest_PrefixQuery); ok {
+		return x.PrefixQuery
+	}
+	return nil
+}
+
+func (x *ListCredentialRequest) GetRangeQuery() *ListCredentialRequest_RangeQuery {
+	if x, ok := x.GetQuery().(*ListCredentialRequest_RangeQuery_); ok {
+		return x.RangeQuery
+	}
+	return nil
+}
+
+func (x *ListCredentialRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type isListCredentialRequest_Query interface {
+	isListCredentialRequest_Query()
+}
+
+type ListCredentialRequest_PrefixQuery struct {
+	// prefix_query specifies the index key value to use for the prefix query.
+	PrefixQuery *ListCredentialRequest_IndexKey `protobuf:"bytes,1,opt,name=prefix_query,json=prefixQuery,proto3,oneof"`
+}
+
+type ListCredentialRequest_RangeQuery_ struct {
+	// range_query specifies the index key from/to values to use for the range query.
+	RangeQuery *ListCredentialRequest_RangeQuery `protobuf:"bytes,2,opt,name=range_query,json=rangeQuery,proto3,oneof"`
+}
+
+func (*ListCredentialRequest_PrefixQuery) isListCredentialRequest_Query() {}
+
+func (*ListCredentialRequest_RangeQuery_) isListCredentialRequest_Query() {}
+
+// ListCredentialResponse is the StateQuery/ListCredentialResponse response type.
+type ListCredentialResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// values are the results of the query.
+	Values []*Credential `protobuf:"bytes,1,rep,name=values,proto3" json:"values,omitempty"`
+	// pagination is the pagination response.
+	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *ListCredentialResponse) Reset() {
+	*x = ListCredentialResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListCredentialResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCredentialResponse) ProtoMessage() {}
+
+func (x *ListCredentialResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCredentialResponse.ProtoReflect.Descriptor instead.
+func (*ListCredentialResponse) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ListCredentialResponse) GetValues() []*Credential {
+	if x != nil {
+		return x.Values
+	}
+	return nil
+}
+
+func (x *ListCredentialResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// GetPersonaRequest is the StateQuery/GetPersonaRequest request type.
+type GetPersonaRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// did specifies the value of the did field in the primary key.
+	Did string `protobuf:"bytes,1,opt,name=did,proto3" json:"did,omitempty"`
+}
+
+func (x *GetPersonaRequest) Reset() {
+	*x = GetPersonaRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetPersonaRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPersonaRequest) ProtoMessage() {}
+
+func (x *GetPersonaRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPersonaRequest.ProtoReflect.Descriptor instead.
+func (*GetPersonaRequest) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *GetPersonaRequest) GetDid() string {
+	if x != nil {
+		return x.Did
+	}
+	return ""
+}
+
+// GetPersonaResponse is the StateQuery/GetPersonaResponse response type.
+type GetPersonaResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// value is the response value.
+	Value *Persona `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (x *GetPersonaResponse) Reset() {
+	*x = GetPersonaResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetPersonaResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPersonaResponse) ProtoMessage() {}
+
+func (x *GetPersonaResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPersonaResponse.ProtoReflect.Descriptor instead.
+func (*GetPersonaResponse) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetPersonaResponse) GetValue() *Persona {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
+// ListPersonaRequest is the StateQuery/ListPersonaRequest request type.
+type ListPersonaRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// query specifies the type of query - either a prefix or range query.
+	//
+	// Types that are assignable to Query:
+	//
+	//	*ListPersonaRequest_PrefixQuery
+	//	*ListPersonaRequest_RangeQuery_
+	Query isListPersonaRequest_Query `protobuf_oneof:"query"`
+	// pagination specifies optional pagination parameters.
+	Pagination *v1beta1.PageRequest `protobuf:"bytes,3,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *ListPersonaRequest) Reset() {
+	*x = ListPersonaRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListPersonaRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListPersonaRequest) ProtoMessage() {}
+
+func (x *ListPersonaRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListPersonaRequest.ProtoReflect.Descriptor instead.
+func (*ListPersonaRequest) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{10}
+}
+
+func (m *ListPersonaRequest) GetQuery() isListPersonaRequest_Query {
+	if m != nil {
+		return m.Query
+	}
+	return nil
+}
+
+func (x *ListPersonaRequest) GetPrefixQuery() *ListPersonaRequest_IndexKey {
+	if x, ok := x.GetQuery().(*ListPersonaRequest_PrefixQuery); ok {
+		return x.PrefixQuery
+	}
+	return nil
+}
+
+func (x *ListPersonaRequest) GetRangeQuery() *ListPersonaRequest_RangeQuery {
+	if x, ok := x.GetQuery().(*ListPersonaRequest_RangeQuery_); ok {
+		return x.RangeQuery
+	}
+	return nil
+}
+
+func (x *ListPersonaRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type isListPersonaRequest_Query interface {
+	isListPersonaRequest_Query()
+}
+
+type ListPersonaRequest_PrefixQuery struct {
+	// prefix_query specifies the index key value to use for the prefix query.
+	PrefixQuery *ListPersonaRequest_IndexKey `protobuf:"bytes,1,opt,name=prefix_query,json=prefixQuery,proto3,oneof"`
+}
+
+type ListPersonaRequest_RangeQuery_ struct {
+	// range_query specifies the index key from/to values to use for the range query.
+	RangeQuery *ListPersonaRequest_RangeQuery `protobuf:"bytes,2,opt,name=range_query,json=rangeQuery,proto3,oneof"`
+}
+
+func (*ListPersonaRequest_PrefixQuery) isListPersonaRequest_Query() {}
+
+func (*ListPersonaRequest_RangeQuery_) isListPersonaRequest_Query() {}
+
+// ListPersonaResponse is the StateQuery/ListPersonaResponse response type.
+type ListPersonaResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// values are the results of the query.
+	Values []*Persona `protobuf:"bytes,1,rep,name=values,proto3" json:"values,omitempty"`
+	// pagination is the pagination response.
+	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *ListPersonaResponse) Reset() {
+	*x = ListPersonaResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListPersonaResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListPersonaResponse) ProtoMessage() {}
+
+func (x *ListPersonaResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListPersonaResponse.ProtoReflect.Descriptor instead.
+func (*ListPersonaResponse) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ListPersonaResponse) GetValues() []*Persona {
+	if x != nil {
+		return x.Values
+	}
+	return nil
+}
+
+func (x *ListPersonaResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+// GetKeyshareRequest is the StateQuery/GetKeyshareRequest request type.
+type GetKeyshareRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// did specifies the value of the did field in the primary key.
+	Did string `protobuf:"bytes,1,opt,name=did,proto3" json:"did,omitempty"`
+}
+
+func (x *GetKeyshareRequest) Reset() {
+	*x = GetKeyshareRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetKeyshareRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetKeyshareRequest) ProtoMessage() {}
+
+func (x *GetKeyshareRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetKeyshareRequest.ProtoReflect.Descriptor instead.
+func (*GetKeyshareRequest) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetKeyshareRequest) GetDid() string {
+	if x != nil {
+		return x.Did
+	}
+	return ""
+}
+
+// GetKeyshareResponse is the StateQuery/GetKeyshareResponse response type.
+type GetKeyshareResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// value is the response value.
+	Value *Keyshare `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (x *GetKeyshareResponse) Reset() {
+	*x = GetKeyshareResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetKeyshareResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetKeyshareResponse) ProtoMessage() {}
+
+func (x *GetKeyshareResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetKeyshareResponse.ProtoReflect.Descriptor instead.
+func (*GetKeyshareResponse) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetKeyshareResponse) GetValue() *Keyshare {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
+// ListKeyshareRequest is the StateQuery/ListKeyshareRequest request type.
+type ListKeyshareRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// query specifies the type of query - either a prefix or range query.
+	//
+	// Types that are assignable to Query:
+	//
+	//	*ListKeyshareRequest_PrefixQuery
+	//	*ListKeyshareRequest_RangeQuery_
+	Query isListKeyshareRequest_Query `protobuf_oneof:"query"`
+	// pagination specifies optional pagination parameters.
+	Pagination *v1beta1.PageRequest `protobuf:"bytes,3,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *ListKeyshareRequest) Reset() {
+	*x = ListKeyshareRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListKeyshareRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListKeyshareRequest) ProtoMessage() {}
+
+func (x *ListKeyshareRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListKeyshareRequest.ProtoReflect.Descriptor instead.
+func (*ListKeyshareRequest) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{14}
+}
+
+func (m *ListKeyshareRequest) GetQuery() isListKeyshareRequest_Query {
+	if m != nil {
+		return m.Query
+	}
+	return nil
+}
+
+func (x *ListKeyshareRequest) GetPrefixQuery() *ListKeyshareRequest_IndexKey {
+	if x, ok := x.GetQuery().(*ListKeyshareRequest_PrefixQuery); ok {
+		return x.PrefixQuery
+	}
+	return nil
+}
+
+func (x *ListKeyshareRequest) GetRangeQuery() *ListKeyshareRequest_RangeQuery {
+	if x, ok := x.GetQuery().(*ListKeyshareRequest_RangeQuery_); ok {
+		return x.RangeQuery
+	}
+	return nil
+}
+
+func (x *ListKeyshareRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type isListKeyshareRequest_Query interface {
+	isListKeyshareRequest_Query()
+}
+
+type ListKeyshareRequest_PrefixQuery struct {
+	// prefix_query specifies the index key value to use for the prefix query.
+	PrefixQuery *ListKeyshareRequest_IndexKey `protobuf:"bytes,1,opt,name=prefix_query,json=prefixQuery,proto3,oneof"`
+}
+
+type ListKeyshareRequest_RangeQuery_ struct {
+	// range_query specifies the index key from/to values to use for the range query.
+	RangeQuery *ListKeyshareRequest_RangeQuery `protobuf:"bytes,2,opt,name=range_query,json=rangeQuery,proto3,oneof"`
+}
+
+func (*ListKeyshareRequest_PrefixQuery) isListKeyshareRequest_Query() {}
+
+func (*ListKeyshareRequest_RangeQuery_) isListKeyshareRequest_Query() {}
+
+// ListKeyshareResponse is the StateQuery/ListKeyshareResponse response type.
+type ListKeyshareResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// values are the results of the query.
+	Values []*Keyshare `protobuf:"bytes,1,rep,name=values,proto3" json:"values,omitempty"`
+	// pagination is the pagination response.
+	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (x *ListKeyshareResponse) Reset() {
+	*x = ListKeyshareResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListKeyshareResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListKeyshareResponse) ProtoMessage() {}
+
+func (x *ListKeyshareResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListKeyshareResponse.ProtoReflect.Descriptor instead.
+func (*ListKeyshareResponse) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *ListKeyshareResponse) GetValues() []*Keyshare {
+	if x != nil {
+		return x.Values
+	}
+	return nil
+}
+
+func (x *ListKeyshareResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 // GetIdentityRequest is the StateQuery/GetIdentityRequest request type.
 type GetIdentityRequest struct {
 	state         protoimpl.MessageState
@@ -287,7 +1040,7 @@ type GetIdentityRequest struct {
 func (x *GetIdentityRequest) Reset() {
 	*x = GetIdentityRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[4]
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -300,7 +1053,7 @@ func (x *GetIdentityRequest) String() string {
 func (*GetIdentityRequest) ProtoMessage() {}
 
 func (x *GetIdentityRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[4]
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -313,7 +1066,7 @@ func (x *GetIdentityRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetIdentityRequest.ProtoReflect.Descriptor instead.
 func (*GetIdentityRequest) Descriptor() ([]byte, []int) {
-	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{4}
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *GetIdentityRequest) GetDid() string {
@@ -336,7 +1089,7 @@ type GetIdentityResponse struct {
 func (x *GetIdentityResponse) Reset() {
 	*x = GetIdentityResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[5]
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -349,7 +1102,7 @@ func (x *GetIdentityResponse) String() string {
 func (*GetIdentityResponse) ProtoMessage() {}
 
 func (x *GetIdentityResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[5]
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -362,10 +1115,218 @@ func (x *GetIdentityResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetIdentityResponse.ProtoReflect.Descriptor instead.
 func (*GetIdentityResponse) Descriptor() ([]byte, []int) {
-	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{5}
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *GetIdentityResponse) GetValue() *Identity {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
+// GetIdentityByAddressCoinTypeRequest is the StateQuery/GetIdentityByAddressCoinTypeRequest request type.
+type GetIdentityByAddressCoinTypeRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Address  string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+	CoinType uint32 `protobuf:"varint,2,opt,name=coin_type,json=coinType,proto3" json:"coin_type,omitempty"`
+}
+
+func (x *GetIdentityByAddressCoinTypeRequest) Reset() {
+	*x = GetIdentityByAddressCoinTypeRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetIdentityByAddressCoinTypeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetIdentityByAddressCoinTypeRequest) ProtoMessage() {}
+
+func (x *GetIdentityByAddressCoinTypeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[18]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetIdentityByAddressCoinTypeRequest.ProtoReflect.Descriptor instead.
+func (*GetIdentityByAddressCoinTypeRequest) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *GetIdentityByAddressCoinTypeRequest) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
+func (x *GetIdentityByAddressCoinTypeRequest) GetCoinType() uint32 {
+	if x != nil {
+		return x.CoinType
+	}
+	return 0
+}
+
+// GetIdentityByAddressCoinTypeResponse is the StateQuery/GetIdentityByAddressCoinTypeResponse response type.
+type GetIdentityByAddressCoinTypeResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Value *Identity `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (x *GetIdentityByAddressCoinTypeResponse) Reset() {
+	*x = GetIdentityByAddressCoinTypeResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetIdentityByAddressCoinTypeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetIdentityByAddressCoinTypeResponse) ProtoMessage() {}
+
+func (x *GetIdentityByAddressCoinTypeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetIdentityByAddressCoinTypeResponse.ProtoReflect.Descriptor instead.
+func (*GetIdentityByAddressCoinTypeResponse) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *GetIdentityByAddressCoinTypeResponse) GetValue() *Identity {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
+// GetIdentityByPublicKeyKeyTypeRequest is the StateQuery/GetIdentityByPublicKeyKeyTypeRequest request type.
+type GetIdentityByPublicKeyKeyTypeRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	PublicKey []byte `protobuf:"bytes,1,opt,name=public_key,json=publicKey,proto3" json:"public_key,omitempty"`
+	KeyType   string `protobuf:"bytes,2,opt,name=key_type,json=keyType,proto3" json:"key_type,omitempty"`
+}
+
+func (x *GetIdentityByPublicKeyKeyTypeRequest) Reset() {
+	*x = GetIdentityByPublicKeyKeyTypeRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetIdentityByPublicKeyKeyTypeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetIdentityByPublicKeyKeyTypeRequest) ProtoMessage() {}
+
+func (x *GetIdentityByPublicKeyKeyTypeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[20]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetIdentityByPublicKeyKeyTypeRequest.ProtoReflect.Descriptor instead.
+func (*GetIdentityByPublicKeyKeyTypeRequest) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *GetIdentityByPublicKeyKeyTypeRequest) GetPublicKey() []byte {
+	if x != nil {
+		return x.PublicKey
+	}
+	return nil
+}
+
+func (x *GetIdentityByPublicKeyKeyTypeRequest) GetKeyType() string {
+	if x != nil {
+		return x.KeyType
+	}
+	return ""
+}
+
+// GetIdentityByPublicKeyKeyTypeResponse is the StateQuery/GetIdentityByPublicKeyKeyTypeResponse response type.
+type GetIdentityByPublicKeyKeyTypeResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Value *Identity `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+}
+
+func (x *GetIdentityByPublicKeyKeyTypeResponse) Reset() {
+	*x = GetIdentityByPublicKeyKeyTypeResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[21]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetIdentityByPublicKeyKeyTypeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetIdentityByPublicKeyKeyTypeResponse) ProtoMessage() {}
+
+func (x *GetIdentityByPublicKeyKeyTypeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[21]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetIdentityByPublicKeyKeyTypeResponse.ProtoReflect.Descriptor instead.
+func (*GetIdentityByPublicKeyKeyTypeResponse) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *GetIdentityByPublicKeyKeyTypeResponse) GetValue() *Identity {
 	if x != nil {
 		return x.Value
 	}
@@ -392,7 +1353,7 @@ type ListIdentityRequest struct {
 func (x *ListIdentityRequest) Reset() {
 	*x = ListIdentityRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[6]
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -405,7 +1366,7 @@ func (x *ListIdentityRequest) String() string {
 func (*ListIdentityRequest) ProtoMessage() {}
 
 func (x *ListIdentityRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[6]
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -418,7 +1379,7 @@ func (x *ListIdentityRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListIdentityRequest.ProtoReflect.Descriptor instead.
 func (*ListIdentityRequest) Descriptor() ([]byte, []int) {
-	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{6}
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{22}
 }
 
 func (m *ListIdentityRequest) GetQuery() isListIdentityRequest_Query {
@@ -482,7 +1443,7 @@ type ListIdentityResponse struct {
 func (x *ListIdentityResponse) Reset() {
 	*x = ListIdentityResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[7]
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -495,7 +1456,7 @@ func (x *ListIdentityResponse) String() string {
 func (*ListIdentityResponse) ProtoMessage() {}
 
 func (x *ListIdentityResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[7]
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -508,7 +1469,7 @@ func (x *ListIdentityResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListIdentityResponse.ProtoReflect.Descriptor instead.
 func (*ListIdentityResponse) Descriptor() ([]byte, []int) {
-	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{7}
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *ListIdentityResponse) GetValues() []*Identity {
@@ -542,7 +1503,7 @@ type ListAccountRequest_IndexKey struct {
 func (x *ListAccountRequest_IndexKey) Reset() {
 	*x = ListAccountRequest_IndexKey{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[8]
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -555,7 +1516,7 @@ func (x *ListAccountRequest_IndexKey) String() string {
 func (*ListAccountRequest_IndexKey) ProtoMessage() {}
 
 func (x *ListAccountRequest_IndexKey) ProtoReflect() protoreflect.Message {
-	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[8]
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -614,7 +1575,7 @@ type ListAccountRequest_RangeQuery struct {
 func (x *ListAccountRequest_RangeQuery) Reset() {
 	*x = ListAccountRequest_RangeQuery{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[9]
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[25]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -627,7 +1588,7 @@ func (x *ListAccountRequest_RangeQuery) String() string {
 func (*ListAccountRequest_RangeQuery) ProtoMessage() {}
 
 func (x *ListAccountRequest_RangeQuery) ProtoReflect() protoreflect.Message {
-	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[9]
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[25]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -670,7 +1631,7 @@ type ListAccountRequest_IndexKey_Address struct {
 func (x *ListAccountRequest_IndexKey_Address) Reset() {
 	*x = ListAccountRequest_IndexKey_Address{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[10]
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[26]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -683,7 +1644,7 @@ func (x *ListAccountRequest_IndexKey_Address) String() string {
 func (*ListAccountRequest_IndexKey_Address) ProtoMessage() {}
 
 func (x *ListAccountRequest_IndexKey_Address) ProtoReflect() protoreflect.Message {
-	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[10]
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[26]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -707,6 +1668,549 @@ func (x *ListAccountRequest_IndexKey_Address) GetAddress() string {
 }
 
 // IndexKey specifies the value of an index key to use in prefix and range queries.
+type ListCredentialRequest_IndexKey struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// key specifies the index key value.
+	//
+	// Types that are assignable to Key:
+	//
+	//	*ListCredentialRequest_IndexKey_Did_
+	Key isListCredentialRequest_IndexKey_Key `protobuf_oneof:"key"`
+}
+
+func (x *ListCredentialRequest_IndexKey) Reset() {
+	*x = ListCredentialRequest_IndexKey{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[27]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListCredentialRequest_IndexKey) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCredentialRequest_IndexKey) ProtoMessage() {}
+
+func (x *ListCredentialRequest_IndexKey) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[27]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCredentialRequest_IndexKey.ProtoReflect.Descriptor instead.
+func (*ListCredentialRequest_IndexKey) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{6, 0}
+}
+
+func (m *ListCredentialRequest_IndexKey) GetKey() isListCredentialRequest_IndexKey_Key {
+	if m != nil {
+		return m.Key
+	}
+	return nil
+}
+
+func (x *ListCredentialRequest_IndexKey) GetDid() *ListCredentialRequest_IndexKey_Did {
+	if x, ok := x.GetKey().(*ListCredentialRequest_IndexKey_Did_); ok {
+		return x.Did
+	}
+	return nil
+}
+
+type isListCredentialRequest_IndexKey_Key interface {
+	isListCredentialRequest_IndexKey_Key()
+}
+
+type ListCredentialRequest_IndexKey_Did_ struct {
+	// did specifies the value of the Did index key to use in the query.
+	Did *ListCredentialRequest_IndexKey_Did `protobuf:"bytes,1,opt,name=did,proto3,oneof"`
+}
+
+func (*ListCredentialRequest_IndexKey_Did_) isListCredentialRequest_IndexKey_Key() {}
+
+// RangeQuery specifies the from/to index keys for a range query.
+type ListCredentialRequest_RangeQuery struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// from is the index key to use for the start of the range query.
+	// To query from the start of an index, specify an index key for that index with empty values.
+	From *ListCredentialRequest_IndexKey `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
+	// to is the index key to use for the end of the range query.
+	// The index key type MUST be the same as the index key type used for from.
+	// To query from to the end of an index it can be omitted.
+	To *ListCredentialRequest_IndexKey `protobuf:"bytes,2,opt,name=to,proto3" json:"to,omitempty"`
+}
+
+func (x *ListCredentialRequest_RangeQuery) Reset() {
+	*x = ListCredentialRequest_RangeQuery{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[28]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListCredentialRequest_RangeQuery) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCredentialRequest_RangeQuery) ProtoMessage() {}
+
+func (x *ListCredentialRequest_RangeQuery) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[28]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCredentialRequest_RangeQuery.ProtoReflect.Descriptor instead.
+func (*ListCredentialRequest_RangeQuery) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{6, 1}
+}
+
+func (x *ListCredentialRequest_RangeQuery) GetFrom() *ListCredentialRequest_IndexKey {
+	if x != nil {
+		return x.From
+	}
+	return nil
+}
+
+func (x *ListCredentialRequest_RangeQuery) GetTo() *ListCredentialRequest_IndexKey {
+	if x != nil {
+		return x.To
+	}
+	return nil
+}
+
+type ListCredentialRequest_IndexKey_Did struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// did is the value of the did field in the index.
+	// It can be omitted to query for all valid values of that field in this segment of the index.
+	Did *string `protobuf:"bytes,1,opt,name=did,proto3,oneof" json:"did,omitempty"`
+}
+
+func (x *ListCredentialRequest_IndexKey_Did) Reset() {
+	*x = ListCredentialRequest_IndexKey_Did{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[29]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListCredentialRequest_IndexKey_Did) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCredentialRequest_IndexKey_Did) ProtoMessage() {}
+
+func (x *ListCredentialRequest_IndexKey_Did) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[29]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCredentialRequest_IndexKey_Did.ProtoReflect.Descriptor instead.
+func (*ListCredentialRequest_IndexKey_Did) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{6, 0, 0}
+}
+
+func (x *ListCredentialRequest_IndexKey_Did) GetDid() string {
+	if x != nil && x.Did != nil {
+		return *x.Did
+	}
+	return ""
+}
+
+// IndexKey specifies the value of an index key to use in prefix and range queries.
+type ListPersonaRequest_IndexKey struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// key specifies the index key value.
+	//
+	// Types that are assignable to Key:
+	//
+	//	*ListPersonaRequest_IndexKey_Did_
+	Key isListPersonaRequest_IndexKey_Key `protobuf_oneof:"key"`
+}
+
+func (x *ListPersonaRequest_IndexKey) Reset() {
+	*x = ListPersonaRequest_IndexKey{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[30]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListPersonaRequest_IndexKey) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListPersonaRequest_IndexKey) ProtoMessage() {}
+
+func (x *ListPersonaRequest_IndexKey) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[30]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListPersonaRequest_IndexKey.ProtoReflect.Descriptor instead.
+func (*ListPersonaRequest_IndexKey) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{10, 0}
+}
+
+func (m *ListPersonaRequest_IndexKey) GetKey() isListPersonaRequest_IndexKey_Key {
+	if m != nil {
+		return m.Key
+	}
+	return nil
+}
+
+func (x *ListPersonaRequest_IndexKey) GetDid() *ListPersonaRequest_IndexKey_Did {
+	if x, ok := x.GetKey().(*ListPersonaRequest_IndexKey_Did_); ok {
+		return x.Did
+	}
+	return nil
+}
+
+type isListPersonaRequest_IndexKey_Key interface {
+	isListPersonaRequest_IndexKey_Key()
+}
+
+type ListPersonaRequest_IndexKey_Did_ struct {
+	// did specifies the value of the Did index key to use in the query.
+	Did *ListPersonaRequest_IndexKey_Did `protobuf:"bytes,1,opt,name=did,proto3,oneof"`
+}
+
+func (*ListPersonaRequest_IndexKey_Did_) isListPersonaRequest_IndexKey_Key() {}
+
+// RangeQuery specifies the from/to index keys for a range query.
+type ListPersonaRequest_RangeQuery struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// from is the index key to use for the start of the range query.
+	// To query from the start of an index, specify an index key for that index with empty values.
+	From *ListPersonaRequest_IndexKey `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
+	// to is the index key to use for the end of the range query.
+	// The index key type MUST be the same as the index key type used for from.
+	// To query from to the end of an index it can be omitted.
+	To *ListPersonaRequest_IndexKey `protobuf:"bytes,2,opt,name=to,proto3" json:"to,omitempty"`
+}
+
+func (x *ListPersonaRequest_RangeQuery) Reset() {
+	*x = ListPersonaRequest_RangeQuery{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[31]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListPersonaRequest_RangeQuery) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListPersonaRequest_RangeQuery) ProtoMessage() {}
+
+func (x *ListPersonaRequest_RangeQuery) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[31]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListPersonaRequest_RangeQuery.ProtoReflect.Descriptor instead.
+func (*ListPersonaRequest_RangeQuery) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{10, 1}
+}
+
+func (x *ListPersonaRequest_RangeQuery) GetFrom() *ListPersonaRequest_IndexKey {
+	if x != nil {
+		return x.From
+	}
+	return nil
+}
+
+func (x *ListPersonaRequest_RangeQuery) GetTo() *ListPersonaRequest_IndexKey {
+	if x != nil {
+		return x.To
+	}
+	return nil
+}
+
+type ListPersonaRequest_IndexKey_Did struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// did is the value of the did field in the index.
+	// It can be omitted to query for all valid values of that field in this segment of the index.
+	Did *string `protobuf:"bytes,1,opt,name=did,proto3,oneof" json:"did,omitempty"`
+}
+
+func (x *ListPersonaRequest_IndexKey_Did) Reset() {
+	*x = ListPersonaRequest_IndexKey_Did{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[32]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListPersonaRequest_IndexKey_Did) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListPersonaRequest_IndexKey_Did) ProtoMessage() {}
+
+func (x *ListPersonaRequest_IndexKey_Did) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[32]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListPersonaRequest_IndexKey_Did.ProtoReflect.Descriptor instead.
+func (*ListPersonaRequest_IndexKey_Did) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{10, 0, 0}
+}
+
+func (x *ListPersonaRequest_IndexKey_Did) GetDid() string {
+	if x != nil && x.Did != nil {
+		return *x.Did
+	}
+	return ""
+}
+
+// IndexKey specifies the value of an index key to use in prefix and range queries.
+type ListKeyshareRequest_IndexKey struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// key specifies the index key value.
+	//
+	// Types that are assignable to Key:
+	//
+	//	*ListKeyshareRequest_IndexKey_Did_
+	Key isListKeyshareRequest_IndexKey_Key `protobuf_oneof:"key"`
+}
+
+func (x *ListKeyshareRequest_IndexKey) Reset() {
+	*x = ListKeyshareRequest_IndexKey{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[33]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListKeyshareRequest_IndexKey) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListKeyshareRequest_IndexKey) ProtoMessage() {}
+
+func (x *ListKeyshareRequest_IndexKey) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[33]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListKeyshareRequest_IndexKey.ProtoReflect.Descriptor instead.
+func (*ListKeyshareRequest_IndexKey) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{14, 0}
+}
+
+func (m *ListKeyshareRequest_IndexKey) GetKey() isListKeyshareRequest_IndexKey_Key {
+	if m != nil {
+		return m.Key
+	}
+	return nil
+}
+
+func (x *ListKeyshareRequest_IndexKey) GetDid() *ListKeyshareRequest_IndexKey_Did {
+	if x, ok := x.GetKey().(*ListKeyshareRequest_IndexKey_Did_); ok {
+		return x.Did
+	}
+	return nil
+}
+
+type isListKeyshareRequest_IndexKey_Key interface {
+	isListKeyshareRequest_IndexKey_Key()
+}
+
+type ListKeyshareRequest_IndexKey_Did_ struct {
+	// did specifies the value of the Did index key to use in the query.
+	Did *ListKeyshareRequest_IndexKey_Did `protobuf:"bytes,1,opt,name=did,proto3,oneof"`
+}
+
+func (*ListKeyshareRequest_IndexKey_Did_) isListKeyshareRequest_IndexKey_Key() {}
+
+// RangeQuery specifies the from/to index keys for a range query.
+type ListKeyshareRequest_RangeQuery struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// from is the index key to use for the start of the range query.
+	// To query from the start of an index, specify an index key for that index with empty values.
+	From *ListKeyshareRequest_IndexKey `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
+	// to is the index key to use for the end of the range query.
+	// The index key type MUST be the same as the index key type used for from.
+	// To query from to the end of an index it can be omitted.
+	To *ListKeyshareRequest_IndexKey `protobuf:"bytes,2,opt,name=to,proto3" json:"to,omitempty"`
+}
+
+func (x *ListKeyshareRequest_RangeQuery) Reset() {
+	*x = ListKeyshareRequest_RangeQuery{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[34]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListKeyshareRequest_RangeQuery) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListKeyshareRequest_RangeQuery) ProtoMessage() {}
+
+func (x *ListKeyshareRequest_RangeQuery) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[34]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListKeyshareRequest_RangeQuery.ProtoReflect.Descriptor instead.
+func (*ListKeyshareRequest_RangeQuery) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{14, 1}
+}
+
+func (x *ListKeyshareRequest_RangeQuery) GetFrom() *ListKeyshareRequest_IndexKey {
+	if x != nil {
+		return x.From
+	}
+	return nil
+}
+
+func (x *ListKeyshareRequest_RangeQuery) GetTo() *ListKeyshareRequest_IndexKey {
+	if x != nil {
+		return x.To
+	}
+	return nil
+}
+
+type ListKeyshareRequest_IndexKey_Did struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// did is the value of the did field in the index.
+	// It can be omitted to query for all valid values of that field in this segment of the index.
+	Did *string `protobuf:"bytes,1,opt,name=did,proto3,oneof" json:"did,omitempty"`
+}
+
+func (x *ListKeyshareRequest_IndexKey_Did) Reset() {
+	*x = ListKeyshareRequest_IndexKey_Did{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[35]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListKeyshareRequest_IndexKey_Did) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListKeyshareRequest_IndexKey_Did) ProtoMessage() {}
+
+func (x *ListKeyshareRequest_IndexKey_Did) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[35]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListKeyshareRequest_IndexKey_Did.ProtoReflect.Descriptor instead.
+func (*ListKeyshareRequest_IndexKey_Did) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{14, 0, 0}
+}
+
+func (x *ListKeyshareRequest_IndexKey_Did) GetDid() string {
+	if x != nil && x.Did != nil {
+		return *x.Did
+	}
+	return ""
+}
+
+// IndexKey specifies the value of an index key to use in prefix and range queries.
 type ListIdentityRequest_IndexKey struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -717,13 +2221,15 @@ type ListIdentityRequest_IndexKey struct {
 	// Types that are assignable to Key:
 	//
 	//	*ListIdentityRequest_IndexKey_Did_
+	//	*ListIdentityRequest_IndexKey_AddressCoinType_
+	//	*ListIdentityRequest_IndexKey_PublicKeyKeyType_
 	Key isListIdentityRequest_IndexKey_Key `protobuf_oneof:"key"`
 }
 
 func (x *ListIdentityRequest_IndexKey) Reset() {
 	*x = ListIdentityRequest_IndexKey{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[11]
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[36]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -736,7 +2242,7 @@ func (x *ListIdentityRequest_IndexKey) String() string {
 func (*ListIdentityRequest_IndexKey) ProtoMessage() {}
 
 func (x *ListIdentityRequest_IndexKey) ProtoReflect() protoreflect.Message {
-	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[11]
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[36]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -749,7 +2255,7 @@ func (x *ListIdentityRequest_IndexKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListIdentityRequest_IndexKey.ProtoReflect.Descriptor instead.
 func (*ListIdentityRequest_IndexKey) Descriptor() ([]byte, []int) {
-	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{6, 0}
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{22, 0}
 }
 
 func (m *ListIdentityRequest_IndexKey) GetKey() isListIdentityRequest_IndexKey_Key {
@@ -766,6 +2272,20 @@ func (x *ListIdentityRequest_IndexKey) GetDid() *ListIdentityRequest_IndexKey_Di
 	return nil
 }
 
+func (x *ListIdentityRequest_IndexKey) GetAddressCoinType() *ListIdentityRequest_IndexKey_AddressCoinType {
+	if x, ok := x.GetKey().(*ListIdentityRequest_IndexKey_AddressCoinType_); ok {
+		return x.AddressCoinType
+	}
+	return nil
+}
+
+func (x *ListIdentityRequest_IndexKey) GetPublicKeyKeyType() *ListIdentityRequest_IndexKey_PublicKeyKeyType {
+	if x, ok := x.GetKey().(*ListIdentityRequest_IndexKey_PublicKeyKeyType_); ok {
+		return x.PublicKeyKeyType
+	}
+	return nil
+}
+
 type isListIdentityRequest_IndexKey_Key interface {
 	isListIdentityRequest_IndexKey_Key()
 }
@@ -775,7 +2295,21 @@ type ListIdentityRequest_IndexKey_Did_ struct {
 	Did *ListIdentityRequest_IndexKey_Did `protobuf:"bytes,1,opt,name=did,proto3,oneof"`
 }
 
+type ListIdentityRequest_IndexKey_AddressCoinType_ struct {
+	// address_coin_type specifies the value of the AddressCoinType index key to use in the query.
+	AddressCoinType *ListIdentityRequest_IndexKey_AddressCoinType `protobuf:"bytes,2,opt,name=address_coin_type,json=addressCoinType,proto3,oneof"`
+}
+
+type ListIdentityRequest_IndexKey_PublicKeyKeyType_ struct {
+	// public_key_key_type specifies the value of the PublicKeyKeyType index key to use in the query.
+	PublicKeyKeyType *ListIdentityRequest_IndexKey_PublicKeyKeyType `protobuf:"bytes,3,opt,name=public_key_key_type,json=publicKeyKeyType,proto3,oneof"`
+}
+
 func (*ListIdentityRequest_IndexKey_Did_) isListIdentityRequest_IndexKey_Key() {}
+
+func (*ListIdentityRequest_IndexKey_AddressCoinType_) isListIdentityRequest_IndexKey_Key() {}
+
+func (*ListIdentityRequest_IndexKey_PublicKeyKeyType_) isListIdentityRequest_IndexKey_Key() {}
 
 // RangeQuery specifies the from/to index keys for a range query.
 type ListIdentityRequest_RangeQuery struct {
@@ -795,7 +2329,7 @@ type ListIdentityRequest_RangeQuery struct {
 func (x *ListIdentityRequest_RangeQuery) Reset() {
 	*x = ListIdentityRequest_RangeQuery{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[12]
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[37]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -808,7 +2342,7 @@ func (x *ListIdentityRequest_RangeQuery) String() string {
 func (*ListIdentityRequest_RangeQuery) ProtoMessage() {}
 
 func (x *ListIdentityRequest_RangeQuery) ProtoReflect() protoreflect.Message {
-	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[12]
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[37]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -821,7 +2355,7 @@ func (x *ListIdentityRequest_RangeQuery) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListIdentityRequest_RangeQuery.ProtoReflect.Descriptor instead.
 func (*ListIdentityRequest_RangeQuery) Descriptor() ([]byte, []int) {
-	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{6, 1}
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{22, 1}
 }
 
 func (x *ListIdentityRequest_RangeQuery) GetFrom() *ListIdentityRequest_IndexKey {
@@ -851,7 +2385,7 @@ type ListIdentityRequest_IndexKey_Did struct {
 func (x *ListIdentityRequest_IndexKey_Did) Reset() {
 	*x = ListIdentityRequest_IndexKey_Did{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[13]
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[38]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -864,7 +2398,7 @@ func (x *ListIdentityRequest_IndexKey_Did) String() string {
 func (*ListIdentityRequest_IndexKey_Did) ProtoMessage() {}
 
 func (x *ListIdentityRequest_IndexKey_Did) ProtoReflect() protoreflect.Message {
-	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[13]
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[38]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -877,12 +2411,130 @@ func (x *ListIdentityRequest_IndexKey_Did) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListIdentityRequest_IndexKey_Did.ProtoReflect.Descriptor instead.
 func (*ListIdentityRequest_IndexKey_Did) Descriptor() ([]byte, []int) {
-	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{6, 0, 0}
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{22, 0, 0}
 }
 
 func (x *ListIdentityRequest_IndexKey_Did) GetDid() string {
 	if x != nil && x.Did != nil {
 		return *x.Did
+	}
+	return ""
+}
+
+type ListIdentityRequest_IndexKey_AddressCoinType struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// address is the value of the address field in the index.
+	// It can be omitted to query for all valid values of that field in this segment of the index.
+	Address *string `protobuf:"bytes,1,opt,name=address,proto3,oneof" json:"address,omitempty"`
+	// coin_type is the value of the coin_type field in the index.
+	// It can be omitted to query for all valid values of that field in this segment of the index.
+	CoinType *uint32 `protobuf:"varint,2,opt,name=coin_type,json=coinType,proto3,oneof" json:"coin_type,omitempty"`
+}
+
+func (x *ListIdentityRequest_IndexKey_AddressCoinType) Reset() {
+	*x = ListIdentityRequest_IndexKey_AddressCoinType{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[39]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListIdentityRequest_IndexKey_AddressCoinType) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListIdentityRequest_IndexKey_AddressCoinType) ProtoMessage() {}
+
+func (x *ListIdentityRequest_IndexKey_AddressCoinType) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[39]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListIdentityRequest_IndexKey_AddressCoinType.ProtoReflect.Descriptor instead.
+func (*ListIdentityRequest_IndexKey_AddressCoinType) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{22, 0, 1}
+}
+
+func (x *ListIdentityRequest_IndexKey_AddressCoinType) GetAddress() string {
+	if x != nil && x.Address != nil {
+		return *x.Address
+	}
+	return ""
+}
+
+func (x *ListIdentityRequest_IndexKey_AddressCoinType) GetCoinType() uint32 {
+	if x != nil && x.CoinType != nil {
+		return *x.CoinType
+	}
+	return 0
+}
+
+type ListIdentityRequest_IndexKey_PublicKeyKeyType struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// public_key is the value of the public_key field in the index.
+	// It can be omitted to query for all valid values of that field in this segment of the index.
+	PublicKey []byte `protobuf:"bytes,1,opt,name=public_key,json=publicKey,proto3,oneof" json:"public_key,omitempty"`
+	// key_type is the value of the key_type field in the index.
+	// It can be omitted to query for all valid values of that field in this segment of the index.
+	KeyType *string `protobuf:"bytes,2,opt,name=key_type,json=keyType,proto3,oneof" json:"key_type,omitempty"`
+}
+
+func (x *ListIdentityRequest_IndexKey_PublicKeyKeyType) Reset() {
+	*x = ListIdentityRequest_IndexKey_PublicKeyKeyType{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[40]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListIdentityRequest_IndexKey_PublicKeyKeyType) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListIdentityRequest_IndexKey_PublicKeyKeyType) ProtoMessage() {}
+
+func (x *ListIdentityRequest_IndexKey_PublicKeyKeyType) ProtoReflect() protoreflect.Message {
+	mi := &file_sonrhq_identity_module_v1_state_query_proto_msgTypes[40]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListIdentityRequest_IndexKey_PublicKeyKeyType.ProtoReflect.Descriptor instead.
+func (*ListIdentityRequest_IndexKey_PublicKeyKeyType) Descriptor() ([]byte, []int) {
+	return file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP(), []int{22, 0, 2}
+}
+
+func (x *ListIdentityRequest_IndexKey_PublicKeyKeyType) GetPublicKey() []byte {
+	if x != nil {
+		return x.PublicKey
+	}
+	return nil
+}
+
+func (x *ListIdentityRequest_IndexKey_PublicKeyKeyType) GetKeyType() string {
+	if x != nil && x.KeyType != nil {
+		return *x.KeyType
 	}
 	return ""
 }
@@ -956,40 +2608,259 @@ var file_sonrhq_identity_module_v1_state_query_proto_rawDesc = []byte{
 	0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72,
 	0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65,
 	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x22, 0x26, 0x0a, 0x12, 0x47, 0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
-	0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x64, 0x69, 0x64, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x64, 0x69, 0x64, 0x22, 0x50, 0x0a, 0x13, 0x47, 0x65,
-	0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0x39, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x23, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69,
-	0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x49, 0x64, 0x65,
-	0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0xd2, 0x04, 0x0a,
-	0x13, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x12, 0x5c, 0x0a, 0x0c, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x5f, 0x71,
-	0x75, 0x65, 0x72, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x37, 0x2e, 0x73, 0x6f, 0x6e,
-	0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64,
-	0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74,
-	0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78,
-	0x4b, 0x65, 0x79, 0x48, 0x00, 0x52, 0x0b, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x12, 0x5c, 0x0a, 0x0b, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x5f, 0x71, 0x75, 0x65, 0x72,
-	0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x39, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71,
-	0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65,
-	0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x48, 0x00, 0x52, 0x0a, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61,
-	0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31,
-	0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61,
-	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x1a, 0x88, 0x01, 0x0a, 0x08, 0x49, 0x6e, 0x64,
-	0x65, 0x78, 0x4b, 0x65, 0x79, 0x12, 0x4f, 0x0a, 0x03, 0x64, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x3b, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e,
+	0x6f, 0x6e, 0x22, 0x28, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x43, 0x72, 0x65, 0x64, 0x65, 0x6e, 0x74,
+	0x69, 0x61, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x64, 0x69,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x64, 0x69, 0x64, 0x22, 0x54, 0x0a, 0x15,
+	0x47, 0x65, 0x74, 0x43, 0x72, 0x65, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3b, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64,
+	0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31,
+	0x2e, 0x43, 0x72, 0x65, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x05, 0x76, 0x61, 0x6c,
+	0x75, 0x65, 0x22, 0xde, 0x04, 0x0a, 0x15, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x72, 0x65, 0x64, 0x65,
+	0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x5e, 0x0a, 0x0c,
+	0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x5f, 0x71, 0x75, 0x65, 0x72, 0x79, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x39, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e,
 	0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c,
-	0x69, 0x73, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x2e, 0x44, 0x69, 0x64, 0x48,
-	0x00, 0x52, 0x03, 0x64, 0x69, 0x64, 0x1a, 0x24, 0x0a, 0x03, 0x44, 0x69, 0x64, 0x12, 0x15, 0x0a,
-	0x03, 0x64, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x03, 0x64, 0x69,
-	0x64, 0x88, 0x01, 0x01, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x64, 0x69, 0x64, 0x42, 0x05, 0x0a, 0x03,
+	0x69, 0x73, 0x74, 0x43, 0x72, 0x65, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x48, 0x00, 0x52,
+	0x0b, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x5e, 0x0a, 0x0b,
+	0x72, 0x61, 0x6e, 0x67, 0x65, 0x5f, 0x71, 0x75, 0x65, 0x72, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x3b, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74,
+	0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69,
+	0x73, 0x74, 0x43, 0x72, 0x65, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x2e, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79, 0x48, 0x00,
+	0x52, 0x0a, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x46, 0x0a, 0x0a,
+	0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71,
+	0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67,
+	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x1a, 0x8a, 0x01, 0x0a, 0x08, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65,
+	0x79, 0x12, 0x51, 0x0a, 0x03, 0x64, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x3d,
+	0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43,
+	0x72, 0x65, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x2e, 0x44, 0x69, 0x64, 0x48, 0x00, 0x52,
+	0x03, 0x64, 0x69, 0x64, 0x1a, 0x24, 0x0a, 0x03, 0x44, 0x69, 0x64, 0x12, 0x15, 0x0a, 0x03, 0x64,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x03, 0x64, 0x69, 0x64, 0x88,
+	0x01, 0x01, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x64, 0x69, 0x64, 0x42, 0x05, 0x0a, 0x03, 0x6b, 0x65,
+	0x79, 0x1a, 0xa6, 0x01, 0x0a, 0x0a, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x12, 0x4d, 0x0a, 0x04, 0x66, 0x72, 0x6f, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x39,
+	0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43,
+	0x72, 0x65, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x52, 0x04, 0x66, 0x72, 0x6f, 0x6d, 0x12,
+	0x49, 0x0a, 0x02, 0x74, 0x6f, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x39, 0x2e, 0x73, 0x6f,
+	0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f,
+	0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x72, 0x65, 0x64,
+	0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x49, 0x6e,
+	0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x52, 0x02, 0x74, 0x6f, 0x42, 0x07, 0x0a, 0x05, 0x71, 0x75,
+	0x65, 0x72, 0x79, 0x22, 0xa0, 0x01, 0x0a, 0x16, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x72, 0x65, 0x64,
+	0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3d,
+	0x0a, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x25,
+	0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x64, 0x65,
+	0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x12, 0x47, 0x0a,
+	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e,
+	0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61,
+	0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x25, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x50, 0x65, 0x72,
+	0x73, 0x6f, 0x6e, 0x61, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x64,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x64, 0x69, 0x64, 0x22, 0x4e, 0x0a,
+	0x12, 0x47, 0x65, 0x74, 0x50, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x38, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x22, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e,
+	0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x50,
+	0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0xcc, 0x04,
+	0x0a, 0x12, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x5b, 0x0a, 0x0c, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x5f, 0x71,
+	0x75, 0x65, 0x72, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x36, 0x2e, 0x73, 0x6f, 0x6e,
+	0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64,
+	0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x65, 0x72, 0x73, 0x6f,
+	0x6e, 0x61, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b,
+	0x65, 0x79, 0x48, 0x00, 0x52, 0x0b, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x12, 0x5b, 0x0a, 0x0b, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x5f, 0x71, 0x75, 0x65, 0x72, 0x79,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x38, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e,
+	0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e,
+	0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x48, 0x00, 0x52, 0x0a, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x46,
+	0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65,
+	0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50,
+	0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x1a, 0x87, 0x01, 0x0a, 0x08, 0x49, 0x6e, 0x64, 0x65, 0x78,
+	0x4b, 0x65, 0x79, 0x12, 0x4e, 0x0a, 0x03, 0x64, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x3a, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69,
+	0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73,
+	0x74, 0x50, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e,
+	0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x2e, 0x44, 0x69, 0x64, 0x48, 0x00, 0x52, 0x03,
+	0x64, 0x69, 0x64, 0x1a, 0x24, 0x0a, 0x03, 0x44, 0x69, 0x64, 0x12, 0x15, 0x0a, 0x03, 0x64, 0x69,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x03, 0x64, 0x69, 0x64, 0x88, 0x01,
+	0x01, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x64, 0x69, 0x64, 0x42, 0x05, 0x0a, 0x03, 0x6b, 0x65, 0x79,
+	0x1a, 0xa0, 0x01, 0x0a, 0x0a, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12,
+	0x4a, 0x0a, 0x04, 0x66, 0x72, 0x6f, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x36, 0x2e,
+	0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e,
+	0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x65,
+	0x72, 0x73, 0x6f, 0x6e, 0x61, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x49, 0x6e, 0x64,
+	0x65, 0x78, 0x4b, 0x65, 0x79, 0x52, 0x04, 0x66, 0x72, 0x6f, 0x6d, 0x12, 0x46, 0x0a, 0x02, 0x74,
+	0x6f, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x36, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71,
+	0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65,
+	0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x52,
+	0x02, 0x74, 0x6f, 0x42, 0x07, 0x0a, 0x05, 0x71, 0x75, 0x65, 0x72, 0x79, 0x22, 0x9a, 0x01, 0x0a,
+	0x13, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3a, 0x0a, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x18, 0x01,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64,
+	0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31,
+	0x2e, 0x50, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x52, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73,
+	0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61,
+	0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31,
+	0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70,
+	0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x26, 0x0a, 0x12, 0x47, 0x65, 0x74,
+	0x4b, 0x65, 0x79, 0x73, 0x68, 0x61, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x10, 0x0a, 0x03, 0x64, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x64, 0x69,
+	0x64, 0x22, 0x50, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x68, 0x61, 0x72, 0x65,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x39, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71,
+	0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65,
+	0x2e, 0x76, 0x31, 0x2e, 0x4b, 0x65, 0x79, 0x73, 0x68, 0x61, 0x72, 0x65, 0x52, 0x05, 0x76, 0x61,
+	0x6c, 0x75, 0x65, 0x22, 0xd2, 0x04, 0x0a, 0x13, 0x4c, 0x69, 0x73, 0x74, 0x4b, 0x65, 0x79, 0x73,
+	0x68, 0x61, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x5c, 0x0a, 0x0c, 0x70,
+	0x72, 0x65, 0x66, 0x69, 0x78, 0x5f, 0x71, 0x75, 0x65, 0x72, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x37, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74,
+	0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69,
+	0x73, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x68, 0x61, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x48, 0x00, 0x52, 0x0b, 0x70, 0x72,
+	0x65, 0x66, 0x69, 0x78, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x5c, 0x0a, 0x0b, 0x72, 0x61, 0x6e,
+	0x67, 0x65, 0x5f, 0x71, 0x75, 0x65, 0x72, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x39,
+	0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x4b,
+	0x65, 0x79, 0x73, 0x68, 0x61, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x52,
+	0x61, 0x6e, 0x67, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79, 0x48, 0x00, 0x52, 0x0a, 0x72, 0x61, 0x6e,
+	0x67, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f,
+	0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e,
+	0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x1a,
+	0x88, 0x01, 0x0a, 0x08, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x12, 0x4f, 0x0a, 0x03,
+	0x64, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x3b, 0x2e, 0x73, 0x6f, 0x6e, 0x72,
+	0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75,
+	0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x68, 0x61,
+	0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b,
+	0x65, 0x79, 0x2e, 0x44, 0x69, 0x64, 0x48, 0x00, 0x52, 0x03, 0x64, 0x69, 0x64, 0x1a, 0x24, 0x0a,
+	0x03, 0x44, 0x69, 0x64, 0x12, 0x15, 0x0a, 0x03, 0x64, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x48, 0x00, 0x52, 0x03, 0x64, 0x69, 0x64, 0x88, 0x01, 0x01, 0x42, 0x06, 0x0a, 0x04, 0x5f,
+	0x64, 0x69, 0x64, 0x42, 0x05, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x1a, 0xa2, 0x01, 0x0a, 0x0a, 0x52,
+	0x61, 0x6e, 0x67, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x4b, 0x0a, 0x04, 0x66, 0x72, 0x6f,
+	0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x37, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71,
+	0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65,
+	0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x68, 0x61, 0x72, 0x65,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65, 0x79,
+	0x52, 0x04, 0x66, 0x72, 0x6f, 0x6d, 0x12, 0x47, 0x0a, 0x02, 0x74, 0x6f, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x37, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e,
+	0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c,
+	0x69, 0x73, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x68, 0x61, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x52, 0x02, 0x74, 0x6f, 0x42,
+	0x07, 0x0a, 0x05, 0x71, 0x75, 0x65, 0x72, 0x79, 0x22, 0x9c, 0x01, 0x0a, 0x14, 0x4c, 0x69, 0x73,
+	0x74, 0x4b, 0x65, 0x79, 0x73, 0x68, 0x61, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x3b, 0x0a, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x23, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74,
+	0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4b, 0x65,
+	0x79, 0x73, 0x68, 0x61, 0x72, 0x65, 0x52, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x12, 0x47,
+	0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65,
+	0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50,
+	0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67,
+	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x26, 0x0a, 0x12, 0x47, 0x65, 0x74, 0x49, 0x64,
+	0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a,
+	0x03, 0x64, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x64, 0x69, 0x64, 0x22,
+	0x50, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x39, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69,
+	0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76,
+	0x31, 0x2e, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75,
+	0x65, 0x22, 0x5c, 0x0a, 0x23, 0x47, 0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x42, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x69, 0x6e, 0x54, 0x79, 0x70,
+	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72,
+	0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65,
+	0x73, 0x73, 0x12, 0x1b, 0x0a, 0x09, 0x63, 0x6f, 0x69, 0x6e, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x08, 0x63, 0x6f, 0x69, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x22,
+	0x61, 0x0a, 0x24, 0x47, 0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x42, 0x79,
+	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x69, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x39, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e,
+	0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e,
+	0x76, 0x31, 0x2e, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x05, 0x76, 0x61, 0x6c,
+	0x75, 0x65, 0x22, 0x60, 0x0a, 0x24, 0x47, 0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
+	0x79, 0x42, 0x79, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x4b, 0x65, 0x79, 0x54,
+	0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x70, 0x75,
+	0x62, 0x6c, 0x69, 0x63, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x09,
+	0x70, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x12, 0x19, 0x0a, 0x08, 0x6b, 0x65, 0x79,
+	0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6b, 0x65, 0x79,
+	0x54, 0x79, 0x70, 0x65, 0x22, 0x62, 0x0a, 0x25, 0x47, 0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74,
+	0x69, 0x74, 0x79, 0x42, 0x79, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x4b, 0x65,
+	0x79, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x39, 0x0a,
+	0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x73,
+	0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d,
+	0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
+	0x79, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0xa6, 0x08, 0x0a, 0x13, 0x4c, 0x69, 0x73,
+	0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x5c, 0x0a, 0x0c, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x5f, 0x71, 0x75, 0x65, 0x72, 0x79,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x37, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e,
+	0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e,
+	0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x48,
+	0x00, 0x52, 0x0b, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x5c,
+	0x0a, 0x0b, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x5f, 0x71, 0x75, 0x65, 0x72, 0x79, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x39, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65,
+	0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e,
+	0x4c, 0x69, 0x73, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x2e, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79, 0x48, 0x00,
+	0x52, 0x0a, 0x72, 0x61, 0x6e, 0x67, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x46, 0x0a, 0x0a,
+	0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71,
+	0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67,
+	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x1a, 0xdc, 0x04, 0x0a, 0x08, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65,
+	0x79, 0x12, 0x4f, 0x0a, 0x03, 0x64, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x3b,
+	0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49,
+	0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x49,
+	0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x2e, 0x44, 0x69, 0x64, 0x48, 0x00, 0x52, 0x03, 0x64,
+	0x69, 0x64, 0x12, 0x75, 0x0a, 0x11, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x5f, 0x63, 0x6f,
+	0x69, 0x6e, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x47, 0x2e,
+	0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e,
+	0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x64,
+	0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x49, 0x6e,
+	0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x2e, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x43, 0x6f,
+	0x69, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x48, 0x00, 0x52, 0x0f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x43, 0x6f, 0x69, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x12, 0x79, 0x0a, 0x13, 0x70, 0x75, 0x62,
+	0x6c, 0x69, 0x63, 0x5f, 0x6b, 0x65, 0x79, 0x5f, 0x6b, 0x65, 0x79, 0x5f, 0x74, 0x79, 0x70, 0x65,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x48, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e,
+	0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e,
+	0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x4b, 0x65, 0x79, 0x2e,
+	0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x4b, 0x65, 0x79, 0x54, 0x79, 0x70, 0x65,
+	0x48, 0x00, 0x52, 0x10, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x4b, 0x65, 0x79,
+	0x54, 0x79, 0x70, 0x65, 0x1a, 0x24, 0x0a, 0x03, 0x44, 0x69, 0x64, 0x12, 0x15, 0x0a, 0x03, 0x64,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x03, 0x64, 0x69, 0x64, 0x88,
+	0x01, 0x01, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x64, 0x69, 0x64, 0x1a, 0x6c, 0x0a, 0x0f, 0x41, 0x64,
+	0x64, 0x72, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x69, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x12, 0x1d, 0x0a,
+	0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00,
+	0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x88, 0x01, 0x01, 0x12, 0x20, 0x0a, 0x09,
+	0x63, 0x6f, 0x69, 0x6e, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x48,
+	0x01, 0x52, 0x08, 0x63, 0x6f, 0x69, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x88, 0x01, 0x01, 0x42, 0x0a,
+	0x0a, 0x08, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x42, 0x0c, 0x0a, 0x0a, 0x5f, 0x63,
+	0x6f, 0x69, 0x6e, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x1a, 0x72, 0x0a, 0x10, 0x50, 0x75, 0x62, 0x6c,
+	0x69, 0x63, 0x4b, 0x65, 0x79, 0x4b, 0x65, 0x79, 0x54, 0x79, 0x70, 0x65, 0x12, 0x22, 0x0a, 0x0a,
+	0x70, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c,
+	0x48, 0x00, 0x52, 0x09, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x88, 0x01, 0x01,
+	0x12, 0x1e, 0x0a, 0x08, 0x6b, 0x65, 0x79, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x48, 0x01, 0x52, 0x07, 0x6b, 0x65, 0x79, 0x54, 0x79, 0x70, 0x65, 0x88, 0x01, 0x01,
+	0x42, 0x0d, 0x0a, 0x0b, 0x5f, 0x70, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x5f, 0x6b, 0x65, 0x79, 0x42,
+	0x0b, 0x0a, 0x09, 0x5f, 0x6b, 0x65, 0x79, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x42, 0x05, 0x0a, 0x03,
 	0x6b, 0x65, 0x79, 0x1a, 0xa2, 0x01, 0x0a, 0x0a, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x51, 0x75, 0x65,
 	0x72, 0x79, 0x12, 0x4b, 0x0a, 0x04, 0x66, 0x72, 0x6f, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
 	0x32, 0x37, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69,
@@ -1011,7 +2882,7 @@ var file_sonrhq_identity_module_v1_state_query_proto_rawDesc = []byte{
 	0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e,
 	0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70,
 	0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x32, 0xd3, 0x03, 0x0a, 0x11, 0x53, 0x74, 0x61, 0x74, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53,
+	0x32, 0xcd, 0x0b, 0x0a, 0x11, 0x53, 0x74, 0x61, 0x74, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53,
 	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x6b, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x41, 0x63, 0x63,
 	0x6f, 0x75, 0x6e, 0x74, 0x12, 0x2c, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64,
 	0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31,
@@ -1026,37 +2897,101 @@ var file_sonrhq_identity_module_v1_state_query_proto_rawDesc = []byte{
 	0x74, 0x1a, 0x2e, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74,
 	0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69,
 	0x73, 0x74, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0x00, 0x12, 0x6e, 0x0a, 0x0b, 0x47, 0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69,
-	0x74, 0x79, 0x12, 0x2d, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e,
-	0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47,
-	0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x2e, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74,
+	0x65, 0x22, 0x00, 0x12, 0x74, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x43, 0x72, 0x65, 0x64, 0x65, 0x6e,
+	0x74, 0x69, 0x61, 0x6c, 0x12, 0x2f, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64,
+	0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31,
+	0x2e, 0x47, 0x65, 0x74, 0x43, 0x72, 0x65, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69,
+	0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76,
+	0x31, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x72, 0x65, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x77, 0x0a, 0x0e, 0x4c, 0x69, 0x73,
+	0x74, 0x43, 0x72, 0x65, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x12, 0x30, 0x2e, 0x73, 0x6f,
+	0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f,
+	0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x72, 0x65, 0x64,
+	0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e,
+	0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e,
+	0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x72,
+	0x65, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x00, 0x12, 0x6b, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x50, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61,
+	0x12, 0x2c, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69,
+	0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74,
+	0x50, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d,
+	0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x50, 0x65,
+	0x72, 0x73, 0x6f, 0x6e, 0x61, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12,
+	0x6e, 0x0a, 0x0b, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x12, 0x2d,
+	0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x50,
+	0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e,
+	0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e,
+	0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x50, 0x65,
+	0x72, 0x73, 0x6f, 0x6e, 0x61, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12,
+	0x6e, 0x0a, 0x0b, 0x47, 0x65, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x68, 0x61, 0x72, 0x65, 0x12, 0x2d,
+	0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x4b, 0x65,
+	0x79, 0x73, 0x68, 0x61, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e,
+	0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e,
+	0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x4b, 0x65, 0x79,
+	0x73, 0x68, 0x61, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12,
+	0x71, 0x0a, 0x0c, 0x4c, 0x69, 0x73, 0x74, 0x4b, 0x65, 0x79, 0x73, 0x68, 0x61, 0x72, 0x65, 0x12,
+	0x2e, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
+	0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74,
+	0x4b, 0x65, 0x79, 0x73, 0x68, 0x61, 0x72, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x2f, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
+	0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74,
+	0x4b, 0x65, 0x79, 0x73, 0x68, 0x61, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x00, 0x12, 0x6e, 0x0a, 0x0b, 0x47, 0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
+	0x79, 0x12, 0x2d, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74,
 	0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65,
-	0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0x00, 0x12, 0x71, 0x0a, 0x0c, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74,
-	0x69, 0x74, 0x79, 0x12, 0x2e, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65,
+	0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x2e, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69,
+	0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74,
+	0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x00, 0x12, 0xa1, 0x01, 0x0a, 0x1c, 0x47, 0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69,
+	0x74, 0x79, 0x42, 0x79, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x69, 0x6e, 0x54,
+	0x79, 0x70, 0x65, 0x12, 0x3e, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65,
 	0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e,
-	0x4c, 0x69, 0x73, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x2f, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65,
+	0x47, 0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x42, 0x79, 0x41, 0x64, 0x64,
+	0x72, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x69, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x3f, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65,
 	0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e,
-	0x4c, 0x69, 0x73, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0xfa, 0x01, 0x0a, 0x1d, 0x63, 0x6f, 0x6d, 0x2e, 0x73,
-	0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d,
-	0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x42, 0x0f, 0x53, 0x74, 0x61, 0x74, 0x65, 0x51,
-	0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x41, 0x67, 0x69, 0x74,
-	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2f, 0x69,
-	0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x6f, 0x6e, 0x72,
-	0x68, 0x71, 0x2f, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2f, 0x6d, 0x6f, 0x64, 0x75,
-	0x6c, 0x65, 0x2f, 0x76, 0x31, 0x3b, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x76, 0x31, 0xa2, 0x02,
-	0x03, 0x53, 0x49, 0x4d, 0xaa, 0x02, 0x19, 0x53, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x49, 0x64,
-	0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x56, 0x31,
-	0xca, 0x02, 0x19, 0x53, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x5c, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69,
-	0x74, 0x79, 0x5c, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x25, 0x53,
-	0x6f, 0x6e, 0x72, 0x68, 0x71, 0x5c, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x5c, 0x4d,
-	0x6f, 0x64, 0x75, 0x6c, 0x65, 0x5c, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61,
-	0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x1c, 0x53, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x3a, 0x3a, 0x49,
-	0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x3a, 0x3a, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x3a,
-	0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x47, 0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x42, 0x79, 0x41, 0x64, 0x64,
+	0x72, 0x65, 0x73, 0x73, 0x43, 0x6f, 0x69, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0xa4, 0x01, 0x0a, 0x1d, 0x47, 0x65, 0x74, 0x49, 0x64,
+	0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x42, 0x79, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65,
+	0x79, 0x4b, 0x65, 0x79, 0x54, 0x79, 0x70, 0x65, 0x12, 0x3f, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68,
+	0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c,
+	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x42, 0x79, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x4b, 0x65, 0x79, 0x54, 0x79,
+	0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x40, 0x2e, 0x73, 0x6f, 0x6e, 0x72,
+	0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75,
+	0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
+	0x79, 0x42, 0x79, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x63, 0x4b, 0x65, 0x79, 0x4b, 0x65, 0x79, 0x54,
+	0x79, 0x70, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x71, 0x0a,
+	0x0c, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x2e, 0x2e,
+	0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e,
+	0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x64,
+	0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2f, 0x2e,
+	0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e,
+	0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x64,
+	0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
+	0x42, 0xfa, 0x01, 0x0a, 0x1d, 0x63, 0x6f, 0x6d, 0x2e, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e,
+	0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x2e, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e,
+	0x76, 0x31, 0x42, 0x0f, 0x53, 0x74, 0x61, 0x74, 0x65, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72,
+	0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x41, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
+	0x6d, 0x2f, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2f, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
+	0x79, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2f, 0x69, 0x64, 0x65,
+	0x6e, 0x74, 0x69, 0x74, 0x79, 0x2f, 0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2f, 0x76, 0x31, 0x3b,
+	0x6d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x53, 0x49, 0x4d, 0xaa, 0x02,
+	0x19, 0x53, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x2e, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x2e, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x19, 0x53, 0x6f, 0x6e,
+	0x72, 0x68, 0x71, 0x5c, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x5c, 0x4d, 0x6f, 0x64,
+	0x75, 0x6c, 0x65, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x25, 0x53, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x5c,
+	0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x5c, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x5c,
+	0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02,
+	0x1c, 0x53, 0x6f, 0x6e, 0x72, 0x68, 0x71, 0x3a, 0x3a, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
+	0x79, 0x3a, 0x3a, 0x4d, 0x6f, 0x64, 0x75, 0x6c, 0x65, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1071,59 +3006,136 @@ func file_sonrhq_identity_module_v1_state_query_proto_rawDescGZIP() []byte {
 	return file_sonrhq_identity_module_v1_state_query_proto_rawDescData
 }
 
-var file_sonrhq_identity_module_v1_state_query_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_sonrhq_identity_module_v1_state_query_proto_msgTypes = make([]protoimpl.MessageInfo, 41)
 var file_sonrhq_identity_module_v1_state_query_proto_goTypes = []interface{}{
-	(*GetAccountRequest)(nil),                   // 0: sonrhq.identity.module.v1.GetAccountRequest
-	(*GetAccountResponse)(nil),                  // 1: sonrhq.identity.module.v1.GetAccountResponse
-	(*ListAccountRequest)(nil),                  // 2: sonrhq.identity.module.v1.ListAccountRequest
-	(*ListAccountResponse)(nil),                 // 3: sonrhq.identity.module.v1.ListAccountResponse
-	(*GetIdentityRequest)(nil),                  // 4: sonrhq.identity.module.v1.GetIdentityRequest
-	(*GetIdentityResponse)(nil),                 // 5: sonrhq.identity.module.v1.GetIdentityResponse
-	(*ListIdentityRequest)(nil),                 // 6: sonrhq.identity.module.v1.ListIdentityRequest
-	(*ListIdentityResponse)(nil),                // 7: sonrhq.identity.module.v1.ListIdentityResponse
-	(*ListAccountRequest_IndexKey)(nil),         // 8: sonrhq.identity.module.v1.ListAccountRequest.IndexKey
-	(*ListAccountRequest_RangeQuery)(nil),       // 9: sonrhq.identity.module.v1.ListAccountRequest.RangeQuery
-	(*ListAccountRequest_IndexKey_Address)(nil), // 10: sonrhq.identity.module.v1.ListAccountRequest.IndexKey.Address
-	(*ListIdentityRequest_IndexKey)(nil),        // 11: sonrhq.identity.module.v1.ListIdentityRequest.IndexKey
-	(*ListIdentityRequest_RangeQuery)(nil),      // 12: sonrhq.identity.module.v1.ListIdentityRequest.RangeQuery
-	(*ListIdentityRequest_IndexKey_Did)(nil),    // 13: sonrhq.identity.module.v1.ListIdentityRequest.IndexKey.Did
-	(*Account)(nil),                             // 14: sonrhq.identity.module.v1.Account
-	(*v1beta1.PageRequest)(nil),                 // 15: cosmos.base.query.v1beta1.PageRequest
-	(*v1beta1.PageResponse)(nil),                // 16: cosmos.base.query.v1beta1.PageResponse
-	(*Identity)(nil),                            // 17: sonrhq.identity.module.v1.Identity
+	(*GetAccountRequest)(nil),                             // 0: sonrhq.identity.module.v1.GetAccountRequest
+	(*GetAccountResponse)(nil),                            // 1: sonrhq.identity.module.v1.GetAccountResponse
+	(*ListAccountRequest)(nil),                            // 2: sonrhq.identity.module.v1.ListAccountRequest
+	(*ListAccountResponse)(nil),                           // 3: sonrhq.identity.module.v1.ListAccountResponse
+	(*GetCredentialRequest)(nil),                          // 4: sonrhq.identity.module.v1.GetCredentialRequest
+	(*GetCredentialResponse)(nil),                         // 5: sonrhq.identity.module.v1.GetCredentialResponse
+	(*ListCredentialRequest)(nil),                         // 6: sonrhq.identity.module.v1.ListCredentialRequest
+	(*ListCredentialResponse)(nil),                        // 7: sonrhq.identity.module.v1.ListCredentialResponse
+	(*GetPersonaRequest)(nil),                             // 8: sonrhq.identity.module.v1.GetPersonaRequest
+	(*GetPersonaResponse)(nil),                            // 9: sonrhq.identity.module.v1.GetPersonaResponse
+	(*ListPersonaRequest)(nil),                            // 10: sonrhq.identity.module.v1.ListPersonaRequest
+	(*ListPersonaResponse)(nil),                           // 11: sonrhq.identity.module.v1.ListPersonaResponse
+	(*GetKeyshareRequest)(nil),                            // 12: sonrhq.identity.module.v1.GetKeyshareRequest
+	(*GetKeyshareResponse)(nil),                           // 13: sonrhq.identity.module.v1.GetKeyshareResponse
+	(*ListKeyshareRequest)(nil),                           // 14: sonrhq.identity.module.v1.ListKeyshareRequest
+	(*ListKeyshareResponse)(nil),                          // 15: sonrhq.identity.module.v1.ListKeyshareResponse
+	(*GetIdentityRequest)(nil),                            // 16: sonrhq.identity.module.v1.GetIdentityRequest
+	(*GetIdentityResponse)(nil),                           // 17: sonrhq.identity.module.v1.GetIdentityResponse
+	(*GetIdentityByAddressCoinTypeRequest)(nil),           // 18: sonrhq.identity.module.v1.GetIdentityByAddressCoinTypeRequest
+	(*GetIdentityByAddressCoinTypeResponse)(nil),          // 19: sonrhq.identity.module.v1.GetIdentityByAddressCoinTypeResponse
+	(*GetIdentityByPublicKeyKeyTypeRequest)(nil),          // 20: sonrhq.identity.module.v1.GetIdentityByPublicKeyKeyTypeRequest
+	(*GetIdentityByPublicKeyKeyTypeResponse)(nil),         // 21: sonrhq.identity.module.v1.GetIdentityByPublicKeyKeyTypeResponse
+	(*ListIdentityRequest)(nil),                           // 22: sonrhq.identity.module.v1.ListIdentityRequest
+	(*ListIdentityResponse)(nil),                          // 23: sonrhq.identity.module.v1.ListIdentityResponse
+	(*ListAccountRequest_IndexKey)(nil),                   // 24: sonrhq.identity.module.v1.ListAccountRequest.IndexKey
+	(*ListAccountRequest_RangeQuery)(nil),                 // 25: sonrhq.identity.module.v1.ListAccountRequest.RangeQuery
+	(*ListAccountRequest_IndexKey_Address)(nil),           // 26: sonrhq.identity.module.v1.ListAccountRequest.IndexKey.Address
+	(*ListCredentialRequest_IndexKey)(nil),                // 27: sonrhq.identity.module.v1.ListCredentialRequest.IndexKey
+	(*ListCredentialRequest_RangeQuery)(nil),              // 28: sonrhq.identity.module.v1.ListCredentialRequest.RangeQuery
+	(*ListCredentialRequest_IndexKey_Did)(nil),            // 29: sonrhq.identity.module.v1.ListCredentialRequest.IndexKey.Did
+	(*ListPersonaRequest_IndexKey)(nil),                   // 30: sonrhq.identity.module.v1.ListPersonaRequest.IndexKey
+	(*ListPersonaRequest_RangeQuery)(nil),                 // 31: sonrhq.identity.module.v1.ListPersonaRequest.RangeQuery
+	(*ListPersonaRequest_IndexKey_Did)(nil),               // 32: sonrhq.identity.module.v1.ListPersonaRequest.IndexKey.Did
+	(*ListKeyshareRequest_IndexKey)(nil),                  // 33: sonrhq.identity.module.v1.ListKeyshareRequest.IndexKey
+	(*ListKeyshareRequest_RangeQuery)(nil),                // 34: sonrhq.identity.module.v1.ListKeyshareRequest.RangeQuery
+	(*ListKeyshareRequest_IndexKey_Did)(nil),              // 35: sonrhq.identity.module.v1.ListKeyshareRequest.IndexKey.Did
+	(*ListIdentityRequest_IndexKey)(nil),                  // 36: sonrhq.identity.module.v1.ListIdentityRequest.IndexKey
+	(*ListIdentityRequest_RangeQuery)(nil),                // 37: sonrhq.identity.module.v1.ListIdentityRequest.RangeQuery
+	(*ListIdentityRequest_IndexKey_Did)(nil),              // 38: sonrhq.identity.module.v1.ListIdentityRequest.IndexKey.Did
+	(*ListIdentityRequest_IndexKey_AddressCoinType)(nil),  // 39: sonrhq.identity.module.v1.ListIdentityRequest.IndexKey.AddressCoinType
+	(*ListIdentityRequest_IndexKey_PublicKeyKeyType)(nil), // 40: sonrhq.identity.module.v1.ListIdentityRequest.IndexKey.PublicKeyKeyType
+	(*Account)(nil),                                       // 41: sonrhq.identity.module.v1.Account
+	(*v1beta1.PageRequest)(nil),                           // 42: cosmos.base.query.v1beta1.PageRequest
+	(*v1beta1.PageResponse)(nil),                          // 43: cosmos.base.query.v1beta1.PageResponse
+	(*Credential)(nil),                                    // 44: sonrhq.identity.module.v1.Credential
+	(*Persona)(nil),                                       // 45: sonrhq.identity.module.v1.Persona
+	(*Keyshare)(nil),                                      // 46: sonrhq.identity.module.v1.Keyshare
+	(*Identity)(nil),                                      // 47: sonrhq.identity.module.v1.Identity
 }
 var file_sonrhq_identity_module_v1_state_query_proto_depIdxs = []int32{
-	14, // 0: sonrhq.identity.module.v1.GetAccountResponse.value:type_name -> sonrhq.identity.module.v1.Account
-	8,  // 1: sonrhq.identity.module.v1.ListAccountRequest.prefix_query:type_name -> sonrhq.identity.module.v1.ListAccountRequest.IndexKey
-	9,  // 2: sonrhq.identity.module.v1.ListAccountRequest.range_query:type_name -> sonrhq.identity.module.v1.ListAccountRequest.RangeQuery
-	15, // 3: sonrhq.identity.module.v1.ListAccountRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	14, // 4: sonrhq.identity.module.v1.ListAccountResponse.values:type_name -> sonrhq.identity.module.v1.Account
-	16, // 5: sonrhq.identity.module.v1.ListAccountResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	17, // 6: sonrhq.identity.module.v1.GetIdentityResponse.value:type_name -> sonrhq.identity.module.v1.Identity
-	11, // 7: sonrhq.identity.module.v1.ListIdentityRequest.prefix_query:type_name -> sonrhq.identity.module.v1.ListIdentityRequest.IndexKey
-	12, // 8: sonrhq.identity.module.v1.ListIdentityRequest.range_query:type_name -> sonrhq.identity.module.v1.ListIdentityRequest.RangeQuery
-	15, // 9: sonrhq.identity.module.v1.ListIdentityRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	17, // 10: sonrhq.identity.module.v1.ListIdentityResponse.values:type_name -> sonrhq.identity.module.v1.Identity
-	16, // 11: sonrhq.identity.module.v1.ListIdentityResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	10, // 12: sonrhq.identity.module.v1.ListAccountRequest.IndexKey.address:type_name -> sonrhq.identity.module.v1.ListAccountRequest.IndexKey.Address
-	8,  // 13: sonrhq.identity.module.v1.ListAccountRequest.RangeQuery.from:type_name -> sonrhq.identity.module.v1.ListAccountRequest.IndexKey
-	8,  // 14: sonrhq.identity.module.v1.ListAccountRequest.RangeQuery.to:type_name -> sonrhq.identity.module.v1.ListAccountRequest.IndexKey
-	13, // 15: sonrhq.identity.module.v1.ListIdentityRequest.IndexKey.did:type_name -> sonrhq.identity.module.v1.ListIdentityRequest.IndexKey.Did
-	11, // 16: sonrhq.identity.module.v1.ListIdentityRequest.RangeQuery.from:type_name -> sonrhq.identity.module.v1.ListIdentityRequest.IndexKey
-	11, // 17: sonrhq.identity.module.v1.ListIdentityRequest.RangeQuery.to:type_name -> sonrhq.identity.module.v1.ListIdentityRequest.IndexKey
-	0,  // 18: sonrhq.identity.module.v1.StateQueryService.GetAccount:input_type -> sonrhq.identity.module.v1.GetAccountRequest
-	2,  // 19: sonrhq.identity.module.v1.StateQueryService.ListAccount:input_type -> sonrhq.identity.module.v1.ListAccountRequest
-	4,  // 20: sonrhq.identity.module.v1.StateQueryService.GetIdentity:input_type -> sonrhq.identity.module.v1.GetIdentityRequest
-	6,  // 21: sonrhq.identity.module.v1.StateQueryService.ListIdentity:input_type -> sonrhq.identity.module.v1.ListIdentityRequest
-	1,  // 22: sonrhq.identity.module.v1.StateQueryService.GetAccount:output_type -> sonrhq.identity.module.v1.GetAccountResponse
-	3,  // 23: sonrhq.identity.module.v1.StateQueryService.ListAccount:output_type -> sonrhq.identity.module.v1.ListAccountResponse
-	5,  // 24: sonrhq.identity.module.v1.StateQueryService.GetIdentity:output_type -> sonrhq.identity.module.v1.GetIdentityResponse
-	7,  // 25: sonrhq.identity.module.v1.StateQueryService.ListIdentity:output_type -> sonrhq.identity.module.v1.ListIdentityResponse
-	22, // [22:26] is the sub-list for method output_type
-	18, // [18:22] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	41, // 0: sonrhq.identity.module.v1.GetAccountResponse.value:type_name -> sonrhq.identity.module.v1.Account
+	24, // 1: sonrhq.identity.module.v1.ListAccountRequest.prefix_query:type_name -> sonrhq.identity.module.v1.ListAccountRequest.IndexKey
+	25, // 2: sonrhq.identity.module.v1.ListAccountRequest.range_query:type_name -> sonrhq.identity.module.v1.ListAccountRequest.RangeQuery
+	42, // 3: sonrhq.identity.module.v1.ListAccountRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	41, // 4: sonrhq.identity.module.v1.ListAccountResponse.values:type_name -> sonrhq.identity.module.v1.Account
+	43, // 5: sonrhq.identity.module.v1.ListAccountResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	44, // 6: sonrhq.identity.module.v1.GetCredentialResponse.value:type_name -> sonrhq.identity.module.v1.Credential
+	27, // 7: sonrhq.identity.module.v1.ListCredentialRequest.prefix_query:type_name -> sonrhq.identity.module.v1.ListCredentialRequest.IndexKey
+	28, // 8: sonrhq.identity.module.v1.ListCredentialRequest.range_query:type_name -> sonrhq.identity.module.v1.ListCredentialRequest.RangeQuery
+	42, // 9: sonrhq.identity.module.v1.ListCredentialRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	44, // 10: sonrhq.identity.module.v1.ListCredentialResponse.values:type_name -> sonrhq.identity.module.v1.Credential
+	43, // 11: sonrhq.identity.module.v1.ListCredentialResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	45, // 12: sonrhq.identity.module.v1.GetPersonaResponse.value:type_name -> sonrhq.identity.module.v1.Persona
+	30, // 13: sonrhq.identity.module.v1.ListPersonaRequest.prefix_query:type_name -> sonrhq.identity.module.v1.ListPersonaRequest.IndexKey
+	31, // 14: sonrhq.identity.module.v1.ListPersonaRequest.range_query:type_name -> sonrhq.identity.module.v1.ListPersonaRequest.RangeQuery
+	42, // 15: sonrhq.identity.module.v1.ListPersonaRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	45, // 16: sonrhq.identity.module.v1.ListPersonaResponse.values:type_name -> sonrhq.identity.module.v1.Persona
+	43, // 17: sonrhq.identity.module.v1.ListPersonaResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	46, // 18: sonrhq.identity.module.v1.GetKeyshareResponse.value:type_name -> sonrhq.identity.module.v1.Keyshare
+	33, // 19: sonrhq.identity.module.v1.ListKeyshareRequest.prefix_query:type_name -> sonrhq.identity.module.v1.ListKeyshareRequest.IndexKey
+	34, // 20: sonrhq.identity.module.v1.ListKeyshareRequest.range_query:type_name -> sonrhq.identity.module.v1.ListKeyshareRequest.RangeQuery
+	42, // 21: sonrhq.identity.module.v1.ListKeyshareRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	46, // 22: sonrhq.identity.module.v1.ListKeyshareResponse.values:type_name -> sonrhq.identity.module.v1.Keyshare
+	43, // 23: sonrhq.identity.module.v1.ListKeyshareResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	47, // 24: sonrhq.identity.module.v1.GetIdentityResponse.value:type_name -> sonrhq.identity.module.v1.Identity
+	47, // 25: sonrhq.identity.module.v1.GetIdentityByAddressCoinTypeResponse.value:type_name -> sonrhq.identity.module.v1.Identity
+	47, // 26: sonrhq.identity.module.v1.GetIdentityByPublicKeyKeyTypeResponse.value:type_name -> sonrhq.identity.module.v1.Identity
+	36, // 27: sonrhq.identity.module.v1.ListIdentityRequest.prefix_query:type_name -> sonrhq.identity.module.v1.ListIdentityRequest.IndexKey
+	37, // 28: sonrhq.identity.module.v1.ListIdentityRequest.range_query:type_name -> sonrhq.identity.module.v1.ListIdentityRequest.RangeQuery
+	42, // 29: sonrhq.identity.module.v1.ListIdentityRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	47, // 30: sonrhq.identity.module.v1.ListIdentityResponse.values:type_name -> sonrhq.identity.module.v1.Identity
+	43, // 31: sonrhq.identity.module.v1.ListIdentityResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	26, // 32: sonrhq.identity.module.v1.ListAccountRequest.IndexKey.address:type_name -> sonrhq.identity.module.v1.ListAccountRequest.IndexKey.Address
+	24, // 33: sonrhq.identity.module.v1.ListAccountRequest.RangeQuery.from:type_name -> sonrhq.identity.module.v1.ListAccountRequest.IndexKey
+	24, // 34: sonrhq.identity.module.v1.ListAccountRequest.RangeQuery.to:type_name -> sonrhq.identity.module.v1.ListAccountRequest.IndexKey
+	29, // 35: sonrhq.identity.module.v1.ListCredentialRequest.IndexKey.did:type_name -> sonrhq.identity.module.v1.ListCredentialRequest.IndexKey.Did
+	27, // 36: sonrhq.identity.module.v1.ListCredentialRequest.RangeQuery.from:type_name -> sonrhq.identity.module.v1.ListCredentialRequest.IndexKey
+	27, // 37: sonrhq.identity.module.v1.ListCredentialRequest.RangeQuery.to:type_name -> sonrhq.identity.module.v1.ListCredentialRequest.IndexKey
+	32, // 38: sonrhq.identity.module.v1.ListPersonaRequest.IndexKey.did:type_name -> sonrhq.identity.module.v1.ListPersonaRequest.IndexKey.Did
+	30, // 39: sonrhq.identity.module.v1.ListPersonaRequest.RangeQuery.from:type_name -> sonrhq.identity.module.v1.ListPersonaRequest.IndexKey
+	30, // 40: sonrhq.identity.module.v1.ListPersonaRequest.RangeQuery.to:type_name -> sonrhq.identity.module.v1.ListPersonaRequest.IndexKey
+	35, // 41: sonrhq.identity.module.v1.ListKeyshareRequest.IndexKey.did:type_name -> sonrhq.identity.module.v1.ListKeyshareRequest.IndexKey.Did
+	33, // 42: sonrhq.identity.module.v1.ListKeyshareRequest.RangeQuery.from:type_name -> sonrhq.identity.module.v1.ListKeyshareRequest.IndexKey
+	33, // 43: sonrhq.identity.module.v1.ListKeyshareRequest.RangeQuery.to:type_name -> sonrhq.identity.module.v1.ListKeyshareRequest.IndexKey
+	38, // 44: sonrhq.identity.module.v1.ListIdentityRequest.IndexKey.did:type_name -> sonrhq.identity.module.v1.ListIdentityRequest.IndexKey.Did
+	39, // 45: sonrhq.identity.module.v1.ListIdentityRequest.IndexKey.address_coin_type:type_name -> sonrhq.identity.module.v1.ListIdentityRequest.IndexKey.AddressCoinType
+	40, // 46: sonrhq.identity.module.v1.ListIdentityRequest.IndexKey.public_key_key_type:type_name -> sonrhq.identity.module.v1.ListIdentityRequest.IndexKey.PublicKeyKeyType
+	36, // 47: sonrhq.identity.module.v1.ListIdentityRequest.RangeQuery.from:type_name -> sonrhq.identity.module.v1.ListIdentityRequest.IndexKey
+	36, // 48: sonrhq.identity.module.v1.ListIdentityRequest.RangeQuery.to:type_name -> sonrhq.identity.module.v1.ListIdentityRequest.IndexKey
+	0,  // 49: sonrhq.identity.module.v1.StateQueryService.GetAccount:input_type -> sonrhq.identity.module.v1.GetAccountRequest
+	2,  // 50: sonrhq.identity.module.v1.StateQueryService.ListAccount:input_type -> sonrhq.identity.module.v1.ListAccountRequest
+	4,  // 51: sonrhq.identity.module.v1.StateQueryService.GetCredential:input_type -> sonrhq.identity.module.v1.GetCredentialRequest
+	6,  // 52: sonrhq.identity.module.v1.StateQueryService.ListCredential:input_type -> sonrhq.identity.module.v1.ListCredentialRequest
+	8,  // 53: sonrhq.identity.module.v1.StateQueryService.GetPersona:input_type -> sonrhq.identity.module.v1.GetPersonaRequest
+	10, // 54: sonrhq.identity.module.v1.StateQueryService.ListPersona:input_type -> sonrhq.identity.module.v1.ListPersonaRequest
+	12, // 55: sonrhq.identity.module.v1.StateQueryService.GetKeyshare:input_type -> sonrhq.identity.module.v1.GetKeyshareRequest
+	14, // 56: sonrhq.identity.module.v1.StateQueryService.ListKeyshare:input_type -> sonrhq.identity.module.v1.ListKeyshareRequest
+	16, // 57: sonrhq.identity.module.v1.StateQueryService.GetIdentity:input_type -> sonrhq.identity.module.v1.GetIdentityRequest
+	18, // 58: sonrhq.identity.module.v1.StateQueryService.GetIdentityByAddressCoinType:input_type -> sonrhq.identity.module.v1.GetIdentityByAddressCoinTypeRequest
+	20, // 59: sonrhq.identity.module.v1.StateQueryService.GetIdentityByPublicKeyKeyType:input_type -> sonrhq.identity.module.v1.GetIdentityByPublicKeyKeyTypeRequest
+	22, // 60: sonrhq.identity.module.v1.StateQueryService.ListIdentity:input_type -> sonrhq.identity.module.v1.ListIdentityRequest
+	1,  // 61: sonrhq.identity.module.v1.StateQueryService.GetAccount:output_type -> sonrhq.identity.module.v1.GetAccountResponse
+	3,  // 62: sonrhq.identity.module.v1.StateQueryService.ListAccount:output_type -> sonrhq.identity.module.v1.ListAccountResponse
+	5,  // 63: sonrhq.identity.module.v1.StateQueryService.GetCredential:output_type -> sonrhq.identity.module.v1.GetCredentialResponse
+	7,  // 64: sonrhq.identity.module.v1.StateQueryService.ListCredential:output_type -> sonrhq.identity.module.v1.ListCredentialResponse
+	9,  // 65: sonrhq.identity.module.v1.StateQueryService.GetPersona:output_type -> sonrhq.identity.module.v1.GetPersonaResponse
+	11, // 66: sonrhq.identity.module.v1.StateQueryService.ListPersona:output_type -> sonrhq.identity.module.v1.ListPersonaResponse
+	13, // 67: sonrhq.identity.module.v1.StateQueryService.GetKeyshare:output_type -> sonrhq.identity.module.v1.GetKeyshareResponse
+	15, // 68: sonrhq.identity.module.v1.StateQueryService.ListKeyshare:output_type -> sonrhq.identity.module.v1.ListKeyshareResponse
+	17, // 69: sonrhq.identity.module.v1.StateQueryService.GetIdentity:output_type -> sonrhq.identity.module.v1.GetIdentityResponse
+	19, // 70: sonrhq.identity.module.v1.StateQueryService.GetIdentityByAddressCoinType:output_type -> sonrhq.identity.module.v1.GetIdentityByAddressCoinTypeResponse
+	21, // 71: sonrhq.identity.module.v1.StateQueryService.GetIdentityByPublicKeyKeyType:output_type -> sonrhq.identity.module.v1.GetIdentityByPublicKeyKeyTypeResponse
+	23, // 72: sonrhq.identity.module.v1.StateQueryService.ListIdentity:output_type -> sonrhq.identity.module.v1.ListIdentityResponse
+	61, // [61:73] is the sub-list for method output_type
+	49, // [49:61] is the sub-list for method input_type
+	49, // [49:49] is the sub-list for extension type_name
+	49, // [49:49] is the sub-list for extension extendee
+	0,  // [0:49] is the sub-list for field type_name
 }
 
 func init() { file_sonrhq_identity_module_v1_state_query_proto_init() }
@@ -1182,7 +3194,7 @@ func file_sonrhq_identity_module_v1_state_query_proto_init() {
 			}
 		}
 		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetIdentityRequest); i {
+			switch v := v.(*GetCredentialRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1194,7 +3206,7 @@ func file_sonrhq_identity_module_v1_state_query_proto_init() {
 			}
 		}
 		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetIdentityResponse); i {
+			switch v := v.(*GetCredentialResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1206,7 +3218,7 @@ func file_sonrhq_identity_module_v1_state_query_proto_init() {
 			}
 		}
 		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListIdentityRequest); i {
+			switch v := v.(*ListCredentialRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1218,7 +3230,7 @@ func file_sonrhq_identity_module_v1_state_query_proto_init() {
 			}
 		}
 		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListIdentityResponse); i {
+			switch v := v.(*ListCredentialResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1230,7 +3242,7 @@ func file_sonrhq_identity_module_v1_state_query_proto_init() {
 			}
 		}
 		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListAccountRequest_IndexKey); i {
+			switch v := v.(*GetPersonaRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1242,7 +3254,7 @@ func file_sonrhq_identity_module_v1_state_query_proto_init() {
 			}
 		}
 		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListAccountRequest_RangeQuery); i {
+			switch v := v.(*GetPersonaResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1254,7 +3266,7 @@ func file_sonrhq_identity_module_v1_state_query_proto_init() {
 			}
 		}
 		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListAccountRequest_IndexKey_Address); i {
+			switch v := v.(*ListPersonaRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1266,7 +3278,7 @@ func file_sonrhq_identity_module_v1_state_query_proto_init() {
 			}
 		}
 		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListIdentityRequest_IndexKey); i {
+			switch v := v.(*ListPersonaResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1278,7 +3290,7 @@ func file_sonrhq_identity_module_v1_state_query_proto_init() {
 			}
 		}
 		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListIdentityRequest_RangeQuery); i {
+			switch v := v.(*GetKeyshareRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1290,7 +3302,331 @@ func file_sonrhq_identity_module_v1_state_query_proto_init() {
 			}
 		}
 		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetKeyshareResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListKeyshareRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListKeyshareResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetIdentityRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetIdentityResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetIdentityByAddressCoinTypeRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetIdentityByAddressCoinTypeResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetIdentityByPublicKeyKeyTypeRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetIdentityByPublicKeyKeyTypeResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListIdentityRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListIdentityResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListAccountRequest_IndexKey); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListAccountRequest_RangeQuery); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListAccountRequest_IndexKey_Address); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListCredentialRequest_IndexKey); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListCredentialRequest_RangeQuery); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListCredentialRequest_IndexKey_Did); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListPersonaRequest_IndexKey); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListPersonaRequest_RangeQuery); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListPersonaRequest_IndexKey_Did); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListKeyshareRequest_IndexKey); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListKeyshareRequest_RangeQuery); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[35].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListKeyshareRequest_IndexKey_Did); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[36].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListIdentityRequest_IndexKey); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[37].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListIdentityRequest_RangeQuery); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[38].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ListIdentityRequest_IndexKey_Did); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[39].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListIdentityRequest_IndexKey_AddressCoinType); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sonrhq_identity_module_v1_state_query_proto_msgTypes[40].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListIdentityRequest_IndexKey_PublicKeyKeyType); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1307,24 +3643,52 @@ func file_sonrhq_identity_module_v1_state_query_proto_init() {
 		(*ListAccountRequest_RangeQuery_)(nil),
 	}
 	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[6].OneofWrappers = []interface{}{
+		(*ListCredentialRequest_PrefixQuery)(nil),
+		(*ListCredentialRequest_RangeQuery_)(nil),
+	}
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[10].OneofWrappers = []interface{}{
+		(*ListPersonaRequest_PrefixQuery)(nil),
+		(*ListPersonaRequest_RangeQuery_)(nil),
+	}
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[14].OneofWrappers = []interface{}{
+		(*ListKeyshareRequest_PrefixQuery)(nil),
+		(*ListKeyshareRequest_RangeQuery_)(nil),
+	}
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[22].OneofWrappers = []interface{}{
 		(*ListIdentityRequest_PrefixQuery)(nil),
 		(*ListIdentityRequest_RangeQuery_)(nil),
 	}
-	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[8].OneofWrappers = []interface{}{
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[24].OneofWrappers = []interface{}{
 		(*ListAccountRequest_IndexKey_Address_)(nil),
 	}
-	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[10].OneofWrappers = []interface{}{}
-	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[11].OneofWrappers = []interface{}{
-		(*ListIdentityRequest_IndexKey_Did_)(nil),
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[26].OneofWrappers = []interface{}{}
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[27].OneofWrappers = []interface{}{
+		(*ListCredentialRequest_IndexKey_Did_)(nil),
 	}
-	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[13].OneofWrappers = []interface{}{}
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[29].OneofWrappers = []interface{}{}
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[30].OneofWrappers = []interface{}{
+		(*ListPersonaRequest_IndexKey_Did_)(nil),
+	}
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[32].OneofWrappers = []interface{}{}
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[33].OneofWrappers = []interface{}{
+		(*ListKeyshareRequest_IndexKey_Did_)(nil),
+	}
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[35].OneofWrappers = []interface{}{}
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[36].OneofWrappers = []interface{}{
+		(*ListIdentityRequest_IndexKey_Did_)(nil),
+		(*ListIdentityRequest_IndexKey_AddressCoinType_)(nil),
+		(*ListIdentityRequest_IndexKey_PublicKeyKeyType_)(nil),
+	}
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[38].OneofWrappers = []interface{}{}
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[39].OneofWrappers = []interface{}{}
+	file_sonrhq_identity_module_v1_state_query_proto_msgTypes[40].OneofWrappers = []interface{}{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_sonrhq_identity_module_v1_state_query_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   41,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

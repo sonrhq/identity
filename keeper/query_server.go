@@ -3,13 +3,11 @@ package keeper
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"cosmossdk.io/collections"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/sonrhq/identity"
 )
 
@@ -24,42 +22,6 @@ type queryServer struct {
 	k Keeper
 }
 
-// Counter defines the handler for the Query/Counter RPC method.
-func (qs queryServer) Counter(ctx context.Context, req *identity.QueryCounterRequest) (*identity.QueryCounterResponse, error) {
-	if _, err := qs.k.addressCodec.StringToBytes(req.Address); err != nil {
-		return nil, fmt.Errorf("invalid sender address: %w", err)
-	}
-
-	counter, err := qs.k.Counter.Get(ctx, req.Address)
-	if err != nil {
-		if errors.Is(err, collections.ErrNotFound) {
-			return &identity.QueryCounterResponse{Counter: 0}, nil
-		}
-
-		return nil, status.Error(codes.Internal, err.Error())
-	}
-
-	return &identity.QueryCounterResponse{Counter: counter}, nil
-}
-
-// Counters defines the handler for the Query/Counters RPC method.
-func (qs queryServer) Counters(ctx context.Context, req *identity.QueryCountersRequest) (*identity.QueryCountersResponse, error) {
-	counters, pageRes, err := query.CollectionPaginate(
-		ctx,
-		qs.k.Counter,
-		req.Pagination,
-		func(key string, value uint64) (*identity.Counter, error) {
-			return &identity.Counter{
-				Address: key,
-				Count:   value,
-			}, nil
-		})
-	if err != nil {
-		return nil, err
-	}
-
-	return &identity.QueryCountersResponse{Counters: counters, Pagination: pageRes}, nil
-}
 
 // Params defines the handler for the Query/Params RPC method.
 func (qs queryServer) Params(ctx context.Context, req *identity.QueryParamsRequest) (*identity.QueryParamsResponse, error) {

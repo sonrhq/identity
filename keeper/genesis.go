@@ -3,18 +3,21 @@ package keeper
 import (
 	"context"
 
+	ormv1alpha1 "cosmossdk.io/api/cosmos/orm/v1alpha1"
+
 	"github.com/sonrhq/identity"
+	modulev1 "github.com/sonrhq/identity/api/module/v1"
 )
 
-// // serviceSchema is the schema for the service module.
-// var identitySchema = &ormv1alpha1.ModuleSchemaDescriptor{
-// 	SchemaFile: []*ormv1alpha1.ModuleSchemaDescriptor_FileEntry{
-// 		{
-// 			Id:            1,
-// 			ProtoFileName: modulev1.File_sonrhq_identity_module_v1_state_proto.Path(),
-// 		},
-// 	},
-// }
+// identitySchema is the schema for the identity module.
+var identitySchema = &ormv1alpha1.ModuleSchemaDescriptor{
+	SchemaFile: []*ormv1alpha1.ModuleSchemaDescriptor_FileEntry{
+		{
+			Id:            1,
+			ProtoFileName: modulev1.File_sonrhq_identity_module_v1_state_proto.Path(),
+		},
+	},
+}
 
 // InitGenesis initializes the module state from a genesis state.
 func (k *Keeper) InitGenesis(ctx context.Context, data *identity.GenesisState) error {

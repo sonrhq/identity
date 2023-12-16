@@ -4,7 +4,7 @@
 		{
 			"type": "shell",
 			"label": "Generate: Identity Proto",
-			"command": "make proto-all",
+			"command": "earthly --no-sat +generate",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
@@ -15,20 +15,18 @@
 				"color": "terminal.ansiCyan"
 			},
 			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"revealProblems": "onProblem",
+				"revealProblems": "never",
 				"focus": false,
 				"panel": "shared",
-				"showReuseMessage": true,
+				"showReuseMessage": false,
 				"group": "chain",
-				"close": false
+				"close": true
 			}
 		},
 		{
 			"type": "shell",
 			"label": "Test: Identity Module",
-			"command": "make test",
+			"command": "earthly --no-sat +test",
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},

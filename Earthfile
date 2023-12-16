@@ -1,5 +1,5 @@
 VERSION 0.7
-PROJECT sonrhq/sonr-testnet-0
+PROJECT sonrhq/sonrd
 
 FROM golang:1.21-alpine3.17
 RUN apk add --update --no-cache \
@@ -27,7 +27,7 @@ WORKDIR /identity
 # gomod - downloads and caches all dependencies for earthly. go.mod and go.sum will be updated locally.
 gomod:
     FROM +base
-    COPY go.mod go.sum ./
+    COPY ./go.mod ./go.sum ./
     RUN go mod download
     SAVE ARTIFACT go.mod AS LOCAL go.mod
     SAVE ARTIFACT go.sum AS LOCAL go.sum
@@ -45,11 +45,22 @@ deps:
 
 # generate - generates all code from proto files
 generate:
+    LOCALLY
+    RUN make proto-gen
     FROM +deps
     COPY . .
-    RUN sh ./scripts/protocgen.sh
+    RUN sh ./scripts/protogen-orm.sh
     SAVE ARTIFACT sonrhq/identity AS LOCAL api
     SAVE ARTIFACT proto AS LOCAL proto
+    RUN sh ./scripts/protocgen-docs.sh
+    SAVE ARTIFACT docs AS LOCAL docs
+
+# lint - lints the protobuf files
+lint:
+    LOCALLY
+    RUN make proto-format
+    RUN make proto-lint
+
 
 # test - runs all tests
 test:

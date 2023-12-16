@@ -27,15 +27,17 @@ var (
 const ConsensusVersion = 1
 
 type AppModule struct {
-	cdc    codec.Codec
-	keeper keeper.Keeper
+	cdc        codec.Codec
+	keeper     keeper.Keeper
+	bankKeeper identity.BankKeeper
 }
 
 // NewAppModule creates a new AppModule object
-func NewAppModule(cdc codec.Codec, keeper keeper.Keeper) AppModule {
+func NewAppModule(cdc codec.Codec, keeper keeper.Keeper, bk identity.BankKeeper) AppModule {
 	return AppModule{
 		cdc:    cdc,
 		keeper: keeper,
+		bankKeeper: bk,
 	}
 }
 

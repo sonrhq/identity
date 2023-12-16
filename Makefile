@@ -9,7 +9,6 @@ DOCKER := $(shell which docker)
 test:
 	@echo "--> Running tests"
 	go test -v ./...
-
 test-integration:
 	@echo "--> Running integration tests"
 	cd integration; go test -v ./...
@@ -24,16 +23,17 @@ protoVer=0.14.0
 protoImageName=ghcr.io/cosmos/proto-builder:$(protoVer)
 protoImage=$(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace $(protoImageName)
 
-proto-all: proto-gen
+proto-all: proto-format proto-lint proto-gen proto-swagger-gen
+
+proto-deps:
 	go install cosmossdk.io/orm/cmd/protoc-gen-go-cosmos-orm@latest
 	go install cosmossdk.io/orm/cmd/protoc-gen-go-cosmos-orm-proto@latest
-	(cd proto; buf generate --template buf.gen.proto.yaml)
-	(cd proto; buf generate)
-	rm -rf ./api
-	mv ./sonrhq/identity ./api
-	rm -rf ./sonrhq
 
-proto-gen:
+proto-swagger-gen:
+	@echo "Generating Protobuf Swagger"
+	@$(protoImage) sh ./scripts/protocgen-docs.sh
+
+proto-gen: proto-deps
 	@echo "Generating protobuf files..."
 	@$(protoImage) sh ./scripts/protocgen.sh
 	@go mod tidy
