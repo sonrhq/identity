@@ -27,9 +27,9 @@ repo:
 	FROM +base
     ARG EARTHLY_GIT_BRANCH
 
-    GIT CLONE --branch $EARTHLY_GIT_BRANCH git@github.com:sonrhq/service.git service
-    CACHE --sharing shared service
-    WORKDIR /service
+    GIT CLONE --branch $EARTHLY_GIT_BRANCH git@github.com:sonrhq/identity.git identity
+    CACHE --sharing shared identity
+    WORKDIR /identity
 
     COPY ./go.mod ./go.sum ./
     RUN go mod download
@@ -69,6 +69,6 @@ lint:
 
 # test - runs all tests
 test:
-    FROM +gomod
+    FROM +repo
     COPY . .
 	RUN go test -v ./...
