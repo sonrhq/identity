@@ -57,9 +57,9 @@ generate:
 
 # lint - lints the protobuf files
 lint:
-    FROM ghcr.io/cosmos/proto-builder:0.14.0
-    COPY . .
-    RUN
+    LOCALLY
+    RUN make proto-format
+    RUN make proto-lint
 
 
 # test - runs all tests
