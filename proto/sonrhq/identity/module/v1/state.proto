@@ -16,15 +16,9 @@ message State {
 message Account {
   option (cosmos.orm.v1.table) = {
     id : 1
-    primary_key: {fields: "id" auto_increment: true}
-    index: {
-      id: 1
-      fields: "address,coin_type" unique: true
-    }
-    index: {
-      id: 2
-      fields: "public_key,key_type" unique: true
-    }
+    primary_key : {fields : "id" auto_increment : true}
+    index : {id : 1 fields : "address,coin_type" unique : true}
+    index : {id : 2 fields : "public_key,key_type" unique : true}
   };
 
   uint64 id = 1;
@@ -37,23 +31,11 @@ message Account {
 message Credential {
   option (cosmos.orm.v1.table) = {
     id : 2
-    primary_key: {fields: "id" auto_increment: true}
-    index: {
-      id: 1
-      fields: "handle"
-    }
-    index: {
-      id: 2
-      fields: "origin,handle" unique: true
-    }
-    index: {
-      id: 3
-      fields: "credential_id" unique: true
-    }
-    index: {
-      id: 4
-      fields: "public_key" unique: true
-    }
+    primary_key : {fields : "id" auto_increment : true}
+    index : {id : 1 fields : "handle"}
+    index : {id : 2 fields : "origin,handle" unique : true}
+    index : {id : 3 fields : "credential_id" unique : true}
+    index : {id : 4 fields : "public_key" unique : true}
   };
 
   uint64 id = 1;
@@ -86,15 +68,9 @@ message Keyshare {
 message Identity {
   option (cosmos.orm.v1.table) = {
     id : 5
-    primary_key: {fields: "id" auto_increment: true}
-    index: {
-      id: 1
-      fields: "address,coin_type" unique: true
-    }
-    index: {
-      id: 2
-      fields: "public_key,key_type" unique: true
-    }
+    primary_key : {fields : "id" auto_increment : true}
+    index : {id : 1 fields : "address,coin_type" unique : true}
+    index : {id : 2 fields : "public_key,key_type" unique : true}
   };
 
   uint64 id = 1;
