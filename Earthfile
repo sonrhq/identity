@@ -22,13 +22,18 @@ RUN apk add --update --no-cache \
     openssl \
     util-linux
 
-WORKDIR /identity
+# repo - Creates repository container environment
+repo:
+	FROM +base
+    ARG EARTHLY_GIT_BRANCH
 
-# gomod - downloads and caches all dependencies for earthly. go.mod and go.sum will be updated locally.
-gomod:
-    FROM +base
+    GIT CLONE --branch $EARTHLY_GIT_BRANCH git@github.com:sonrhq/service.git service
+    CACHE --sharing shared service
+    WORKDIR /service
+
     COPY ./go.mod ./go.sum ./
     RUN go mod download
+    CACHE --sharing shared /go/pkg/mod
     SAVE ARTIFACT go.mod AS LOCAL go.mod
     SAVE ARTIFACT go.sum AS LOCAL go.sum
 
