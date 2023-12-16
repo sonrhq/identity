@@ -55,6 +55,12 @@ generate:
     RUN sh ./scripts/protocgen-docs.sh
     SAVE ARTIFACT docs AS LOCAL docs
 
+# lint - lints the protobuf files
+lint:
+    FROM ghcr.io/cosmos/proto-builder:0.14.0
+    COPY . .
+    RUN
+
 
 # test - runs all tests
 test:
