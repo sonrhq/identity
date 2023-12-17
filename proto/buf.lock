@@ -9,8 +9,8 @@ deps:
   - remote: buf.build
     owner: cosmos
     repository: cosmos-sdk
-    commit: b40b94de957948b2b9421da89000762a
-    digest: shake256:7975182ab36fdddcbbddb9c78e87212d2a17a2a2aac629de93007cf230022750f3ff00842fcdc54c59b628330a76d3900ec1f991c5ec80f891a6136cb2a239e2
+    commit: b2b84b99c1a748d798cc076d01293f86
+    digest: shake256:e1b4b5af34f97dc026fbfeb68230b96d2c2fc1bd60523208b561fba6cf7ba7f262b69db6693f068d1d8d1efe0e1b0684c4dccd19771a7d68af965db0b7ce7a90
   - remote: buf.build
     owner: cosmos
     repository: gogo-proto
@@ -19,8 +19,8 @@ deps:
   - remote: buf.build
     owner: googleapis
     repository: googleapis
-    commit: 28151c0d0a1641bf938a7672c500e01d
-    digest: shake256:49215edf8ef57f7863004539deff8834cfb2195113f0b890dd1f67815d9353e28e668019165b9d872395871eeafcbab3ccfdb2b5f11734d3cca95be9e8d139de
+    commit: a86849a25cc04f4dbe9b15ddddfbc488
+    digest: shake256:e19143328f8cbfe13fc226aeee5e63773ca494693a72740a7560664270039a380d94a1344234b88c7691311460df9a9b1c2982190d0a2612eae80368718e1943
   - remote: buf.build
     owner: protocolbuffers
     repository: wellknowntypes
