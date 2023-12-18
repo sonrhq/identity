@@ -72,3 +72,10 @@ test:
     FROM +repo
     COPY . .
 	RUN go test -v ./...
+
+
+# breaking - runs buf change detection
+breaking:
+    FROM +deps
+    COPY . .
+    RUN buf breaking --against buf.build/sonrhq/service
