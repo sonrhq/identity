@@ -78,4 +78,4 @@ test:
 breaking:
     FROM +deps
     COPY . .
-    RUN buf breaking --against buf.build/sonrhq/service
+    RUN cd proto && buf breaking --against buf.build/sonrhq/identity
