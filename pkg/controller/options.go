@@ -14,6 +14,32 @@ import (
 // ! ||--------------------------------------------------------------------------------||
 // ! ||                              Configuration Options                             ||
 // ! ||--------------------------------------------------------------------------------||
+// Options is the options for the controller.
+type Options struct {
+	isExisting bool
+	jwt        string
+	origin     string
+	curve      *curves.Curve
+
+	MaxRetries     int
+	WithinDuration time.Duration
+	SpawnPrefix    string
+	EnableSpawn    bool
+}
+
+// DefaultOptions returns the default options for the controller.
+func DefaultOptions() *Options {
+	return &Options{
+		isExisting:     false,
+		jwt:            "",
+		origin:         "localhost",
+		curve:          mpc.K_DEFAULT_MPC_CURVE,
+		MaxRetries:     10,
+		WithinDuration: 5 * time.Second,
+		SpawnPrefix:    "identity-controller",
+		EnableSpawn:    true,
+	}
+}
 
 // Option is a function that applies an option to the controller.
 type Option func(*Options) *Options
@@ -69,32 +95,6 @@ func (o *Options) WithDisabledSpawn() *Options {
 // ! ||                               Generation Methods                               ||
 // ! ||--------------------------------------------------------------------------------||
 
-// Options is the options for the controller.
-type Options struct {
-	isExisting bool
-	jwt        string
-	origin     string
-	curve      *curves.Curve
-
-	MaxRetries     int
-	WithinDuration time.Duration
-	SpawnPrefix    string
-	EnableSpawn    bool
-}
-
-// DefaultOptions returns the default options for the controller.
-func DefaultOptions() *Options {
-	return &Options{
-		isExisting:     false,
-		jwt:            "",
-		origin:         "localhost",
-		curve:          mpc.K_DEFAULT_MPC_CURVE,
-		MaxRetries:     10,
-		WithinDuration: 5 * time.Second,
-		SpawnPrefix:    "identity-controller",
-		EnableSpawn:    true,
-	}
-}
 
 // Apply applies the options and returns a Controller
 func (o *Options) Apply(ctx context.Context, opts ...Option) (*controller, error) {
@@ -132,7 +132,7 @@ func (o *Options) Spawn(c *controller) error {
 
 		// Set Properties
 		c.actorCtx = ctx
-		fmt.Println("Spawned Actor: ", c.pid)
+		fmt.Println("Spawned Actor: ", c.pid.Id)
 	}
 	return nil
 }

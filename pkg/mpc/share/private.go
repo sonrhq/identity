@@ -15,7 +15,7 @@ import (
 type PrivateShare struct {
 	role      ShareRole
 	curve     *curves.Curve
-	dkgOutput *dklsv1.AliceDkg
+	dkgProtocol *dklsv1.AliceDkg
 	result    *protocol.Message
 }
 
@@ -24,19 +24,19 @@ func NewPrivateShare(curve *curves.Curve) Share {
 	p := &PrivateShare{
 		role:      ShareRolePrivate,
 		curve:     curve,
-		dkgOutput: dklsv1.NewAliceDkg(curve, protocol.Version1),
+		dkgProtocol: dklsv1.NewAliceDkg(curve, protocol.Version1),
 	}
 	return p
 }
 
 // GetResult returns the result of the protocol for the Share after execution
-func (p *PrivateShare) Finish() (error) {
-	res, err := p.dkgOutput.Result(protocol.Version1)
+func (p *PrivateShare) Finish() (*protocol.Message, error) {
+	res, err := p.dkgProtocol.Result(protocol.Version1)
 	if err != nil {
-		return  err
+		return nil, err
 	}
 	p.result = res
-	return nil
+	return res, nil
 }
 
 // GetSignFunc returns the sign function for the Share
@@ -50,7 +50,7 @@ func (p *PrivateShare) GetSignFunc(msg []byte) (protocol.Iterator, error) {
 
 // Iterator returns the iterator for the Share
 func (p *PrivateShare) Iterator() protocol.Iterator {
-	return p.dkgOutput
+	return p.dkgProtocol
 }
 
 // PublicPoint returns the public point of the Share
@@ -88,15 +88,11 @@ func (p *PrivateShare) Verify(msg []byte, sigBz []byte) (bool, error) {
 }
 
 func (p *PrivateShare) Marshal() ([]byte, error) {
-	if p.result == nil {
-		return nil, fmt.Errorf("no result to marshal")
-	}
-
-	bobRes, err := dklsv1.DecodeAliceDkgResult(p.result)
+	aliceOut, err := dklsv1.DecodeAliceDkgResult(p.result)
 	if err != nil {
 		return nil, err
 	}
-	enc, err := dklsv1.EncodeAliceDkgOutput(bobRes, version)
+	enc, err := dklsv1.EncodeAliceDkgOutput(aliceOut, version)
 	if err != nil {
 		return nil, err
 	}

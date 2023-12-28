@@ -36,11 +36,11 @@ func (n Network) Generate() error {
 	if aErr != pv1.ErrProtocolFinished || bErr != pv1.ErrProtocolFinished {
 		return fmt.Errorf("error running protocol: aErr=%v, bErr=%v", aErr, bErr)
 	}
-	 err := n.valParty.Finish()
+	 _, err := n.valParty.Finish()
 	if err != nil {
 		return fmt.Errorf("error getting Alice DKG result: %v", err)
 	}
-	err = n.userParty.Finish()
+	_, err = n.userParty.Finish()
 	if err != nil {
 		return fmt.Errorf("error getting Bob DKG result: %v", err)
 	}

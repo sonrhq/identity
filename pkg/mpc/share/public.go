@@ -32,13 +32,13 @@ func NewPublicShare(curve *curves.Curve) Share {
 }
 
 // GetResult returns the result of the protocol for the party after execution
-func (p *PublicShare) Finish() (error) {
+func (p *PublicShare) Finish() (*protocol.Message, error) {
 	res, err := p.dkgOutput.Result(protocol.Version1)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	p.result = res
-	return nil
+	return res, nil
 }
 
 // GetSignFunc returns the sign function for the party
