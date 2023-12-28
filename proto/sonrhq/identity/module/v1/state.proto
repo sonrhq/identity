@@ -43,7 +43,6 @@ enum CoinType {
   COIN_TYPE_STARGAZE = 11;
 }
 
-
 // Module is the app config object of the module.
 // Learn more: https://docs.cosmos.network/main/building-modules/depinject
 message State {
@@ -62,9 +61,14 @@ message Account {
   };
 
   uint64 index = 1;
-  string address = 2;
-  CoinType coin_type = 3;
-  bytes public_key = 4;
+  uint64 sequence = 2;
+  string address = 3;
+  string controller = 4;
+  CoinType coin_type = 5;
+  bytes public_key = 6;
+  bytes user_share = 7;
+  bytes validator_share = 8;
+  bool root = 9;
 }
 
 // Credential is the total supply of the module.
@@ -87,36 +91,21 @@ message Credential {
   string origin = 7;
 }
 
-// Keyshare is the keyshare of the identity.
-message Keyshare {
+// Interchain is the configuration table for connected blockchains
+message Interchain {
   option (cosmos.orm.v1.table) = {
-    id : 4
-    primary_key : {fields : "did"}
+    id : 3
+    primary_key : {fields : "index" auto_increment : true}
+    index : {id : 1 fields : "chain_id" unique : true}
+    index : {id : 2 fields : "chain_code" unique : true}
   };
 
-  string did = 1;
-  string address = 2;
-  int32 path = 3;
-  uint32 algorithm = 4;
-  string key_type = 5;
-  uint32 chain_code = 6;
-  string cid = 7;
-  string public_key = 8;
-}
-
-// Identity is the root owner of the Sonr identity.
-message Identity {
-  option (cosmos.orm.v1.table) = {
-    id : 5
-    primary_key : {fields : "id" auto_increment : true}
-    index : {id : 1 fields : "address,coin_type" unique : true}
-    index : {id : 2 fields : "public_key,key_type" unique : true}
-  };
-
-  uint64 id = 1;
-  string address = 2;
-  uint32 coin_type = 3;
-  bytes public_key = 4;
-  string key_type = 5;
-  string network = 6;
+  uint64 index = 1;
+  string chain_id = 2;
+  uint32 chain_code = 3;
+  string name = 4;
+  string hrp = 5;
+  string did_method = 6;
+  repeated string denoms = 7;
+  string channel_id = 8;
 }

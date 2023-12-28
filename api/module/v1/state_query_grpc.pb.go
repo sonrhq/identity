@@ -21,21 +21,19 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	StateQueryService_GetAccount_FullMethodName                    = "/sonrhq.identity.module.v1.StateQueryService/GetAccount"
-	StateQueryService_GetAccountByAddress_FullMethodName           = "/sonrhq.identity.module.v1.StateQueryService/GetAccountByAddress"
-	StateQueryService_GetAccountByPublicKey_FullMethodName         = "/sonrhq.identity.module.v1.StateQueryService/GetAccountByPublicKey"
-	StateQueryService_ListAccount_FullMethodName                   = "/sonrhq.identity.module.v1.StateQueryService/ListAccount"
-	StateQueryService_GetCredential_FullMethodName                 = "/sonrhq.identity.module.v1.StateQueryService/GetCredential"
-	StateQueryService_GetCredentialByOriginHandle_FullMethodName   = "/sonrhq.identity.module.v1.StateQueryService/GetCredentialByOriginHandle"
-	StateQueryService_GetCredentialByCredentialId_FullMethodName   = "/sonrhq.identity.module.v1.StateQueryService/GetCredentialByCredentialId"
-	StateQueryService_GetCredentialByPublicKey_FullMethodName      = "/sonrhq.identity.module.v1.StateQueryService/GetCredentialByPublicKey"
-	StateQueryService_ListCredential_FullMethodName                = "/sonrhq.identity.module.v1.StateQueryService/ListCredential"
-	StateQueryService_GetKeyshare_FullMethodName                   = "/sonrhq.identity.module.v1.StateQueryService/GetKeyshare"
-	StateQueryService_ListKeyshare_FullMethodName                  = "/sonrhq.identity.module.v1.StateQueryService/ListKeyshare"
-	StateQueryService_GetIdentity_FullMethodName                   = "/sonrhq.identity.module.v1.StateQueryService/GetIdentity"
-	StateQueryService_GetIdentityByAddressCoinType_FullMethodName  = "/sonrhq.identity.module.v1.StateQueryService/GetIdentityByAddressCoinType"
-	StateQueryService_GetIdentityByPublicKeyKeyType_FullMethodName = "/sonrhq.identity.module.v1.StateQueryService/GetIdentityByPublicKeyKeyType"
-	StateQueryService_ListIdentity_FullMethodName                  = "/sonrhq.identity.module.v1.StateQueryService/ListIdentity"
+	StateQueryService_GetAccount_FullMethodName                  = "/sonrhq.identity.module.v1.StateQueryService/GetAccount"
+	StateQueryService_GetAccountByAddress_FullMethodName         = "/sonrhq.identity.module.v1.StateQueryService/GetAccountByAddress"
+	StateQueryService_GetAccountByPublicKey_FullMethodName       = "/sonrhq.identity.module.v1.StateQueryService/GetAccountByPublicKey"
+	StateQueryService_ListAccount_FullMethodName                 = "/sonrhq.identity.module.v1.StateQueryService/ListAccount"
+	StateQueryService_GetCredential_FullMethodName               = "/sonrhq.identity.module.v1.StateQueryService/GetCredential"
+	StateQueryService_GetCredentialByOriginHandle_FullMethodName = "/sonrhq.identity.module.v1.StateQueryService/GetCredentialByOriginHandle"
+	StateQueryService_GetCredentialByCredentialId_FullMethodName = "/sonrhq.identity.module.v1.StateQueryService/GetCredentialByCredentialId"
+	StateQueryService_GetCredentialByPublicKey_FullMethodName    = "/sonrhq.identity.module.v1.StateQueryService/GetCredentialByPublicKey"
+	StateQueryService_ListCredential_FullMethodName              = "/sonrhq.identity.module.v1.StateQueryService/ListCredential"
+	StateQueryService_GetInterchain_FullMethodName               = "/sonrhq.identity.module.v1.StateQueryService/GetInterchain"
+	StateQueryService_GetInterchainByChainId_FullMethodName      = "/sonrhq.identity.module.v1.StateQueryService/GetInterchainByChainId"
+	StateQueryService_GetInterchainByChainCode_FullMethodName    = "/sonrhq.identity.module.v1.StateQueryService/GetInterchainByChainCode"
+	StateQueryService_ListInterchain_FullMethodName              = "/sonrhq.identity.module.v1.StateQueryService/ListInterchain"
 )
 
 // StateQueryServiceClient is the client API for StateQueryService service.
@@ -60,18 +58,14 @@ type StateQueryServiceClient interface {
 	GetCredentialByPublicKey(ctx context.Context, in *GetCredentialByPublicKeyRequest, opts ...grpc.CallOption) (*GetCredentialByPublicKeyResponse, error)
 	// ListCredential queries the Credential table using prefix and range queries against defined indexes.
 	ListCredential(ctx context.Context, in *ListCredentialRequest, opts ...grpc.CallOption) (*ListCredentialResponse, error)
-	// Get queries the Keyshare table by its primary key.
-	GetKeyshare(ctx context.Context, in *GetKeyshareRequest, opts ...grpc.CallOption) (*GetKeyshareResponse, error)
-	// ListKeyshare queries the Keyshare table using prefix and range queries against defined indexes.
-	ListKeyshare(ctx context.Context, in *ListKeyshareRequest, opts ...grpc.CallOption) (*ListKeyshareResponse, error)
-	// Get queries the Identity table by its primary key.
-	GetIdentity(ctx context.Context, in *GetIdentityRequest, opts ...grpc.CallOption) (*GetIdentityResponse, error)
-	// GetIdentityByAddressCoinType queries the Identity table by its AddressCoinType index
-	GetIdentityByAddressCoinType(ctx context.Context, in *GetIdentityByAddressCoinTypeRequest, opts ...grpc.CallOption) (*GetIdentityByAddressCoinTypeResponse, error)
-	// GetIdentityByPublicKeyKeyType queries the Identity table by its PublicKeyKeyType index
-	GetIdentityByPublicKeyKeyType(ctx context.Context, in *GetIdentityByPublicKeyKeyTypeRequest, opts ...grpc.CallOption) (*GetIdentityByPublicKeyKeyTypeResponse, error)
-	// ListIdentity queries the Identity table using prefix and range queries against defined indexes.
-	ListIdentity(ctx context.Context, in *ListIdentityRequest, opts ...grpc.CallOption) (*ListIdentityResponse, error)
+	// Get queries the Interchain table by its primary key.
+	GetInterchain(ctx context.Context, in *GetInterchainRequest, opts ...grpc.CallOption) (*GetInterchainResponse, error)
+	// GetInterchainByChainId queries the Interchain table by its ChainId index
+	GetInterchainByChainId(ctx context.Context, in *GetInterchainByChainIdRequest, opts ...grpc.CallOption) (*GetInterchainByChainIdResponse, error)
+	// GetInterchainByChainCode queries the Interchain table by its ChainCode index
+	GetInterchainByChainCode(ctx context.Context, in *GetInterchainByChainCodeRequest, opts ...grpc.CallOption) (*GetInterchainByChainCodeResponse, error)
+	// ListInterchain queries the Interchain table using prefix and range queries against defined indexes.
+	ListInterchain(ctx context.Context, in *ListInterchainRequest, opts ...grpc.CallOption) (*ListInterchainResponse, error)
 }
 
 type stateQueryServiceClient struct {
@@ -163,54 +157,36 @@ func (c *stateQueryServiceClient) ListCredential(ctx context.Context, in *ListCr
 	return out, nil
 }
 
-func (c *stateQueryServiceClient) GetKeyshare(ctx context.Context, in *GetKeyshareRequest, opts ...grpc.CallOption) (*GetKeyshareResponse, error) {
-	out := new(GetKeyshareResponse)
-	err := c.cc.Invoke(ctx, StateQueryService_GetKeyshare_FullMethodName, in, out, opts...)
+func (c *stateQueryServiceClient) GetInterchain(ctx context.Context, in *GetInterchainRequest, opts ...grpc.CallOption) (*GetInterchainResponse, error) {
+	out := new(GetInterchainResponse)
+	err := c.cc.Invoke(ctx, StateQueryService_GetInterchain_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *stateQueryServiceClient) ListKeyshare(ctx context.Context, in *ListKeyshareRequest, opts ...grpc.CallOption) (*ListKeyshareResponse, error) {
-	out := new(ListKeyshareResponse)
-	err := c.cc.Invoke(ctx, StateQueryService_ListKeyshare_FullMethodName, in, out, opts...)
+func (c *stateQueryServiceClient) GetInterchainByChainId(ctx context.Context, in *GetInterchainByChainIdRequest, opts ...grpc.CallOption) (*GetInterchainByChainIdResponse, error) {
+	out := new(GetInterchainByChainIdResponse)
+	err := c.cc.Invoke(ctx, StateQueryService_GetInterchainByChainId_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *stateQueryServiceClient) GetIdentity(ctx context.Context, in *GetIdentityRequest, opts ...grpc.CallOption) (*GetIdentityResponse, error) {
-	out := new(GetIdentityResponse)
-	err := c.cc.Invoke(ctx, StateQueryService_GetIdentity_FullMethodName, in, out, opts...)
+func (c *stateQueryServiceClient) GetInterchainByChainCode(ctx context.Context, in *GetInterchainByChainCodeRequest, opts ...grpc.CallOption) (*GetInterchainByChainCodeResponse, error) {
+	out := new(GetInterchainByChainCodeResponse)
+	err := c.cc.Invoke(ctx, StateQueryService_GetInterchainByChainCode_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *stateQueryServiceClient) GetIdentityByAddressCoinType(ctx context.Context, in *GetIdentityByAddressCoinTypeRequest, opts ...grpc.CallOption) (*GetIdentityByAddressCoinTypeResponse, error) {
-	out := new(GetIdentityByAddressCoinTypeResponse)
-	err := c.cc.Invoke(ctx, StateQueryService_GetIdentityByAddressCoinType_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *stateQueryServiceClient) GetIdentityByPublicKeyKeyType(ctx context.Context, in *GetIdentityByPublicKeyKeyTypeRequest, opts ...grpc.CallOption) (*GetIdentityByPublicKeyKeyTypeResponse, error) {
-	out := new(GetIdentityByPublicKeyKeyTypeResponse)
-	err := c.cc.Invoke(ctx, StateQueryService_GetIdentityByPublicKeyKeyType_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *stateQueryServiceClient) ListIdentity(ctx context.Context, in *ListIdentityRequest, opts ...grpc.CallOption) (*ListIdentityResponse, error) {
-	out := new(ListIdentityResponse)
-	err := c.cc.Invoke(ctx, StateQueryService_ListIdentity_FullMethodName, in, out, opts...)
+func (c *stateQueryServiceClient) ListInterchain(ctx context.Context, in *ListInterchainRequest, opts ...grpc.CallOption) (*ListInterchainResponse, error) {
+	out := new(ListInterchainResponse)
+	err := c.cc.Invoke(ctx, StateQueryService_ListInterchain_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -239,18 +215,14 @@ type StateQueryServiceServer interface {
 	GetCredentialByPublicKey(context.Context, *GetCredentialByPublicKeyRequest) (*GetCredentialByPublicKeyResponse, error)
 	// ListCredential queries the Credential table using prefix and range queries against defined indexes.
 	ListCredential(context.Context, *ListCredentialRequest) (*ListCredentialResponse, error)
-	// Get queries the Keyshare table by its primary key.
-	GetKeyshare(context.Context, *GetKeyshareRequest) (*GetKeyshareResponse, error)
-	// ListKeyshare queries the Keyshare table using prefix and range queries against defined indexes.
-	ListKeyshare(context.Context, *ListKeyshareRequest) (*ListKeyshareResponse, error)
-	// Get queries the Identity table by its primary key.
-	GetIdentity(context.Context, *GetIdentityRequest) (*GetIdentityResponse, error)
-	// GetIdentityByAddressCoinType queries the Identity table by its AddressCoinType index
-	GetIdentityByAddressCoinType(context.Context, *GetIdentityByAddressCoinTypeRequest) (*GetIdentityByAddressCoinTypeResponse, error)
-	// GetIdentityByPublicKeyKeyType queries the Identity table by its PublicKeyKeyType index
-	GetIdentityByPublicKeyKeyType(context.Context, *GetIdentityByPublicKeyKeyTypeRequest) (*GetIdentityByPublicKeyKeyTypeResponse, error)
-	// ListIdentity queries the Identity table using prefix and range queries against defined indexes.
-	ListIdentity(context.Context, *ListIdentityRequest) (*ListIdentityResponse, error)
+	// Get queries the Interchain table by its primary key.
+	GetInterchain(context.Context, *GetInterchainRequest) (*GetInterchainResponse, error)
+	// GetInterchainByChainId queries the Interchain table by its ChainId index
+	GetInterchainByChainId(context.Context, *GetInterchainByChainIdRequest) (*GetInterchainByChainIdResponse, error)
+	// GetInterchainByChainCode queries the Interchain table by its ChainCode index
+	GetInterchainByChainCode(context.Context, *GetInterchainByChainCodeRequest) (*GetInterchainByChainCodeResponse, error)
+	// ListInterchain queries the Interchain table using prefix and range queries against defined indexes.
+	ListInterchain(context.Context, *ListInterchainRequest) (*ListInterchainResponse, error)
 	mustEmbedUnimplementedStateQueryServiceServer()
 }
 
@@ -285,23 +257,17 @@ func (UnimplementedStateQueryServiceServer) GetCredentialByPublicKey(context.Con
 func (UnimplementedStateQueryServiceServer) ListCredential(context.Context, *ListCredentialRequest) (*ListCredentialResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListCredential not implemented")
 }
-func (UnimplementedStateQueryServiceServer) GetKeyshare(context.Context, *GetKeyshareRequest) (*GetKeyshareResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetKeyshare not implemented")
+func (UnimplementedStateQueryServiceServer) GetInterchain(context.Context, *GetInterchainRequest) (*GetInterchainResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInterchain not implemented")
 }
-func (UnimplementedStateQueryServiceServer) ListKeyshare(context.Context, *ListKeyshareRequest) (*ListKeyshareResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListKeyshare not implemented")
+func (UnimplementedStateQueryServiceServer) GetInterchainByChainId(context.Context, *GetInterchainByChainIdRequest) (*GetInterchainByChainIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInterchainByChainId not implemented")
 }
-func (UnimplementedStateQueryServiceServer) GetIdentity(context.Context, *GetIdentityRequest) (*GetIdentityResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetIdentity not implemented")
+func (UnimplementedStateQueryServiceServer) GetInterchainByChainCode(context.Context, *GetInterchainByChainCodeRequest) (*GetInterchainByChainCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInterchainByChainCode not implemented")
 }
-func (UnimplementedStateQueryServiceServer) GetIdentityByAddressCoinType(context.Context, *GetIdentityByAddressCoinTypeRequest) (*GetIdentityByAddressCoinTypeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetIdentityByAddressCoinType not implemented")
-}
-func (UnimplementedStateQueryServiceServer) GetIdentityByPublicKeyKeyType(context.Context, *GetIdentityByPublicKeyKeyTypeRequest) (*GetIdentityByPublicKeyKeyTypeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetIdentityByPublicKeyKeyType not implemented")
-}
-func (UnimplementedStateQueryServiceServer) ListIdentity(context.Context, *ListIdentityRequest) (*ListIdentityResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListIdentity not implemented")
+func (UnimplementedStateQueryServiceServer) ListInterchain(context.Context, *ListInterchainRequest) (*ListInterchainResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListInterchain not implemented")
 }
 func (UnimplementedStateQueryServiceServer) mustEmbedUnimplementedStateQueryServiceServer() {}
 
@@ -478,110 +444,74 @@ func _StateQueryService_ListCredential_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _StateQueryService_GetKeyshare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetKeyshareRequest)
+func _StateQueryService_GetInterchain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInterchainRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StateQueryServiceServer).GetKeyshare(ctx, in)
+		return srv.(StateQueryServiceServer).GetInterchain(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: StateQueryService_GetKeyshare_FullMethodName,
+		FullMethod: StateQueryService_GetInterchain_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StateQueryServiceServer).GetKeyshare(ctx, req.(*GetKeyshareRequest))
+		return srv.(StateQueryServiceServer).GetInterchain(ctx, req.(*GetInterchainRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _StateQueryService_ListKeyshare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListKeyshareRequest)
+func _StateQueryService_GetInterchainByChainId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInterchainByChainIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StateQueryServiceServer).ListKeyshare(ctx, in)
+		return srv.(StateQueryServiceServer).GetInterchainByChainId(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: StateQueryService_ListKeyshare_FullMethodName,
+		FullMethod: StateQueryService_GetInterchainByChainId_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StateQueryServiceServer).ListKeyshare(ctx, req.(*ListKeyshareRequest))
+		return srv.(StateQueryServiceServer).GetInterchainByChainId(ctx, req.(*GetInterchainByChainIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _StateQueryService_GetIdentity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetIdentityRequest)
+func _StateQueryService_GetInterchainByChainCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInterchainByChainCodeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StateQueryServiceServer).GetIdentity(ctx, in)
+		return srv.(StateQueryServiceServer).GetInterchainByChainCode(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: StateQueryService_GetIdentity_FullMethodName,
+		FullMethod: StateQueryService_GetInterchainByChainCode_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StateQueryServiceServer).GetIdentity(ctx, req.(*GetIdentityRequest))
+		return srv.(StateQueryServiceServer).GetInterchainByChainCode(ctx, req.(*GetInterchainByChainCodeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _StateQueryService_GetIdentityByAddressCoinType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetIdentityByAddressCoinTypeRequest)
+func _StateQueryService_ListInterchain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListInterchainRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StateQueryServiceServer).GetIdentityByAddressCoinType(ctx, in)
+		return srv.(StateQueryServiceServer).ListInterchain(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: StateQueryService_GetIdentityByAddressCoinType_FullMethodName,
+		FullMethod: StateQueryService_ListInterchain_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StateQueryServiceServer).GetIdentityByAddressCoinType(ctx, req.(*GetIdentityByAddressCoinTypeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _StateQueryService_GetIdentityByPublicKeyKeyType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetIdentityByPublicKeyKeyTypeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StateQueryServiceServer).GetIdentityByPublicKeyKeyType(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StateQueryService_GetIdentityByPublicKeyKeyType_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StateQueryServiceServer).GetIdentityByPublicKeyKeyType(ctx, req.(*GetIdentityByPublicKeyKeyTypeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _StateQueryService_ListIdentity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListIdentityRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(StateQueryServiceServer).ListIdentity(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: StateQueryService_ListIdentity_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StateQueryServiceServer).ListIdentity(ctx, req.(*ListIdentityRequest))
+		return srv.(StateQueryServiceServer).ListInterchain(ctx, req.(*ListInterchainRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -630,28 +560,20 @@ var StateQueryService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _StateQueryService_ListCredential_Handler,
 		},
 		{
-			MethodName: "GetKeyshare",
-			Handler:    _StateQueryService_GetKeyshare_Handler,
+			MethodName: "GetInterchain",
+			Handler:    _StateQueryService_GetInterchain_Handler,
 		},
 		{
-			MethodName: "ListKeyshare",
-			Handler:    _StateQueryService_ListKeyshare_Handler,
+			MethodName: "GetInterchainByChainId",
+			Handler:    _StateQueryService_GetInterchainByChainId_Handler,
 		},
 		{
-			MethodName: "GetIdentity",
-			Handler:    _StateQueryService_GetIdentity_Handler,
+			MethodName: "GetInterchainByChainCode",
+			Handler:    _StateQueryService_GetInterchainByChainCode_Handler,
 		},
 		{
-			MethodName: "GetIdentityByAddressCoinType",
-			Handler:    _StateQueryService_GetIdentityByAddressCoinType_Handler,
-		},
-		{
-			MethodName: "GetIdentityByPublicKeyKeyType",
-			Handler:    _StateQueryService_GetIdentityByPublicKeyKeyType_Handler,
-		},
-		{
-			MethodName: "ListIdentity",
-			Handler:    _StateQueryService_ListIdentity_Handler,
+			MethodName: "ListInterchain",
+			Handler:    _StateQueryService_ListInterchain_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
