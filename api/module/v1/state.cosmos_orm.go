@@ -11,12 +11,20 @@ import (
 
 type AccountTable interface {
 	Insert(ctx context.Context, account *Account) error
+	InsertReturningIndex(ctx context.Context, account *Account) (uint64, error)
+	LastInsertedSequence(ctx context.Context) (uint64, error)
 	Update(ctx context.Context, account *Account) error
 	Save(ctx context.Context, account *Account) error
 	Delete(ctx context.Context, account *Account) error
-	Has(ctx context.Context, address string) (found bool, err error)
+	Has(ctx context.Context, index uint64) (found bool, err error)
 	// Get returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
-	Get(ctx context.Context, address string) (*Account, error)
+	Get(ctx context.Context, index uint64) (*Account, error)
+	HasByAddress(ctx context.Context, address string) (found bool, err error)
+	// GetByAddress returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
+	GetByAddress(ctx context.Context, address string) (*Account, error)
+	HasByPublicKey(ctx context.Context, public_key []byte) (found bool, err error)
+	// GetByPublicKey returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
+	GetByPublicKey(ctx context.Context, public_key []byte) (*Account, error)
 	List(ctx context.Context, prefixKey AccountIndexKey, opts ...ormlist.Option) (AccountIterator, error)
 	ListRange(ctx context.Context, from, to AccountIndexKey, opts ...ormlist.Option) (AccountIterator, error)
 	DeleteBy(ctx context.Context, prefixKey AccountIndexKey) error
@@ -42,13 +50,26 @@ type AccountIndexKey interface {
 }
 
 // primary key starting index..
-type AccountPrimaryKey = AccountAddressIndexKey
+type AccountPrimaryKey = AccountIndexIndexKey
+
+type AccountIndexIndexKey struct {
+	vs []interface{}
+}
+
+func (x AccountIndexIndexKey) id() uint32            { return 0 }
+func (x AccountIndexIndexKey) values() []interface{} { return x.vs }
+func (x AccountIndexIndexKey) accountIndexKey()      {}
+
+func (this AccountIndexIndexKey) WithIndex(index uint64) AccountIndexIndexKey {
+	this.vs = []interface{}{index}
+	return this
+}
 
 type AccountAddressIndexKey struct {
 	vs []interface{}
 }
 
-func (x AccountAddressIndexKey) id() uint32            { return 0 }
+func (x AccountAddressIndexKey) id() uint32            { return 1 }
 func (x AccountAddressIndexKey) values() []interface{} { return x.vs }
 func (x AccountAddressIndexKey) accountIndexKey()      {}
 
@@ -57,8 +78,21 @@ func (this AccountAddressIndexKey) WithAddress(address string) AccountAddressInd
 	return this
 }
 
+type AccountPublicKeyIndexKey struct {
+	vs []interface{}
+}
+
+func (x AccountPublicKeyIndexKey) id() uint32            { return 2 }
+func (x AccountPublicKeyIndexKey) values() []interface{} { return x.vs }
+func (x AccountPublicKeyIndexKey) accountIndexKey()      {}
+
+func (this AccountPublicKeyIndexKey) WithPublicKey(public_key []byte) AccountPublicKeyIndexKey {
+	this.vs = []interface{}{public_key}
+	return this
+}
+
 type accountTable struct {
-	table ormtable.Table
+	table ormtable.AutoIncrementTable
 }
 
 func (this accountTable) Insert(ctx context.Context, account *Account) error {
@@ -77,13 +111,61 @@ func (this accountTable) Delete(ctx context.Context, account *Account) error {
 	return this.table.Delete(ctx, account)
 }
 
-func (this accountTable) Has(ctx context.Context, address string) (found bool, err error) {
-	return this.table.PrimaryKey().Has(ctx, address)
+func (this accountTable) InsertReturningIndex(ctx context.Context, account *Account) (uint64, error) {
+	return this.table.InsertReturningPKey(ctx, account)
 }
 
-func (this accountTable) Get(ctx context.Context, address string) (*Account, error) {
+func (this accountTable) LastInsertedSequence(ctx context.Context) (uint64, error) {
+	return this.table.LastInsertedSequence(ctx)
+}
+
+func (this accountTable) Has(ctx context.Context, index uint64) (found bool, err error) {
+	return this.table.PrimaryKey().Has(ctx, index)
+}
+
+func (this accountTable) Get(ctx context.Context, index uint64) (*Account, error) {
 	var account Account
-	found, err := this.table.PrimaryKey().Get(ctx, &account, address)
+	found, err := this.table.PrimaryKey().Get(ctx, &account, index)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, ormerrors.NotFound
+	}
+	return &account, nil
+}
+
+func (this accountTable) HasByAddress(ctx context.Context, address string) (found bool, err error) {
+	return this.table.GetIndexByID(1).(ormtable.UniqueIndex).Has(ctx,
+		address,
+	)
+}
+
+func (this accountTable) GetByAddress(ctx context.Context, address string) (*Account, error) {
+	var account Account
+	found, err := this.table.GetIndexByID(1).(ormtable.UniqueIndex).Get(ctx, &account,
+		address,
+	)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, ormerrors.NotFound
+	}
+	return &account, nil
+}
+
+func (this accountTable) HasByPublicKey(ctx context.Context, public_key []byte) (found bool, err error) {
+	return this.table.GetIndexByID(2).(ormtable.UniqueIndex).Has(ctx,
+		public_key,
+	)
+}
+
+func (this accountTable) GetByPublicKey(ctx context.Context, public_key []byte) (*Account, error) {
+	var account Account
+	found, err := this.table.GetIndexByID(2).(ormtable.UniqueIndex).Get(ctx, &account,
+		public_key,
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -120,17 +202,28 @@ func NewAccountTable(db ormtable.Schema) (AccountTable, error) {
 	if table == nil {
 		return nil, ormerrors.TableNotFound.Wrap(string((&Account{}).ProtoReflect().Descriptor().FullName()))
 	}
-	return accountTable{table}, nil
+	return accountTable{table.(ormtable.AutoIncrementTable)}, nil
 }
 
 type CredentialTable interface {
 	Insert(ctx context.Context, credential *Credential) error
+	InsertReturningId(ctx context.Context, credential *Credential) (uint64, error)
+	LastInsertedSequence(ctx context.Context) (uint64, error)
 	Update(ctx context.Context, credential *Credential) error
 	Save(ctx context.Context, credential *Credential) error
 	Delete(ctx context.Context, credential *Credential) error
-	Has(ctx context.Context, did string) (found bool, err error)
+	Has(ctx context.Context, id uint64) (found bool, err error)
 	// Get returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
-	Get(ctx context.Context, did string) (*Credential, error)
+	Get(ctx context.Context, id uint64) (*Credential, error)
+	HasByOriginHandle(ctx context.Context, origin string, handle string) (found bool, err error)
+	// GetByOriginHandle returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
+	GetByOriginHandle(ctx context.Context, origin string, handle string) (*Credential, error)
+	HasByCredentialId(ctx context.Context, credential_id []byte) (found bool, err error)
+	// GetByCredentialId returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
+	GetByCredentialId(ctx context.Context, credential_id []byte) (*Credential, error)
+	HasByPublicKey(ctx context.Context, public_key []byte) (found bool, err error)
+	// GetByPublicKey returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
+	GetByPublicKey(ctx context.Context, public_key []byte) (*Credential, error)
 	List(ctx context.Context, prefixKey CredentialIndexKey, opts ...ormlist.Option) (CredentialIterator, error)
 	ListRange(ctx context.Context, from, to CredentialIndexKey, opts ...ormlist.Option) (CredentialIterator, error)
 	DeleteBy(ctx context.Context, prefixKey CredentialIndexKey) error
@@ -156,23 +249,80 @@ type CredentialIndexKey interface {
 }
 
 // primary key starting index..
-type CredentialPrimaryKey = CredentialDidIndexKey
+type CredentialPrimaryKey = CredentialIdIndexKey
 
-type CredentialDidIndexKey struct {
+type CredentialIdIndexKey struct {
 	vs []interface{}
 }
 
-func (x CredentialDidIndexKey) id() uint32            { return 0 }
-func (x CredentialDidIndexKey) values() []interface{} { return x.vs }
-func (x CredentialDidIndexKey) credentialIndexKey()   {}
+func (x CredentialIdIndexKey) id() uint32            { return 0 }
+func (x CredentialIdIndexKey) values() []interface{} { return x.vs }
+func (x CredentialIdIndexKey) credentialIndexKey()   {}
 
-func (this CredentialDidIndexKey) WithDid(did string) CredentialDidIndexKey {
-	this.vs = []interface{}{did}
+func (this CredentialIdIndexKey) WithId(id uint64) CredentialIdIndexKey {
+	this.vs = []interface{}{id}
+	return this
+}
+
+type CredentialHandleIndexKey struct {
+	vs []interface{}
+}
+
+func (x CredentialHandleIndexKey) id() uint32            { return 1 }
+func (x CredentialHandleIndexKey) values() []interface{} { return x.vs }
+func (x CredentialHandleIndexKey) credentialIndexKey()   {}
+
+func (this CredentialHandleIndexKey) WithHandle(handle string) CredentialHandleIndexKey {
+	this.vs = []interface{}{handle}
+	return this
+}
+
+type CredentialOriginHandleIndexKey struct {
+	vs []interface{}
+}
+
+func (x CredentialOriginHandleIndexKey) id() uint32            { return 2 }
+func (x CredentialOriginHandleIndexKey) values() []interface{} { return x.vs }
+func (x CredentialOriginHandleIndexKey) credentialIndexKey()   {}
+
+func (this CredentialOriginHandleIndexKey) WithOrigin(origin string) CredentialOriginHandleIndexKey {
+	this.vs = []interface{}{origin}
+	return this
+}
+
+func (this CredentialOriginHandleIndexKey) WithOriginHandle(origin string, handle string) CredentialOriginHandleIndexKey {
+	this.vs = []interface{}{origin, handle}
+	return this
+}
+
+type CredentialCredentialIdIndexKey struct {
+	vs []interface{}
+}
+
+func (x CredentialCredentialIdIndexKey) id() uint32            { return 3 }
+func (x CredentialCredentialIdIndexKey) values() []interface{} { return x.vs }
+func (x CredentialCredentialIdIndexKey) credentialIndexKey()   {}
+
+func (this CredentialCredentialIdIndexKey) WithCredentialId(credential_id []byte) CredentialCredentialIdIndexKey {
+	this.vs = []interface{}{credential_id}
+	return this
+}
+
+type CredentialPublicKeyIndexKey struct {
+	vs []interface{}
+}
+
+func (x CredentialPublicKeyIndexKey) id() uint32            { return 4 }
+func (x CredentialPublicKeyIndexKey) values() []interface{} { return x.vs }
+func (x CredentialPublicKeyIndexKey) credentialIndexKey()   {}
+
+func (this CredentialPublicKeyIndexKey) WithPublicKey(public_key []byte) CredentialPublicKeyIndexKey {
+	this.vs = []interface{}{public_key}
 	return this
 }
 
 type credentialTable struct {
-	table ormtable.Table
+	table ormtable.AutoIncrementTable
 }
 
 func (this credentialTable) Insert(ctx context.Context, credential *Credential) error {
@@ -191,13 +341,83 @@ func (this credentialTable) Delete(ctx context.Context, credential *Credential) 
 	return this.table.Delete(ctx, credential)
 }
 
-func (this credentialTable) Has(ctx context.Context, did string) (found bool, err error) {
-	return this.table.PrimaryKey().Has(ctx, did)
+func (this credentialTable) InsertReturningId(ctx context.Context, credential *Credential) (uint64, error) {
+	return this.table.InsertReturningPKey(ctx, credential)
 }
 
-func (this credentialTable) Get(ctx context.Context, did string) (*Credential, error) {
+func (this credentialTable) LastInsertedSequence(ctx context.Context) (uint64, error) {
+	return this.table.LastInsertedSequence(ctx)
+}
+
+func (this credentialTable) Has(ctx context.Context, id uint64) (found bool, err error) {
+	return this.table.PrimaryKey().Has(ctx, id)
+}
+
+func (this credentialTable) Get(ctx context.Context, id uint64) (*Credential, error) {
 	var credential Credential
-	found, err := this.table.PrimaryKey().Get(ctx, &credential, did)
+	found, err := this.table.PrimaryKey().Get(ctx, &credential, id)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, ormerrors.NotFound
+	}
+	return &credential, nil
+}
+
+func (this credentialTable) HasByOriginHandle(ctx context.Context, origin string, handle string) (found bool, err error) {
+	return this.table.GetIndexByID(2).(ormtable.UniqueIndex).Has(ctx,
+		origin,
+		handle,
+	)
+}
+
+func (this credentialTable) GetByOriginHandle(ctx context.Context, origin string, handle string) (*Credential, error) {
+	var credential Credential
+	found, err := this.table.GetIndexByID(2).(ormtable.UniqueIndex).Get(ctx, &credential,
+		origin,
+		handle,
+	)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, ormerrors.NotFound
+	}
+	return &credential, nil
+}
+
+func (this credentialTable) HasByCredentialId(ctx context.Context, credential_id []byte) (found bool, err error) {
+	return this.table.GetIndexByID(3).(ormtable.UniqueIndex).Has(ctx,
+		credential_id,
+	)
+}
+
+func (this credentialTable) GetByCredentialId(ctx context.Context, credential_id []byte) (*Credential, error) {
+	var credential Credential
+	found, err := this.table.GetIndexByID(3).(ormtable.UniqueIndex).Get(ctx, &credential,
+		credential_id,
+	)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, ormerrors.NotFound
+	}
+	return &credential, nil
+}
+
+func (this credentialTable) HasByPublicKey(ctx context.Context, public_key []byte) (found bool, err error) {
+	return this.table.GetIndexByID(4).(ormtable.UniqueIndex).Has(ctx,
+		public_key,
+	)
+}
+
+func (this credentialTable) GetByPublicKey(ctx context.Context, public_key []byte) (*Credential, error) {
+	var credential Credential
+	found, err := this.table.GetIndexByID(4).(ormtable.UniqueIndex).Get(ctx, &credential,
+		public_key,
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -234,121 +454,7 @@ func NewCredentialTable(db ormtable.Schema) (CredentialTable, error) {
 	if table == nil {
 		return nil, ormerrors.TableNotFound.Wrap(string((&Credential{}).ProtoReflect().Descriptor().FullName()))
 	}
-	return credentialTable{table}, nil
-}
-
-type PersonaTable interface {
-	Insert(ctx context.Context, persona *Persona) error
-	Update(ctx context.Context, persona *Persona) error
-	Save(ctx context.Context, persona *Persona) error
-	Delete(ctx context.Context, persona *Persona) error
-	Has(ctx context.Context, did string) (found bool, err error)
-	// Get returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
-	Get(ctx context.Context, did string) (*Persona, error)
-	List(ctx context.Context, prefixKey PersonaIndexKey, opts ...ormlist.Option) (PersonaIterator, error)
-	ListRange(ctx context.Context, from, to PersonaIndexKey, opts ...ormlist.Option) (PersonaIterator, error)
-	DeleteBy(ctx context.Context, prefixKey PersonaIndexKey) error
-	DeleteRange(ctx context.Context, from, to PersonaIndexKey) error
-
-	doNotImplement()
-}
-
-type PersonaIterator struct {
-	ormtable.Iterator
-}
-
-func (i PersonaIterator) Value() (*Persona, error) {
-	var persona Persona
-	err := i.UnmarshalMessage(&persona)
-	return &persona, err
-}
-
-type PersonaIndexKey interface {
-	id() uint32
-	values() []interface{}
-	personaIndexKey()
-}
-
-// primary key starting index..
-type PersonaPrimaryKey = PersonaDidIndexKey
-
-type PersonaDidIndexKey struct {
-	vs []interface{}
-}
-
-func (x PersonaDidIndexKey) id() uint32            { return 0 }
-func (x PersonaDidIndexKey) values() []interface{} { return x.vs }
-func (x PersonaDidIndexKey) personaIndexKey()      {}
-
-func (this PersonaDidIndexKey) WithDid(did string) PersonaDidIndexKey {
-	this.vs = []interface{}{did}
-	return this
-}
-
-type personaTable struct {
-	table ormtable.Table
-}
-
-func (this personaTable) Insert(ctx context.Context, persona *Persona) error {
-	return this.table.Insert(ctx, persona)
-}
-
-func (this personaTable) Update(ctx context.Context, persona *Persona) error {
-	return this.table.Update(ctx, persona)
-}
-
-func (this personaTable) Save(ctx context.Context, persona *Persona) error {
-	return this.table.Save(ctx, persona)
-}
-
-func (this personaTable) Delete(ctx context.Context, persona *Persona) error {
-	return this.table.Delete(ctx, persona)
-}
-
-func (this personaTable) Has(ctx context.Context, did string) (found bool, err error) {
-	return this.table.PrimaryKey().Has(ctx, did)
-}
-
-func (this personaTable) Get(ctx context.Context, did string) (*Persona, error) {
-	var persona Persona
-	found, err := this.table.PrimaryKey().Get(ctx, &persona, did)
-	if err != nil {
-		return nil, err
-	}
-	if !found {
-		return nil, ormerrors.NotFound
-	}
-	return &persona, nil
-}
-
-func (this personaTable) List(ctx context.Context, prefixKey PersonaIndexKey, opts ...ormlist.Option) (PersonaIterator, error) {
-	it, err := this.table.GetIndexByID(prefixKey.id()).List(ctx, prefixKey.values(), opts...)
-	return PersonaIterator{it}, err
-}
-
-func (this personaTable) ListRange(ctx context.Context, from, to PersonaIndexKey, opts ...ormlist.Option) (PersonaIterator, error) {
-	it, err := this.table.GetIndexByID(from.id()).ListRange(ctx, from.values(), to.values(), opts...)
-	return PersonaIterator{it}, err
-}
-
-func (this personaTable) DeleteBy(ctx context.Context, prefixKey PersonaIndexKey) error {
-	return this.table.GetIndexByID(prefixKey.id()).DeleteBy(ctx, prefixKey.values()...)
-}
-
-func (this personaTable) DeleteRange(ctx context.Context, from, to PersonaIndexKey) error {
-	return this.table.GetIndexByID(from.id()).DeleteRange(ctx, from.values(), to.values())
-}
-
-func (this personaTable) doNotImplement() {}
-
-var _ PersonaTable = personaTable{}
-
-func NewPersonaTable(db ormtable.Schema) (PersonaTable, error) {
-	table := db.GetTable(&Persona{})
-	if table == nil {
-		return nil, ormerrors.TableNotFound.Wrap(string((&Persona{}).ProtoReflect().Descriptor().FullName()))
-	}
-	return personaTable{table}, nil
+	return credentialTable{table.(ormtable.AutoIncrementTable)}, nil
 }
 
 type KeyshareTable interface {
@@ -467,12 +573,14 @@ func NewKeyshareTable(db ormtable.Schema) (KeyshareTable, error) {
 
 type IdentityTable interface {
 	Insert(ctx context.Context, identity *Identity) error
+	InsertReturningId(ctx context.Context, identity *Identity) (uint64, error)
+	LastInsertedSequence(ctx context.Context) (uint64, error)
 	Update(ctx context.Context, identity *Identity) error
 	Save(ctx context.Context, identity *Identity) error
 	Delete(ctx context.Context, identity *Identity) error
-	Has(ctx context.Context, did string) (found bool, err error)
+	Has(ctx context.Context, id uint64) (found bool, err error)
 	// Get returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
-	Get(ctx context.Context, did string) (*Identity, error)
+	Get(ctx context.Context, id uint64) (*Identity, error)
 	HasByAddressCoinType(ctx context.Context, address string, coin_type uint32) (found bool, err error)
 	// GetByAddressCoinType returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
 	GetByAddressCoinType(ctx context.Context, address string, coin_type uint32) (*Identity, error)
@@ -504,18 +612,18 @@ type IdentityIndexKey interface {
 }
 
 // primary key starting index..
-type IdentityPrimaryKey = IdentityDidIndexKey
+type IdentityPrimaryKey = IdentityIdIndexKey
 
-type IdentityDidIndexKey struct {
+type IdentityIdIndexKey struct {
 	vs []interface{}
 }
 
-func (x IdentityDidIndexKey) id() uint32            { return 0 }
-func (x IdentityDidIndexKey) values() []interface{} { return x.vs }
-func (x IdentityDidIndexKey) identityIndexKey()     {}
+func (x IdentityIdIndexKey) id() uint32            { return 0 }
+func (x IdentityIdIndexKey) values() []interface{} { return x.vs }
+func (x IdentityIdIndexKey) identityIndexKey()     {}
 
-func (this IdentityDidIndexKey) WithDid(did string) IdentityDidIndexKey {
-	this.vs = []interface{}{did}
+func (this IdentityIdIndexKey) WithId(id uint64) IdentityIdIndexKey {
+	this.vs = []interface{}{id}
 	return this
 }
 
@@ -556,7 +664,7 @@ func (this IdentityPublicKeyKeyTypeIndexKey) WithPublicKeyKeyType(public_key []b
 }
 
 type identityTable struct {
-	table ormtable.Table
+	table ormtable.AutoIncrementTable
 }
 
 func (this identityTable) Insert(ctx context.Context, identity *Identity) error {
@@ -575,13 +683,21 @@ func (this identityTable) Delete(ctx context.Context, identity *Identity) error 
 	return this.table.Delete(ctx, identity)
 }
 
-func (this identityTable) Has(ctx context.Context, did string) (found bool, err error) {
-	return this.table.PrimaryKey().Has(ctx, did)
+func (this identityTable) InsertReturningId(ctx context.Context, identity *Identity) (uint64, error) {
+	return this.table.InsertReturningPKey(ctx, identity)
 }
 
-func (this identityTable) Get(ctx context.Context, did string) (*Identity, error) {
+func (this identityTable) LastInsertedSequence(ctx context.Context) (uint64, error) {
+	return this.table.LastInsertedSequence(ctx)
+}
+
+func (this identityTable) Has(ctx context.Context, id uint64) (found bool, err error) {
+	return this.table.PrimaryKey().Has(ctx, id)
+}
+
+func (this identityTable) Get(ctx context.Context, id uint64) (*Identity, error) {
 	var identity Identity
-	found, err := this.table.PrimaryKey().Get(ctx, &identity, did)
+	found, err := this.table.PrimaryKey().Get(ctx, &identity, id)
 	if err != nil {
 		return nil, err
 	}
@@ -662,13 +778,12 @@ func NewIdentityTable(db ormtable.Schema) (IdentityTable, error) {
 	if table == nil {
 		return nil, ormerrors.TableNotFound.Wrap(string((&Identity{}).ProtoReflect().Descriptor().FullName()))
 	}
-	return identityTable{table}, nil
+	return identityTable{table.(ormtable.AutoIncrementTable)}, nil
 }
 
 type StateStore interface {
 	AccountTable() AccountTable
 	CredentialTable() CredentialTable
-	PersonaTable() PersonaTable
 	KeyshareTable() KeyshareTable
 	IdentityTable() IdentityTable
 
@@ -678,7 +793,6 @@ type StateStore interface {
 type stateStore struct {
 	account    AccountTable
 	credential CredentialTable
-	persona    PersonaTable
 	keyshare   KeyshareTable
 	identity   IdentityTable
 }
@@ -689,10 +803,6 @@ func (x stateStore) AccountTable() AccountTable {
 
 func (x stateStore) CredentialTable() CredentialTable {
 	return x.credential
-}
-
-func (x stateStore) PersonaTable() PersonaTable {
-	return x.persona
 }
 
 func (x stateStore) KeyshareTable() KeyshareTable {
@@ -718,11 +828,6 @@ func NewStateStore(db ormtable.Schema) (StateStore, error) {
 		return nil, err
 	}
 
-	personaTable, err := NewPersonaTable(db)
-	if err != nil {
-		return nil, err
-	}
-
 	keyshareTable, err := NewKeyshareTable(db)
 	if err != nil {
 		return nil, err
@@ -736,7 +841,6 @@ func NewStateStore(db ormtable.Schema) (StateStore, error) {
 	return stateStore{
 		accountTable,
 		credentialTable,
-		personaTable,
 		keyshareTable,
 		identityTable,
 	}, nil
