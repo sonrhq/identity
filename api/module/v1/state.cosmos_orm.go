@@ -473,6 +473,9 @@ type InterchainTable interface {
 	HasByChainCode(ctx context.Context, chain_code uint32) (found bool, err error)
 	// GetByChainCode returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
 	GetByChainCode(ctx context.Context, chain_code uint32) (*Interchain, error)
+	HasByName(ctx context.Context, name string) (found bool, err error)
+	// GetByName returns nil and an error which responds true to ormerrors.IsNotFound() if the record was not found.
+	GetByName(ctx context.Context, name string) (*Interchain, error)
 	List(ctx context.Context, prefixKey InterchainIndexKey, opts ...ormlist.Option) (InterchainIterator, error)
 	ListRange(ctx context.Context, from, to InterchainIndexKey, opts ...ormlist.Option) (InterchainIterator, error)
 	DeleteBy(ctx context.Context, prefixKey InterchainIndexKey) error
@@ -536,6 +539,19 @@ func (x InterchainChainCodeIndexKey) interchainIndexKey()   {}
 
 func (this InterchainChainCodeIndexKey) WithChainCode(chain_code uint32) InterchainChainCodeIndexKey {
 	this.vs = []interface{}{chain_code}
+	return this
+}
+
+type InterchainNameIndexKey struct {
+	vs []interface{}
+}
+
+func (x InterchainNameIndexKey) id() uint32            { return 3 }
+func (x InterchainNameIndexKey) values() []interface{} { return x.vs }
+func (x InterchainNameIndexKey) interchainIndexKey()   {}
+
+func (this InterchainNameIndexKey) WithName(name string) InterchainNameIndexKey {
+	this.vs = []interface{}{name}
 	return this
 }
 
@@ -613,6 +629,26 @@ func (this interchainTable) GetByChainCode(ctx context.Context, chain_code uint3
 	var interchain Interchain
 	found, err := this.table.GetIndexByID(2).(ormtable.UniqueIndex).Get(ctx, &interchain,
 		chain_code,
+	)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, ormerrors.NotFound
+	}
+	return &interchain, nil
+}
+
+func (this interchainTable) HasByName(ctx context.Context, name string) (found bool, err error) {
+	return this.table.GetIndexByID(3).(ormtable.UniqueIndex).Has(ctx,
+		name,
+	)
+}
+
+func (this interchainTable) GetByName(ctx context.Context, name string) (*Interchain, error) {
+	var interchain Interchain
+	found, err := this.table.GetIndexByID(3).(ormtable.UniqueIndex).Get(ctx, &interchain,
+		name,
 	)
 	if err != nil {
 		return nil, err

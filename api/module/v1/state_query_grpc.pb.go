@@ -33,6 +33,7 @@ const (
 	StateQueryService_GetInterchain_FullMethodName               = "/sonrhq.identity.module.v1.StateQueryService/GetInterchain"
 	StateQueryService_GetInterchainByChainId_FullMethodName      = "/sonrhq.identity.module.v1.StateQueryService/GetInterchainByChainId"
 	StateQueryService_GetInterchainByChainCode_FullMethodName    = "/sonrhq.identity.module.v1.StateQueryService/GetInterchainByChainCode"
+	StateQueryService_GetInterchainByName_FullMethodName         = "/sonrhq.identity.module.v1.StateQueryService/GetInterchainByName"
 	StateQueryService_ListInterchain_FullMethodName              = "/sonrhq.identity.module.v1.StateQueryService/ListInterchain"
 )
 
@@ -64,6 +65,8 @@ type StateQueryServiceClient interface {
 	GetInterchainByChainId(ctx context.Context, in *GetInterchainByChainIdRequest, opts ...grpc.CallOption) (*GetInterchainByChainIdResponse, error)
 	// GetInterchainByChainCode queries the Interchain table by its ChainCode index
 	GetInterchainByChainCode(ctx context.Context, in *GetInterchainByChainCodeRequest, opts ...grpc.CallOption) (*GetInterchainByChainCodeResponse, error)
+	// GetInterchainByName queries the Interchain table by its Name index
+	GetInterchainByName(ctx context.Context, in *GetInterchainByNameRequest, opts ...grpc.CallOption) (*GetInterchainByNameResponse, error)
 	// ListInterchain queries the Interchain table using prefix and range queries against defined indexes.
 	ListInterchain(ctx context.Context, in *ListInterchainRequest, opts ...grpc.CallOption) (*ListInterchainResponse, error)
 }
@@ -184,6 +187,15 @@ func (c *stateQueryServiceClient) GetInterchainByChainCode(ctx context.Context, 
 	return out, nil
 }
 
+func (c *stateQueryServiceClient) GetInterchainByName(ctx context.Context, in *GetInterchainByNameRequest, opts ...grpc.CallOption) (*GetInterchainByNameResponse, error) {
+	out := new(GetInterchainByNameResponse)
+	err := c.cc.Invoke(ctx, StateQueryService_GetInterchainByName_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *stateQueryServiceClient) ListInterchain(ctx context.Context, in *ListInterchainRequest, opts ...grpc.CallOption) (*ListInterchainResponse, error) {
 	out := new(ListInterchainResponse)
 	err := c.cc.Invoke(ctx, StateQueryService_ListInterchain_FullMethodName, in, out, opts...)
@@ -221,6 +233,8 @@ type StateQueryServiceServer interface {
 	GetInterchainByChainId(context.Context, *GetInterchainByChainIdRequest) (*GetInterchainByChainIdResponse, error)
 	// GetInterchainByChainCode queries the Interchain table by its ChainCode index
 	GetInterchainByChainCode(context.Context, *GetInterchainByChainCodeRequest) (*GetInterchainByChainCodeResponse, error)
+	// GetInterchainByName queries the Interchain table by its Name index
+	GetInterchainByName(context.Context, *GetInterchainByNameRequest) (*GetInterchainByNameResponse, error)
 	// ListInterchain queries the Interchain table using prefix and range queries against defined indexes.
 	ListInterchain(context.Context, *ListInterchainRequest) (*ListInterchainResponse, error)
 	mustEmbedUnimplementedStateQueryServiceServer()
@@ -265,6 +279,9 @@ func (UnimplementedStateQueryServiceServer) GetInterchainByChainId(context.Conte
 }
 func (UnimplementedStateQueryServiceServer) GetInterchainByChainCode(context.Context, *GetInterchainByChainCodeRequest) (*GetInterchainByChainCodeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInterchainByChainCode not implemented")
+}
+func (UnimplementedStateQueryServiceServer) GetInterchainByName(context.Context, *GetInterchainByNameRequest) (*GetInterchainByNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInterchainByName not implemented")
 }
 func (UnimplementedStateQueryServiceServer) ListInterchain(context.Context, *ListInterchainRequest) (*ListInterchainResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListInterchain not implemented")
@@ -498,6 +515,24 @@ func _StateQueryService_GetInterchainByChainCode_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StateQueryService_GetInterchainByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInterchainByNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StateQueryServiceServer).GetInterchainByName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StateQueryService_GetInterchainByName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StateQueryServiceServer).GetInterchainByName(ctx, req.(*GetInterchainByNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _StateQueryService_ListInterchain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListInterchainRequest)
 	if err := dec(in); err != nil {
@@ -570,6 +605,10 @@ var StateQueryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetInterchainByChainCode",
 			Handler:    _StateQueryService_GetInterchainByChainCode_Handler,
+		},
+		{
+			MethodName: "GetInterchainByName",
+			Handler:    _StateQueryService_GetInterchainByName_Handler,
 		},
 		{
 			MethodName: "ListInterchain",

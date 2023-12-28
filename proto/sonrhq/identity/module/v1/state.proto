@@ -98,6 +98,7 @@ message Interchain {
     primary_key : {fields : "index" auto_increment : true}
     index : {id : 1 fields : "chain_id" unique : true}
     index : {id : 2 fields : "chain_code" unique : true}
+    index : {id : 3 fields : "name" unique : true}
   };
 
   uint64 index = 1;

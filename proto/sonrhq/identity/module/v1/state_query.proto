@@ -31,6 +31,8 @@ service StateQueryService {
   rpc GetInterchainByChainId(GetInterchainByChainIdRequest) returns (GetInterchainByChainIdResponse) {}
   // GetInterchainByChainCode queries the Interchain table by its ChainCode index
   rpc GetInterchainByChainCode(GetInterchainByChainCodeRequest) returns (GetInterchainByChainCodeResponse) {}
+  // GetInterchainByName queries the Interchain table by its Name index
+  rpc GetInterchainByName(GetInterchainByNameRequest) returns (GetInterchainByNameResponse) {}
   // ListInterchain queries the Interchain table using prefix and range queries against defined indexes.
   rpc ListInterchain(ListInterchainRequest) returns (ListInterchainResponse) {}
 }
@@ -287,6 +289,16 @@ message GetInterchainByChainCodeResponse {
   Interchain value = 1;
 }
 
+// GetInterchainByNameRequest is the StateQuery/GetInterchainByNameRequest request type.
+message GetInterchainByNameRequest {
+  string name = 1;
+}
+
+// GetInterchainByNameResponse is the StateQuery/GetInterchainByNameResponse response type.
+message GetInterchainByNameResponse {
+  Interchain value = 1;
+}
+
 // ListInterchainRequest is the StateQuery/ListInterchainRequest request type.
 message ListInterchainRequest {
   // IndexKey specifies the value of an index key to use in prefix and range queries.
@@ -299,6 +311,8 @@ message ListInterchainRequest {
       ChainId chain_id = 2;
       // chain_code specifies the value of the ChainCode index key to use in the query.
       ChainCode chain_code = 3;
+      // name specifies the value of the Name index key to use in the query.
+      Name name = 4;
     }
     
     message Index {
@@ -317,6 +331,12 @@ message ListInterchainRequest {
       // chain_code is the value of the chain_code field in the index.
       // It can be omitted to query for all valid values of that field in this segment of the index.
       optional uint32 chain_code = 1;
+    }
+    
+    message Name {
+      // name is the value of the name field in the index.
+      // It can be omitted to query for all valid values of that field in this segment of the index.
+      optional string name = 1;
     }
   }
   
