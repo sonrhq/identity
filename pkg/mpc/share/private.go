@@ -87,7 +87,6 @@ func (p *PrivateShare) Verify(msg []byte, sigBz []byte) (bool, error) {
 	return curves.VerifyEcdsa(publicKey, digest[:], sig), nil
 }
 
-
 func (p *PrivateShare) Marshal() ([]byte, error) {
 	if p.result == nil {
 		return nil, fmt.Errorf("no result to marshal")

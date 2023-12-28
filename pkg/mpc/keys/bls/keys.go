@@ -5,7 +5,8 @@ import (
 
 	"github.com/mr-tron/base58"
 	"github.com/sonrhq/sonr/crypto/accumulator"
-	"github.com/sonrhq/sonr/crypto/core/curves"
+
+	"github.com/sonrhq/identity/pkg/mpc"
 )
 
 // SecretKey is the secret key for the BLS scheme
@@ -21,9 +22,8 @@ type Element = accumulator.Element
 
 // NewSecretKey creates a new secret key
 func NewSecretKey() (*SecretKey, error) {
-	curve := curves.BLS12381(&curves.PointBls12381G1{})
 	var seed [32]byte
-	key, err := new(accumulator.SecretKey).New(curve, seed[:])
+	key, err := new(accumulator.SecretKey).New(mpc.K_DEFAULT_ZK_CURVE, seed[:])
 	if err != nil {
 		return nil, err
 	}
@@ -42,8 +42,7 @@ func OpenSecretKey(key []byte) (*SecretKey, error) {
 
 // CreateAccumulator creates a new accumulator
 func (s *SecretKey) CreateAccumulator() (*Accumulator, error) {
-	curve := curves.BLS12381(&curves.PointBls12381G1{})
-	acc, err := new(accumulator.Accumulator).New(curve)
+	acc, err := new(accumulator.Accumulator).New(mpc.K_DEFAULT_ZK_CURVE)
 	if err != nil {
 		return nil, err
 	}
@@ -66,8 +65,7 @@ func (s *SecretKey) OpenAccumulator(hexAcc string) (*Accumulator, error) {
 
 // PublicKey returns the public key for the secret key
 func (s *SecretKey) PublicKey() (*PublicKey, error) {
-	curve := curves.BLS12381(&curves.PointBls12381G1{})
-	pk, err := s.SecretKey.GetPublicKey(curve)
+	pk, err := s.SecretKey.GetPublicKey(mpc.K_DEFAULT_ZK_CURVE)
 	if err != nil {
 		return nil, err
 	}
@@ -86,10 +84,9 @@ type Accumulator struct {
 
 // AddValue adds a value to the accumulator
 func (a *Accumulator) AddValues(k *SecretKey, values ...string) error {
-	curve := curves.BLS12381(&curves.PointBls12381G1{})
 	elements := []accumulator.Element{}
 	for _, value := range values {
-		element := curve.Scalar.Hash([]byte(value))
+		element := mpc.K_DEFAULT_ZK_CURVE.Scalar.Hash([]byte(value))
 		elements = append(elements, element)
 	}
 
@@ -103,10 +100,9 @@ func (a *Accumulator) AddValues(k *SecretKey, values ...string) error {
 
 // RemoveValue removes a value from the accumulator
 func (a *Accumulator) RemoveValues(k *SecretKey, values ...string) error {
-	curve := curves.BLS12381(&curves.PointBls12381G1{})
 	elements := []accumulator.Element{}
 	for _, value := range values {
-		element := curve.Scalar.Hash([]byte(value))
+		element := mpc.K_DEFAULT_ZK_CURVE.Scalar.Hash([]byte(value))
 		elements = append(elements, element)
 	}
 
@@ -120,8 +116,7 @@ func (a *Accumulator) RemoveValues(k *SecretKey, values ...string) error {
 
 // CreateWitness creates a witness for the accumulator for a given value
 func (a *Accumulator) CreateWitness(k *SecretKey, value string) (string, error) {
-	curve := curves.BLS12381(&curves.PointBls12381G1{})
-	element := curve.Scalar.Hash([]byte(value))
+	element := mpc.K_DEFAULT_ZK_CURVE.Scalar.Hash([]byte(value))
 	mw, err := new(accumulator.MembershipWitness).New(element, a.Accumulator, k.SecretKey)
 	if err != nil {
 		return "", err
