@@ -10,7 +10,7 @@ import (
 	"golang.org/x/crypto/sha3"
 )
 
-func (s *keyset) GenerateSequence(req *GenerateRequest) {
+func (s *keychain) GenerateSequence(req *GenerateRequest) {
 	aErr, bErr := runIteratedProtocol(s.rootPub.Iterator(), s.rootPriv.Iterator())
 	if aErr != pv1.ErrProtocolFinished || bErr != pv1.ErrProtocolFinished {
 		req.ResponseChannel <- &GenerateResponse{
@@ -39,7 +39,7 @@ func (s *keyset) GenerateSequence(req *GenerateRequest) {
 	}
 }
 
-func (s *keyset) SignSequence(req *SignRequest) {
+func (s *keychain) SignSequence(req *SignRequest) {
 	if !s.IsReady {
 		req.ResponseChannel <- &SignResponse{
 			Signature: nil,
@@ -112,7 +112,7 @@ func (s *keyset) SignSequence(req *SignRequest) {
 	}
 }
 
-func (s *keyset) VerifySequence(req *VerifyRequest) {
+func (s *keychain) VerifySequence(req *VerifyRequest) {
 	sig, err := ecdsa.DeserializeSecp256k1Signature(req.Signature)
 	if err != nil {
 		req.ResponseChannel <- &VerifyResponse{

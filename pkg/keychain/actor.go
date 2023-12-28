@@ -13,8 +13,8 @@ type KeyChain interface {
 	actor.Actor
 }
 
-// keyset is an actor that is responsible for one of the two parts of a dkls protocol.
-type keyset struct {
+// keychain is an actor that is responsible for one of the two parts of a dkls protocol.
+type keychain struct {
 	DID  string
 	Name string
 	IsReady bool
@@ -28,7 +28,7 @@ type keyset struct {
 func New(crv *curves.Curve) KeyChain {
 	privKs := share.NewPrivateShare(crv)
 	pubKs := share.NewPublicShare(crv)
-	return &keyset{
+	return &keychain{
 		IsReady: false,
 		curve:    crv,
 		rootPriv: privKs,
@@ -37,7 +37,7 @@ func New(crv *curves.Curve) KeyChain {
 }
 
 // Receive handles the message from the keyshare.
-func (s *keyset) Receive(context actor.Context) {
+func (s *keychain) Receive(context actor.Context) {
 	switch msg := context.Message().(type) {
 	case *actor.Started:
 		msg.SystemMessage()

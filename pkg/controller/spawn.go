@@ -12,10 +12,10 @@ import (
 )
 
 // ! ||--------------------------------------------------------------------------------||
-// ! ||                              Configuration Options                             ||
+// ! ||                              Configuration SpawnOptions                             ||
 // ! ||--------------------------------------------------------------------------------||
-// Options is the options for the controller.
-type Options struct {
+// SpawnOptions is the options for the controller.
+type SpawnOptions struct {
 	isExisting bool
 	jwt        string
 	origin     string
@@ -27,9 +27,9 @@ type Options struct {
 	EnableSpawn    bool
 }
 
-// DefaultOptions returns the default options for the controller.
-func DefaultOptions() *Options {
-	return &Options{
+// DefaultSpawnOptions returns the default options for the controller.
+func DefaultSpawnOptions() *SpawnOptions {
+	return &SpawnOptions{
 		isExisting:     false,
 		jwt:            "",
 		origin:         "localhost",
@@ -42,10 +42,10 @@ func DefaultOptions() *Options {
 }
 
 // Option is a function that applies an option to the controller.
-type Option func(*Options) *Options
+type Option func(*SpawnOptions) *SpawnOptions
 
 // WithJWT sets the jwt for the controller.
-func (o *Options) WithJWT(jwt string) *Options {
+func (o *SpawnOptions) WithJWT(jwt string) *SpawnOptions {
 	if jwt != "" {
 		o.jwt = jwt
 		o.isExisting = true
@@ -56,37 +56,37 @@ func (o *Options) WithJWT(jwt string) *Options {
 }
 
 // WithCurve sets the curve for the controller.
-func (o *Options) WithCurve(curve *curves.Curve) *Options {
+func (o *SpawnOptions) WithCurve(curve *curves.Curve) *SpawnOptions {
 	o.curve = curve
 	return o
 }
 
 // WithOrigin sets the origin for the controller.
-func (o *Options) WithOrigin(origin string) *Options {
+func (o *SpawnOptions) WithOrigin(origin string) *SpawnOptions {
 	o.origin = origin
 	return o
 }
 
 // WithTimeout sets the timeout for the controller.
-func (o *Options) WithTimeout(timeout time.Duration) *Options {
+func (o *SpawnOptions) WithTimeout(timeout time.Duration) *SpawnOptions {
 	o.WithinDuration = timeout
 	return o
 }
 
 // WithMaxRetries sets the max retries for the controller.
-func (o *Options) WithMaxRetries(maxRetries int) *Options {
+func (o *SpawnOptions) WithMaxRetries(maxRetries int) *SpawnOptions {
 	o.MaxRetries = maxRetries
 	return o
 }
 
 // WithSpawnPrefix sets the spawn prefix for the controller.
-func (o *Options) WithSpawnPrefix(prefix string) *Options {
+func (o *SpawnOptions) WithSpawnPrefix(prefix string) *SpawnOptions {
 	o.SpawnPrefix = prefix
 	return o
 }
 
 // WithDisabledSpawn disables the spawning of the controller.
-func (o *Options) WithDisabledSpawn() *Options {
+func (o *SpawnOptions) WithDisabledSpawn() *SpawnOptions {
 	o.EnableSpawn = false
 	return o
 }
@@ -97,7 +97,7 @@ func (o *Options) WithDisabledSpawn() *Options {
 
 
 // Apply applies the options and returns a Controller
-func (o *Options) Apply(ctx context.Context, opts ...Option) (*controller, error) {
+func (o *SpawnOptions) Apply(ctx context.Context, opts ...Option) (*controller, error) {
 	for _, opt := range opts {
 		o = opt(o)
 	}
@@ -114,7 +114,7 @@ func (o *Options) Apply(ctx context.Context, opts ...Option) (*controller, error
 }
 
 // Spawn spawns the controller.
-func (o *Options) Spawn(c *controller) error {
+func (o *SpawnOptions) Spawn(c *controller) error {
 	if c == nil {
 		return fmt.Errorf("controller is nil")
 	}

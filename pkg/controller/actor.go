@@ -26,7 +26,7 @@ type controller struct {
 
 // New creates a new controller actor.
 func New(ctx context.Context, options ...Option) (Controller, error) {
-	opts := DefaultOptions()
+	opts := DefaultSpawnOptions()
 	c, err := opts.Apply(ctx, options...)
 	if err != nil {
 		log.Printf("failed to build controller. %v", err)
