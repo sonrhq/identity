@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/sonrhq/identity/pkg/mpc/keys/bls"
+	"github.com/sonrhq/identity/pkg/bls"
 )
 
 func TestNewKeys(t *testing.T) {
