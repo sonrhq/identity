@@ -8,6 +8,8 @@ import (
 	"github.com/asynkron/protoactor-go/actor"
 	"github.com/sonrhq/sonr/crypto/core/curves"
 
+	modulev1 "github.com/sonrhq/identity/api/module/v1"
+	"github.com/sonrhq/identity/pkg/keychain"
 	"github.com/sonrhq/identity/pkg/mpc"
 )
 
@@ -95,16 +97,16 @@ func (o *SpawnOptions) WithDisabledSpawn() *SpawnOptions {
 // ! ||                               Generation Methods                               ||
 // ! ||--------------------------------------------------------------------------------||
 
-
 // Apply applies the options and returns a Controller
 func (o *SpawnOptions) Apply(ctx context.Context, opts ...Option) (*controller, error) {
 	for _, opt := range opts {
 		o = opt(o)
 	}
 	c := &controller{
-		curve: o.curve,
-		jwt:   o.jwt,
-		ctx:   ctx,
+		curve:     o.curve,
+		jwt:       o.jwt,
+		ctx:       ctx,
+		keychains: make(map[string]keychain.KeyChain),
 	}
 	err := o.Spawn(c)
 	if err != nil {
@@ -132,7 +134,10 @@ func (o *SpawnOptions) Spawn(c *controller) error {
 
 		// Set Properties
 		c.actorCtx = ctx
-		fmt.Println("Spawned Actor: ", c.pid.Id)
+		c.Send(keychain.GenerateRequest{
+			CoinType: modulev1.CoinType_COIN_TYPE_SONR,
+			Curve:    c.curve,
+		})
 	}
 	return nil
 }

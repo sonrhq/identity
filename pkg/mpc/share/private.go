@@ -1,6 +1,7 @@
 package share
 
 import (
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 
@@ -61,6 +62,19 @@ func (p *PrivateShare) PublicPoint() (*curves.EcPoint, error) {
 		return nil, err
 	}
 	return buildEcPoint(p.curve, aliceRes.PublicKey.ToAffineCompressed())
+}
+
+// PubKeyHex returns the public key of the party in hex format
+func (p *PrivateShare) PubKeyHex() (string, error) {
+	pp, err := p.PublicPoint()
+	if err != nil {
+		return "", err
+	}
+	ppbz, err := pp.MarshalBinary()
+	if err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(ppbz), nil
 }
 
 // Role returns the role of the Share

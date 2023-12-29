@@ -2,6 +2,8 @@ package bls
 
 import (
 	"encoding/hex"
+	"math/rand"
+	"time"
 
 	"github.com/mr-tron/base58"
 	"github.com/sonrhq/sonr/crypto/accumulator"
@@ -21,8 +23,7 @@ type PublicKey = accumulator.PublicKey
 type Element = accumulator.Element
 
 // NewSecretKey creates a new secret key
-func NewSecretKey() (*SecretKey, error) {
-	var seed [32]byte
+func NewSecretKey(seed []byte) (*SecretKey, error) {
 	key, err := new(accumulator.SecretKey).New(mpc.K_DEFAULT_ZK_CURVE, seed[:])
 	if err != nil {
 		return nil, err
@@ -129,21 +130,18 @@ func (a *Accumulator) CreateWitness(k *SecretKey, value string) (string, error) 
 }
 
 // VerifyElement verifies an element against the accumulator and public key
-func (a *Accumulator) VerifyElement(pk *PublicKey, witness string) (bool, error) {
+func (a *Accumulator) VerifyElement(pk *PublicKey, witness string) (bool) {
 	mbbz, err := base58.Decode(witness)
 	if err != nil {
-		return false, err
+		return false
 	}
 	mw := new(accumulator.MembershipWitness)
 	err = mw.UnmarshalBinary(mbbz)
 	if err != nil {
-		return false, err
+		return false
 	}
 	err = mw.Verify(pk, a.Accumulator)
-	if err != nil {
-		return false, err
-	}
-	return true, nil
+	return err == nil
 }
 
 // Serialize marshals the accumulator to a hex string
@@ -153,4 +151,12 @@ func (a *Accumulator) Serialize() (string, error) {
 		return "", err
 	}
 	return hex.EncodeToString(bz), nil
+}
+
+// RandomSeed returns a random seed for the BLS scheme
+func RandomSeed() []byte {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	seed := make([]byte, 32)
+	r.Read(seed)
+	return seed
 }

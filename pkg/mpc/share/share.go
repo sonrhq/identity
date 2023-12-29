@@ -25,6 +25,9 @@ type Share interface {
 	// PublicPoint returns the Ec public point of the party
 	PublicPoint() (*curves.EcPoint, error)
 
+	// PubKeyHex returns the hex encoded public key of the party
+	PubKeyHex() (string, error)
+
 	// Role returns the role of the Share
 	Role() ShareRole
 

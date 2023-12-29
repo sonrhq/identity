@@ -18,6 +18,9 @@ func TestNewNetwork(t *testing.T) {
     sig, err := mpcNet.Sign(msg)
     assert.Nil(t, err)
     fmt.Println(sig)
+    addr, err := mpcNet.Address()
+    assert.Nil(t, err)
+    fmt.Println(addr)
 }
 func TestSign(t *testing.T) {
   n := network.NewNetwork()

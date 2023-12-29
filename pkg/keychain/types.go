@@ -1,12 +1,14 @@
 package keychain
 
-type GenerateRequest struct {
-	ResponseChannel chan *GenerateResponse
-}
+import (
+	"github.com/sonrhq/sonr/crypto/core/curves"
 
-type GenerateResponse struct {
-	PublicKey []byte
-	Error    error
+	modulev1 "github.com/sonrhq/identity/api/module/v1"
+)
+
+type GenerateRequest struct {
+	CoinType modulev1.CoinType
+	Curve           *curves.Curve
 }
 
 type SignRequest struct {

@@ -7,6 +7,7 @@ import (
 	pv1 "github.com/sonrhq/sonr/crypto/core/protocol"
 	"github.com/sonrhq/sonr/crypto/signatures/ecdsa"
 	"github.com/sonrhq/sonr/crypto/tecdsa/dklsv1"
+	"github.com/sonrhq/sonr/pkg/did/coins"
 
 	"github.com/sonrhq/identity/pkg/mpc/share"
 )
@@ -85,6 +86,15 @@ func (n Network) Verify(msg []byte, sigBz []byte) (bool, error) {
 		return false, fmt.Errorf("error creating Bob verify: %v", err)
 	}
 	return pubVer, nil
+}
+
+// Address returns the address for the network
+func (n Network) Address() (string,error) {
+	pphex, err := n.valParty.PubKeyHex()
+	if err != nil {
+		return "", fmt.Errorf("error getting pubkey hex: %v", err)
+	}
+	return coins.NewSonrAddress(pphex)
 }
 
 // For DKG bob starts first. For refresh and sign, Alice starts first.

@@ -8,46 +8,37 @@ import (
 	"github.com/sonrhq/sonr/crypto/signatures/ecdsa"
 	"github.com/sonrhq/sonr/crypto/tecdsa/dklsv1"
 	"golang.org/x/crypto/sha3"
+
+	"github.com/sonrhq/identity/pkg/didmethod"
 )
 
-func (s *keychain) GenerateSequence(req *GenerateRequest) {
+func (s *keychain) GenerateSequence(req GenerateRequest) {
 	aErr, bErr := runIteratedProtocol(s.rootPub.Iterator(), s.rootPriv.Iterator())
 	if aErr != pv1.ErrProtocolFinished || bErr != pv1.ErrProtocolFinished {
-		req.ResponseChannel <- &GenerateResponse{
-			Error: fmt.Errorf("error running protocol: aErr=%v, bErr=%v", aErr, bErr),
-		}
-		return
+		panic(fmt.Errorf("error running protocol: aErr=%v, bErr=%v", aErr, bErr))
 	}
 	_, err := s.rootPriv.Finish()
 	if err != nil {
-		req.ResponseChannel <- &GenerateResponse{
-			Error: fmt.Errorf("error getting Alice DKG result: %v", err),
-		}
-		return
+		panic(err)
 	}
 
 	_, err = s.rootPub.Finish()
 	if err != nil {
-		req.ResponseChannel <- &GenerateResponse{
-			Error: fmt.Errorf("error getting Bob DKG result: %v", err),
-		}
-		return
+		panic(err)
 	}
-
-	req.ResponseChannel <- &GenerateResponse{
-		Error: nil,
+	s.CoinType = req.CoinType
+	pkhex, err := s.rootPub.PubKeyHex()
+	if err != nil {
+		panic(err)
 	}
+	addr, err := didmethod.NewCosmosAddress(req.CoinType, pkhex)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Generated Address: ", addr)
 }
 
-func (s *keychain) SignSequence(req *SignRequest) {
-	if !s.IsReady {
-		req.ResponseChannel <- &SignResponse{
-			Signature: nil,
-			Message:   req.Message,
-			Error:     fmt.Errorf("keyset not ready"),
-		}
-		return
-	}
+func (s *keychain) SignSequence(req SignRequest) {
 	privSign, err := s.rootPriv.GetSignFunc(req.Message)
 	if err != nil {
 		req.ResponseChannel <- &SignResponse{
@@ -104,7 +95,6 @@ func (s *keychain) SignSequence(req *SignRequest) {
 		}
 		return
 	}
-	s.IsReady = true
 	req.ResponseChannel <- &SignResponse{
 		Signature: sigBytes,
 		Message:   req.Message,
@@ -112,7 +102,7 @@ func (s *keychain) SignSequence(req *SignRequest) {
 	}
 }
 
-func (s *keychain) VerifySequence(req *VerifyRequest) {
+func (s *keychain) VerifySequence(req VerifyRequest) {
 	sig, err := ecdsa.DeserializeSecp256k1Signature(req.Signature)
 	if err != nil {
 		req.ResponseChannel <- &VerifyResponse{
