@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/asynkron/protoactor-go/actor"
-	"github.com/sonrhq/sonr/pkg/did/coins"
 
 	modulev1 "github.com/sonrhq/identity/api/module/v1"
+	"github.com/sonrhq/identity/pkg/didmethod"
 	"github.com/sonrhq/identity/pkg/mpc"
 	"github.com/sonrhq/identity/pkg/mpc/share"
 )
@@ -14,7 +14,7 @@ import (
 type KeyChain interface {
 	actor.Actor
 	Actor() actor.Actor
-	Address() (string, error)
+	Address(cointype modulev1.CoinType) (string, error)
 	Fingerprint(actorCtx *actor.RootContext) ([]byte, error)
 }
 
@@ -72,12 +72,16 @@ func (s *keychain) Send(ctx *actor.RootContext, msg interface{}) error {
 	return nil
 }
 
-func (s *keychain) Address() (string, error) {
+func (s *keychain) Address(coinType modulev1.CoinType) (string, error) {
 	pubHex, err := s.rootPriv.PubKeyHex()
 	if err != nil {
 		return "", err
 	}
-	return coins.NewSonrAddress(pubHex)
+	addr, err := didmethod.NewCosmosAddress(modulev1.CoinType_COIN_TYPE_SONR, pubHex)
+	if err != nil {
+		return "", err
+	}
+	return addr, nil
 }
 
 func (s *keychain) Fingerprint(ctx *actor.RootContext) ([]byte, error) {
@@ -85,7 +89,7 @@ func (s *keychain) Fingerprint(ctx *actor.RootContext) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	addr, err := coins.NewSonrAddress(pubHex)
+	addr, err := didmethod.NewCosmosAddress(modulev1.CoinType_COIN_TYPE_SONR, pubHex)
 	if err != nil {
 		return nil, err
 	}
