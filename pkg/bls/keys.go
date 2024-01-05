@@ -2,10 +2,13 @@ package bls
 
 import (
 	"encoding/hex"
+	"math/rand"
+	"time"
 
 	"github.com/mr-tron/base58"
 	"github.com/sonrhq/sonr/crypto/accumulator"
-	"github.com/sonrhq/sonr/crypto/core/curves"
+
+	"github.com/sonrhq/identity/pkg/mpc"
 )
 
 // SecretKey is the secret key for the BLS scheme
@@ -20,10 +23,8 @@ type PublicKey = accumulator.PublicKey
 type Element = accumulator.Element
 
 // NewSecretKey creates a new secret key
-func NewSecretKey() (*SecretKey, error) {
-	curve := curves.BLS12381(&curves.PointBls12381G1{})
-	var seed [32]byte
-	key, err := new(accumulator.SecretKey).New(curve, seed[:])
+func NewSecretKey(seed []byte) (*SecretKey, error) {
+	key, err := new(accumulator.SecretKey).New(mpc.K_DEFAULT_ZK_CURVE, seed[:])
 	if err != nil {
 		return nil, err
 	}
@@ -42,8 +43,7 @@ func OpenSecretKey(key []byte) (*SecretKey, error) {
 
 // CreateAccumulator creates a new accumulator
 func (s *SecretKey) CreateAccumulator() (*Accumulator, error) {
-	curve := curves.BLS12381(&curves.PointBls12381G1{})
-	acc, err := new(accumulator.Accumulator).New(curve)
+	acc, err := new(accumulator.Accumulator).New(mpc.K_DEFAULT_ZK_CURVE)
 	if err != nil {
 		return nil, err
 	}
@@ -66,8 +66,7 @@ func (s *SecretKey) OpenAccumulator(hexAcc string) (*Accumulator, error) {
 
 // PublicKey returns the public key for the secret key
 func (s *SecretKey) PublicKey() (*PublicKey, error) {
-	curve := curves.BLS12381(&curves.PointBls12381G1{})
-	pk, err := s.SecretKey.GetPublicKey(curve)
+	pk, err := s.SecretKey.GetPublicKey(mpc.K_DEFAULT_ZK_CURVE)
 	if err != nil {
 		return nil, err
 	}
@@ -86,10 +85,9 @@ type Accumulator struct {
 
 // AddValue adds a value to the accumulator
 func (a *Accumulator) AddValues(k *SecretKey, values ...string) error {
-	curve := curves.BLS12381(&curves.PointBls12381G1{})
 	elements := []accumulator.Element{}
 	for _, value := range values {
-		element := curve.Scalar.Hash([]byte(value))
+		element := mpc.K_DEFAULT_ZK_CURVE.Scalar.Hash([]byte(value))
 		elements = append(elements, element)
 	}
 
@@ -103,10 +101,9 @@ func (a *Accumulator) AddValues(k *SecretKey, values ...string) error {
 
 // RemoveValue removes a value from the accumulator
 func (a *Accumulator) RemoveValues(k *SecretKey, values ...string) error {
-	curve := curves.BLS12381(&curves.PointBls12381G1{})
 	elements := []accumulator.Element{}
 	for _, value := range values {
-		element := curve.Scalar.Hash([]byte(value))
+		element := mpc.K_DEFAULT_ZK_CURVE.Scalar.Hash([]byte(value))
 		elements = append(elements, element)
 	}
 
@@ -120,8 +117,7 @@ func (a *Accumulator) RemoveValues(k *SecretKey, values ...string) error {
 
 // CreateWitness creates a witness for the accumulator for a given value
 func (a *Accumulator) CreateWitness(k *SecretKey, value string) (string, error) {
-	curve := curves.BLS12381(&curves.PointBls12381G1{})
-	element := curve.Scalar.Hash([]byte(value))
+	element := mpc.K_DEFAULT_ZK_CURVE.Scalar.Hash([]byte(value))
 	mw, err := new(accumulator.MembershipWitness).New(element, a.Accumulator, k.SecretKey)
 	if err != nil {
 		return "", err
@@ -134,21 +130,18 @@ func (a *Accumulator) CreateWitness(k *SecretKey, value string) (string, error) 
 }
 
 // VerifyElement verifies an element against the accumulator and public key
-func (a *Accumulator) VerifyElement(pk *PublicKey, witness string) (bool, error) {
+func (a *Accumulator) VerifyElement(pk *PublicKey, witness string) (bool) {
 	mbbz, err := base58.Decode(witness)
 	if err != nil {
-		return false, err
+		return false
 	}
 	mw := new(accumulator.MembershipWitness)
 	err = mw.UnmarshalBinary(mbbz)
 	if err != nil {
-		return false, err
+		return false
 	}
 	err = mw.Verify(pk, a.Accumulator)
-	if err != nil {
-		return false, err
-	}
-	return true, nil
+	return err == nil
 }
 
 // Serialize marshals the accumulator to a hex string
@@ -158,4 +151,12 @@ func (a *Accumulator) Serialize() (string, error) {
 		return "", err
 	}
 	return hex.EncodeToString(bz), nil
+}
+
+// RandomSeed returns a random seed for the BLS scheme
+func RandomSeed() []byte {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	seed := make([]byte, 32)
+	r.Read(seed)
+	return seed
 }
