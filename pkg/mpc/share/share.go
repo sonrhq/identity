@@ -11,7 +11,7 @@ import (
 // Share is an interface for a party in the DKG protocol
 type Share interface {
 	// GetKeyshare returns the keyshare for the party
-	Finish() (error)
+	Finish() (*protocol.Message, error)
 
 	// GetSignFunc returns the sign function for the party
 	GetSignFunc(msg []byte) (protocol.Iterator, error)
@@ -25,6 +25,9 @@ type Share interface {
 	// PublicPoint returns the Ec public point of the party
 	PublicPoint() (*curves.EcPoint, error)
 
+	// PubKeyHex returns the hex encoded public key of the party
+	PubKeyHex() (string, error)
+
 	// Role returns the role of the Share
 	Role() ShareRole
 
@@ -33,6 +36,27 @@ type Share interface {
 
 	// Verify verifies a message with the signature
 	Verify(msg []byte, sigBz []byte) (bool, error)
+}
+
+// ShareRole is a role in the DKG protocol
+type ShareRole string
+
+const (
+	// PartyRolePrivate is the default role for the alice dkg
+	ShareRolePrivate ShareRole = "alice"
+
+	// KeyshareRolePublic is the role for an encrypted keyshare for a user
+	ShareRolePublic ShareRole = "bob"
+)
+
+// IsAlice returns true if the keyshare role is alice
+func (ksr ShareRole) IsAlice() bool {
+	return ksr == ShareRolePrivate
+}
+
+// IsBob returns true if the keyshare role is bob
+func (ksr ShareRole) IsBob() bool {
+	return ksr == ShareRolePublic
 }
 
 

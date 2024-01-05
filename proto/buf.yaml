@@ -5,12 +5,14 @@ deps:
   - buf.build/cosmos/cosmos-proto
   - buf.build/cosmos/gogo-proto
   - buf.build/googleapis/googleapis
+  - buf.build/sonrhq/sonr
 lint:
   use:
     - DEFAULT
     - COMMENTS
     - FILE_LOWER_SNAKE_CASE
   except:
+    - COMMENT_MESSAGE
     - UNARY_RPC
     - COMMENT_FIELD
     - SERVICE_SUFFIX
